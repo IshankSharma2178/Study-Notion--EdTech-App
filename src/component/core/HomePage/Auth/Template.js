@@ -4,15 +4,14 @@ import LoginForm from './LoginForm'
 import HighlightText from '../HighlightText'
 
 
-function Template({img1, img2,heading,subheading1,subheading2}) {
+function Template({img1, img2,heading,subheading1,subheading2,formType}) {
   const [profile , setProfile ]=useState("student")
-  const [user,setUser] = useState("signup")
   function changeUserFunc(value) {
     setProfile(value)
   }
 
   return (
-    <div className='flex mx-auto w-[100%] max-w-maxContent justify-evenly gap-16 py-10 flex-col lg:flex-row '>
+    <div className='flex mx-auto w-[100%] max-w-maxContent justify-between gap-16 py-10 flex-col lg:flex-row '>
         <div className='flex flex-col mx-auto  max-w-[470px]  md:m-0'>
             <div className='text-3xl text-richblack-5 pb-5 tracking-wide font-semibold '>{heading}</div>
             <div className='text-lg text-richblack-300'>{subheading1}</div>
@@ -23,7 +22,7 @@ function Template({img1, img2,heading,subheading1,subheading2}) {
             <p className={`${profile === "instructor"? "text-white bg-richblack-900":"text-richblack-200" }  rounded-full px-5 py-2`} onClick={()=>changeUserFunc("instructor")}>Instructor</p>
         </div>
         <div className='md:m-auto w-full'>
-            {user==="signup" ? <SignupForm/>: <LoginForm/>}
+            {formType==="signup" ? <SignupForm/>: <LoginForm/>}
         </div>
         </div>
 

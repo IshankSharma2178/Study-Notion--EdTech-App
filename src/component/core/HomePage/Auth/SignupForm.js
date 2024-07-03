@@ -85,7 +85,7 @@ function LoginForm() {
       
   return (
       <form onSubmit={dataSubmitHandler}>
-        <div className='mt-6 flex w-full flex-col gap-y-4'>
+        <div className='mt-6 flex w-full  flex-col gap-y-4 '>
           <div className='flex w-full flex-row gap-2'>
             <div className='flex flex-col w-[50%]'>
               {inputfield("First Name","Enter first name","text","firstName")}

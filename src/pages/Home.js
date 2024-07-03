@@ -18,13 +18,18 @@ function Home() {
     <div> 
         {/* Section - 01 */}
         <div className='relative mx-auto flex text-white flex-col pb-10 max-w-maxContent w-11/12 items-center test-white justify-between'>
+            <div className='mt-16'>
             <Link to={"/signup"}>
-                <div className='group mt-16 p-1 rounded-full mx-auto bg-richblack-800 font-bold text-richblack-200 transition-all duration-200 hover:scale-95 w-full '>
+                <div className='group  p-1 rounded-full mx-auto bg-richblack-800 font-bold text-richblack-200 transition-all duration-200 hover:scale-95 w-full '>
                     <div className='flex flex-row items-center gap-2 rounded-full px-10 py-[5px] group-hover:bg-richblack-900 transition-all duration-200 '>
-                        <p>Become an Instructor </p> <FaArrowRight />
+                        <p>
+                        Become an Instructor
+                        
+                         </p> <FaArrowRight />
                     </div>
                 </div>
             </Link>
+            </div>
 
             <div className='text-center text-4xl mt-6 font-semibold text-white'>
                 Empower Your Future with {" "}

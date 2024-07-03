@@ -76,7 +76,7 @@ function LoginForm() {
 
     return (
       <form >
-      <div className='mt-6 mr-10 flex w-full flex-col gap-y-4'>
+      <div className='mt-6  flex w-full flex-col gap-y-4'>
           <div >
             {inputfield("Email Address","Enter Email Address","email","email")}
           </div>

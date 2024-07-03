@@ -12,7 +12,8 @@ function LoginPage() {
       img2={img2}
       heading={"Welcome Back"}
       subheading1={"Build skills for today, tomorrow, and beyond."}
-      subheading2={"Education to future-proof your career."}>
+      subheading2={"Education to future-proof your career."}
+      formType={"login"}>
     </Template>
     </div>
   )

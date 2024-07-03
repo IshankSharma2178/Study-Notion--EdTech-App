@@ -4,9 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import rootReducer from './reducer';
+import rootReducer from './reducer/index';
 import { configureStore } from '@reduxjs/toolkit'; 
 import { Provider } from 'react-redux';
+import toast, { Toaster } from 'react-hot-toast';
 
 const store = configureStore({  
   reducer:rootReducer,
@@ -18,6 +19,7 @@ root.render(
     <Provider store = {store}>
       <BrowserRouter>
         <App />
+        <Toaster/>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

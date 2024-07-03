@@ -12,7 +12,8 @@ function Signup() {
       img2={img2}
       heading={"Join the millions learning to code with StudyNotion for free"}
       subheading1={"Build skills for today, tomorrow, and beyond."}
-      subheading2={"Education to future-proof your career."}>
+      subheading2={"Education to future-proof your career."}
+      formType={"signup"}>
     </Template>
 
     </div>
