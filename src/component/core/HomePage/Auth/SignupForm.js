@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
 import Button from '../Button'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
+import { useDispatch, useSelector } from 'react-redux'
+import { setSignupData } from '../../../../slices/authSlice'
+import toast from "react-hot-toast"
+import { sendOtp} from "../../../../services/operations/authAPI"
+import { useNavigate } from 'react-router'
 
 function LoginForm() {
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  })
-
+  const dispatch =useDispatch();
+  const navigate =useNavigate();
+  const [accountType , setaccountType]=useState("Student")
   const [passwordVisibility , setPasswordVisibility] =useState({password:true, confirmPassword:true})
+  const [formData, setFormData] = useState({firstName: "",lastName: "",email: "",password: "",confirmPassword: "",})
+  const {password, confirmPassword } = formData 
+  
   const togglePasswordVisibility = (field) => {
     setPasswordVisibility(prev => ({
       ...prev,
@@ -22,7 +25,19 @@ function LoginForm() {
 
   function dataSubmitHandler(e){
       e.preventDefault();
-      console.log('Form Data:', formData);
+    if (password !== confirmPassword) {
+      toast.error("Passwords Do Not Match")
+          return
+    }
+    const signupData = {
+      ...formData,
+      accountType,
+    }
+    console.log("signupData : ",signupData);
+    dispatch(setSignupData(signupData))
+    console.log("send otp")
+    dispatch(sendOtp(formData.email, navigate))
+
   }
 
 
@@ -86,7 +101,12 @@ function LoginForm() {
   return (
       <form onSubmit={dataSubmitHandler}>
         <div className='mt-6 flex w-full  flex-col gap-y-4 '>
+            <div className='flex cursor-pointer flex-row rounded-full shadow-custom bg-richblack-800 w-fit p-1 gap-  '>
+              <p className={`${accountType === "student"? "text-white bg-richblack-900 ":" text-richblack-200" } rounded-full px-5 py-2`} onClick={()=>setaccountType("Student")}>Student</p>
+              <p className={`${accountType === "instructor"? "text-white bg-richblack-900":"text-richblack-200" }  rounded-full px-5 py-2`} onClick={()=>setaccountType("Instructor")}>Instructor</p>
+          </div>
           <div className='flex w-full flex-row gap-2'>
+          
             <div className='flex flex-col w-[50%]'>
               {inputfield("First Name","Enter first name","text","firstName")}
             </div>

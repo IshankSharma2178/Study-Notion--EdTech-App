@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import {login} from "../../../../services/operations/authAPI"
 
 function LoginForm() {
   const [passwordVisibility , setPasswordVisibility] =useState({password:true, confirmPassword:true})
+  const navigate =useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -73,9 +78,15 @@ function LoginForm() {
       )
     }
 
+    const {email, password} =formData
+
+    function handleOnSubmit(e){
+      e.preventdefault();
+      dispatch(login(email, password,navigate))
+    }
 
     return (
-      <form >
+      <form onSubmit={()=>handleOnSubmit}>
       <div className='mt-6  flex w-full flex-col gap-y-4'>
           <div >
             {inputfield("Email Address","Enter Email Address","email","email")}
@@ -83,7 +94,9 @@ function LoginForm() {
           <div >
             {passwordfield("Password","Enter Password","password")}
               <div className='text-[rgb(71,165,197)] text-right mt-1 cursor-pointer text-[15px] '>  
-                 Forgot Password
+                 <Link to="/forgot-password">
+                    Forgot Password
+                 </Link>
               </div>
           </div>
 

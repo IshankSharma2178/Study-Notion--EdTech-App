@@ -5,10 +5,7 @@ import HighlightText from '../HighlightText'
 
 
 function Template({img1, img2,heading,subheading1,subheading2,formType}) {
-  const [profile , setProfile ]=useState("student")
-  function changeUserFunc(value) {
-    setProfile(value)
-  }
+
 
   return (
     <div className='flex mx-auto w-[100%] max-w-maxContent justify-between gap-16 py-10 flex-col lg:flex-row '>
@@ -17,10 +14,6 @@ function Template({img1, img2,heading,subheading1,subheading2,formType}) {
             <div className='text-lg text-richblack-300'>{subheading1}</div>
             <div className='text-base font-edu-sa pb-6'><HighlightText text={subheading2}/></div>
 
-            <div className='flex cursor-pointer flex-row rounded-full shadow-custom bg-richblack-800 w-fit p-1 gap-  '>
-            <p className={`${profile === "student"? "text-white bg-richblack-900 ":" text-richblack-200" } rounded-full px-5 py-2`} onClick={()=>changeUserFunc("student")}>Student</p>
-            <p className={`${profile === "instructor"? "text-white bg-richblack-900":"text-richblack-200" }  rounded-full px-5 py-2`} onClick={()=>changeUserFunc("instructor")}>Instructor</p>
-        </div>
         <div className='md:m-auto w-full'>
             {formType==="signup" ? <SignupForm/>: <LoginForm/>}
         </div>
