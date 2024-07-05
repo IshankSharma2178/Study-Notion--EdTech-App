@@ -5,27 +5,22 @@ import { NavbarLinks } from "../../data/navbar-links"
 import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import ProfileDropDown from "../core/HomePage/Auth/ProfileDropDown"
+import ProfileDropDown from "./ProfileDropDown"
 import { apiConnector } from '../../services/apiconnector'
 import { categories } from '../../services/apis'
 import { IoIosArrowDown } from "react-icons/io";
 
 
 function Navbar() {
-
-
-
     const {token} =useSelector((state) => state.auth);
     const {user} = useSelector((state) => state.profile);
     const {totalItems} = useSelector((state) => state.cart);
-
     const [subLinks,setSubLinks] = useState([]);
 
     const fetchSubLinks = async() =>{
       try{
         const result =await apiConnector("GET",categories.CATEGORIES_API)
         console.log("printing  " ,result);
-        // console.log("yoo :  ", result.data.data[0].courseName);
         setSubLinks(result.data.data);
         console.log(subLinks)
       }catch(e){
@@ -57,9 +52,9 @@ function Navbar() {
                 <li key={index}>
                   {
                     link.title === "Catalog" ? 
-                    <p className='flex relative flex-row group items-center gap-1 cursor-pointer'>
+                    <p className='flex relative flex-row group items-center gap-1 text-[17px] cursor-pointer'>
                         {link.title}
-                        <IoIosArrowDown className=' transition-all group-hover:pt-[2px]'/>
+                        <IoIosArrowDown className=' transition-all group-hover:rotate-180 duration-300 transform translate-all   '/>
                         <div className={`invisible absolute left-[50%] 
                                     translate-x-[-49%] ${subLinks.length ? "translate-y-[15%]" : "translate-y-[40%]"}
                                  top-[50%] z-50 
@@ -90,7 +85,7 @@ function Navbar() {
                     </p>
                     : 
                     (<Link to={link?.path}>
-                            <p className={`${matchRoute(link?.path)?"text-yellow-25":"text-richblack-25"}`}>
+                            <p className={`${matchRoute(link?.path)?"text-yellow-25 text-[17px]":"text-[17px] text-richblack-25"}`}>
                                 {link.title} 
                             </p>
                         </Link>
@@ -138,7 +133,9 @@ function Navbar() {
                 )
               }
               {
-                token !== null && <ProfileDropDown/>
+                token !== null &&
+
+                <ProfileDropDown/>
               }
             </div>
       </div>

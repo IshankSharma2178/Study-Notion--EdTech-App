@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit"
 
 const initialState = {
     loading:false,
-    signupData:null,
+    user:null,
     token : localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null,          // localstorage m token save rahega agr app browser close bhi kr de toh
 }
 
@@ -16,11 +16,11 @@ const authSlice =createSlice({
         setLoading(state,action){
             state.loading = action.payload;
         },
-        setSignupData(state,action){
-            state.signupData = action.payload;
+        setUser(state,action){
+            state.user = action.payload;
         }
     }
 })
 
-export const {setToken , setLoading , setSignupData} = authSlice.actions;
+export const {setToken , setLoading , setUser} = authSlice.actions;
 export default authSlice.reducer;

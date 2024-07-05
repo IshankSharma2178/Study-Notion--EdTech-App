@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import Button from '../Button'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch, useSelector } from 'react-redux'
-import { setSignupData } from '../../../../slices/authSlice'
+import { setUser } from '../../../../slices/authSlice'
 import toast from "react-hot-toast"
 import { sendOtp} from "../../../../services/operations/authAPI"
 import { useNavigate } from 'react-router'
 
-function LoginForm() {
+function SignupForm() {
 
   const dispatch =useDispatch();
   const navigate =useNavigate();
@@ -34,7 +34,7 @@ function LoginForm() {
       accountType,
     }
     console.log("signupData : ",signupData);
-    dispatch(setSignupData(signupData))
+    dispatch(setUser(signupData))
     console.log("send otp")
     dispatch(sendOtp(formData.email, navigate))
 
@@ -102,8 +102,8 @@ function LoginForm() {
       <form onSubmit={dataSubmitHandler}>
         <div className='mt-6 flex w-full  flex-col gap-y-4 '>
             <div className='flex cursor-pointer flex-row rounded-full shadow-custom bg-richblack-800 w-fit p-1 gap-  '>
-              <p className={`${accountType === "student"? "text-white bg-richblack-900 ":" text-richblack-200" } rounded-full px-5 py-2`} onClick={()=>setaccountType("Student")}>Student</p>
-              <p className={`${accountType === "instructor"? "text-white bg-richblack-900":"text-richblack-200" }  rounded-full px-5 py-2`} onClick={()=>setaccountType("Instructor")}>Instructor</p>
+              <p className={`${accountType === "Student"? "text-white bg-richblack-900 ":" text-richblack-200" } rounded-full px-5 py-2`} onClick={()=>setaccountType("Student")}>Student</p>
+              <p className={`${accountType === "Instructor"? "text-white bg-richblack-900":"text-richblack-200" }  rounded-full px-5 py-2`} onClick={()=>setaccountType("Instructor")}>Instructor</p>
           </div>
           <div className='flex w-full flex-row gap-2'>
           
@@ -140,4 +140,4 @@ function LoginForm() {
 )
 }
 
-export default LoginForm
+export default SignupForm

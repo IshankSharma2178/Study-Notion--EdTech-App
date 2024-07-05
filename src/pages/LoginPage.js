@@ -6,7 +6,7 @@ import img2 from "../assets/Images/frame.png"
 
 function LoginPage() {
   return (
-    <div>
+    <div className='h-[90vh]'>
     <Template 
       img1={img1}
       img2={img2}

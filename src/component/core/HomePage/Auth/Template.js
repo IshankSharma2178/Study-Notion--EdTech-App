@@ -2,12 +2,22 @@ import React, { useState } from 'react'
 import SignupForm from "./SignupForm"
 import LoginForm from './LoginForm'
 import HighlightText from '../HighlightText'
+import { useSelector } from 'react-redux'
 
 
 function Template({img1, img2,heading,subheading1,subheading2,formType}) {
-
+const {loading} =useSelector((state)=>state.auth)
 
   return (
+    
+    (
+      loading?
+        <div className='justify-center items-center  h-full m-auto flex'>
+          <div  className="spinner "></div> 
+
+        </div>
+      :
+      <div>
     <div className='flex mx-auto w-[100%] max-w-maxContent justify-between gap-16 py-10 flex-col lg:flex-row '>
         <div className='flex flex-col mx-auto  max-w-[470px]  md:m-0'>
             <div className='text-3xl text-richblack-5 pb-5 tracking-wide font-semibold '>{heading}</div>
@@ -37,7 +47,9 @@ function Template({img1, img2,heading,subheading1,subheading2,formType}) {
             />
         </div>
     </div>
-  )
+    </div>
+
+  ))
 }
 
 export default Template
