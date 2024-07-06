@@ -30,7 +30,7 @@ function elem(value){
   }
 
 
-function footer() {
+function Footer() {
   return (
     <div className='text-white m-auto py-10  bg-richblack-800'>  
       <div className='flex flex-row  mx-auto  flex-wrap justify-evenly'>
@@ -65,4 +65,4 @@ function footer() {
   )
 }
 
-export default footer
+export default Footer

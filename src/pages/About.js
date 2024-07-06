@@ -5,44 +5,87 @@ import BannerImage2 from "../assets/Images/aboutus2.webp"
 import BannerImage3 from "../assets/Images/aboutus3.webp"
 import Quote  from '../component/core/AboutPage/Quote'
 import FoundingStory from "../assets/Images/FoundingStory.png"
+import HighlightText4 from '../component/core/HomePage/HighlightText4'
+import HighlightText2 from '../component/core/HomePage/HighlightText2'
+import Stats from '../component/core/AboutPage/Stats'
+import LearningGrid from '../component/core/AboutPage/LearningGrid'
+import ContactForm from '../component/core/AboutPage/ContactForm'
+import Footer from '../component/common/Footer'
 
 function About() {
   return (
-    <div className='mt-[100px] w-full max-w-maxContent m-auto text-white'>
+    <div className='text-white'>
         {/* section 1 */}
-        <section>
-            <div>
-                <header>Driving Innovation in Online Education for a {" "}<HighlightText text={" Brighter Future"} />
-                    <p>Studynotion is at the forefront of driving innovation in online education. We're passionate about creating a brighter future by offering cutting-edge courses, leveraging emerging technologies, and nurturing a vibrant learning community.</p>
+        <section className='min-h-[510px] relative bg-richblack-700'>
+            <div className='flex  flex-col  max-w-maxContent w-11/12  m-auto'>
+                <header className='md:max-w-[100%] lg:max-w-[70%] pt-[70px]  m-auto text-center' >
+                    <div className='text-4xl text-center font-semibold mb-5 lg:mb-5 text-richblack-5'>
+                        Driving Innovation in Online Education for a {" "}<HighlightText text={" Brighter Future"} />
+                    </div>
+                    <p className='text-richblack-200  w-[80%] lg:w-[93%] m-auto'>
+                        Studynotion is at the forefront of driving innovation in online education. We're passionate about creating a brighter 
+                        future by offering cutting-edge courses, leveraging emerging technologies, and nurturing a vibrant learning community.
+                    </p>
                 </header>
-                <div className='flex gap-x-3 m-auto'>
+                <div  className='grid absolute m-auto bottom-1 translate-y-[30%] max-w-maxContent w-11/12 grid-w-[90%] grid-cols-2 lg:grid-cols-3  grid-rows-1 gap-3 lg:gap-4'>
                     <img src={BannerImage1} />
                     <img src={BannerImage2} />
-                    <img src={BannerImage3} />
+                    <img src={BannerImage3} className='lg:flex hidden'/>
                 </div>
             </div>
         </section>
-
         {/* Section 2 */}
-        <section>
+        <section className='max-w-maxContent min-h-[380px] flex justify-center items-center w-11/12 m-auto '>
             <Quote />
         </section>
 
+        <hr className='border border-richblack-700 '></hr>
+
         {/* Section 3 */}
-        <section>
-            <div>
-                {/* Founding Sory left Box */}
-                <div>
+        <section className='max-w-maxContent pt-[90px] w-11/12 m-auto '>
+                {/* Founding Sory */}
+            <div className='flex flex-col gap-y-16'>
+                <div className='flex flex-row items-center justify-between w-[100%]'>
+                    <div className='w-[50%] flex-col flex gap-y-8'>
+                        <h1 className='text-3xl '><HighlightText4 text={"Our Founding Story"}/></h1>
+                        <p1 className="text-richblack-300">Our e-learning platform was born out of a shared vision and passion for transforming education. It all began with a group of educators, technologists, and lifelong learners who recognized the need for accessible, flexible, and high-quality learning opportunities in a rapidly evolving digital world.</p1>
+                        <p2 className="text-richblack-300">As experienced educators ourselves, we witnessed firsthand the limitations and challenges of traditional education systems. We believed that education should not be confined to the walls of a classroom or restricted by geographical boundaries. We envisioned a platform that could bridge these gaps and empower individuals from all walks of life to unlock their full potential.</p2>
+                    </div>
+                    <div className='  w-[50%] justify-end flex'>
+                        <img src={FoundingStory} className=' object-contain aspect-auto w-[70%] '/>
+                    </div>
+                </div>
+                {/* vision and mission  */}
+                <div className='flex flex-row w-[100%]'>
                     <div>
-                        <h1>Our Founding Story</h1>
-                        <p1>Our e-learning platform was born out of a shared vision and passion for transforming education. It all began with a group of educators, technologists, and lifelong learners who recognized the need for accessible, flexible, and high-quality learning opportunities in a rapidly evolving digital world.</p1>
-                        <p2>As experienced educators ourselves, we witnessed firsthand the limitations and challenges of traditional education systems. We believed that education should not be confined to the walls of a classroom or restricted by geographical boundaries. We envisioned a platform that could bridge these gaps and empower individuals from all walks of life to unlock their full potential.</p2>
+                        <h1><HighlightText2 text={"Our vision"} /></h1>
+                        <p>With this vision in mind, we set out on a journey to create an e-learning platform that would revolutionize the way people learn. Our team of dedicated experts worked tirelessly to develop a robust and intuitive platform that combines cutting-edge technology with engaging content, fostering a dynamic and interactive learning experience.</p>
                     </div>
                     <div>
-                        <img src={FoundingStory} />
+                        <h1><HighlightText text={"Our Mission"}/></h1>
+                        <p>Our mission goes beyond just delivering courses online. We wanted to create a vibrant community of learners, where individuals can connect, collaborate, and learn from one another. We believe that knowledge thrives in an environment of sharing and dialogue, and we foster this spirit of collaboration through forums, live sessions, and networking opportunities.</p>
                     </div>
                 </div>
             </div>
+        </section>
+
+        {/* Section 4 */}
+        <section >
+            <Stats/>
+        </section>
+
+        {/* Section 5 */}
+        <section className='max-w-maxContent w-11/12   m-auto '>
+             <LearningGrid/> 
+        </section>
+
+        {/* Section 6 */}
+        <section className='m-auto w-11/12 mb-16 max-w-maxContent  '>
+            <ContactForm/>
+        </section>
+
+        <section>
+            <Footer/>
         </section>
     </div>
   )

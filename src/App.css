@@ -41,3 +41,14 @@ html,body{
       transform: rotate(1turn);
    }
 }
+
+.gliter-background{
+   background-image: repeating-linear-gradient(358deg, rgb(0,0,0) 0px, rgb(0,0,0) 27px,transparent 27px, transparent 29px),repeating-linear-gradient(280deg, rgb(0,0,0) 0px, rgb(0,0,0) 27px,transparent 27px, transparent 29px),repeating-linear-gradient(337deg, rgb(0,0,0) 0px, rgb(0,0,0) 27px,transparent 27px, transparent 29px),linear-gradient(90deg, rgb(225, 16, 162),rgb(255,95,15));
+}
+
+.module {
+   background-image: radial-gradient(circle at 100% 100%, transparent 17px, #b4eee7 17px, #b4eee7 21px, transparent 21px), linear-gradient(to right, #b4eee7, #3de8ff), radial-gradient(circle at 0% 100%, transparent 17px, #3de8ff 17px, #3de8ff 21px, transparent 21px), linear-gradient(to bottom, #3de8ff, #86eadc), radial-gradient(circle at 0% 0%, transparent 17px, #86eadc 17px, #86eadc 21px, transparent 21px), linear-gradient(to left, #86eadc, #00ffe1), radial-gradient(circle at 100% 0%, transparent 17px, #00ffe1 17px, #00ffe1 21px, transparent 21px), linear-gradient(to top, #00ffe1, #b4eee7);
+   background-size: 20px 20px, calc(100% - 30px) 3px, 20px 20px, 3px calc(100% - 30px);
+   background-position: top left,top center,top right,center right, bottom right,bottom center,bottom left,center left;
+   background-repeat: no-repeat;
+ }

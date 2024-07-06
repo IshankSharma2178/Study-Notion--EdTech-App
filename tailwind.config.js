@@ -180,6 +180,7 @@ module.exports = {
       boxShadow: {
         'custom': '0 1.5px rgba(255, 255, 255, 0.25)',
       },
+
       borderRadius: {
         lg: `var(--radius)`,
         md: `calc(var(--radius) - 2px)`,

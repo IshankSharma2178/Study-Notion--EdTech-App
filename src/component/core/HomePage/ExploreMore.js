@@ -62,7 +62,7 @@ function ExploreMore() {
         }
 
       </div>
-
+        {/* tabs for sm screen */}
       <div className='lg:hidden' >
         <Carousel className="w-full  max-w-xs">
         <CarouselContent>
