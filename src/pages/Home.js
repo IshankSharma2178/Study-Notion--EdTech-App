@@ -40,7 +40,7 @@ function Home() {
                 With our online coding courses, you can learn at your own pace, from anywhere in the world, and get access to a wealth of resources, including hands-on projects, quizzes, and personalized feedback from instructors.
             </div>
 
-            <div className='flex flex-row gap-7 mt-8'>
+            <div className='flex flex-row gap-7 mb-4 mt-8'>
                 <CTAButton active={true} linkto={"/signup"}>
                     Learn More
                 </CTAButton>
@@ -51,7 +51,7 @@ function Home() {
 
             <div className='shadow-[10px_-5px_50px_-5px] shadow-blue-200  lg:max-w-[900px] mt-8 mb-16 aspect-video'>
                 <div className='shadow-[10px_10px_0px_0px_rgb(221,221,221)] '>
-                    <video className='  ' muted loop autoPlay>
+                    <video className='  ' muted loop autoPlay >
                         <source src={Banner} type='video/mp4'></source>
                     </video>
                 </div>

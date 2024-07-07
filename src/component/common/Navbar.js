@@ -57,7 +57,7 @@ function Navbar() {
                         <IoIosArrowDown className=' transition-all group-hover:rotate-180 duration-300 transform translate-all   '/>
                         <div className={`invisible absolute left-[50%] 
                                     translate-x-[-49%] ${subLinks.length ? "translate-y-[15%]" : "translate-y-[40%]"}
-                                 top-[50%] z-50 
+                                 -top-[50%] z-50 
                                 flex flex-col rounded-md bg-richblack-5 p-4 text-richblack-900
                                 opacity-0 transition-all duration-200 group-hover:visible
                                 group-hover:opacity-100 lg:w-[300px]`}>

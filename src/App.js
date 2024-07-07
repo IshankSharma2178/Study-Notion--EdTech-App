@@ -10,6 +10,7 @@ import UpdatePassword from './pages/UpdatePassword' ;
 import VerifyEmail from './pages/VerifyEmail';
 import Dashboard from './pages/Dashboard';
 import About from './pages/About';
+import Contact from './pages/Contact';
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmail/>} />
         <Route path='/dashboard/my-profile' element={<Dashboard/>}/>
         <Route path='/about' element={<About/>}/>
+        <Route path="/contact" element={<Contact/>}/>
       </Routes>
     </div>
   );
