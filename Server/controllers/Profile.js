@@ -16,18 +16,18 @@ async function uploadFileToCloudinary(file, folder,quality) {
 exports.updateProfile =async(req,res)=>{
     try{
         //get data
-        const {dateOfBirth="",about="",contactNumber,gender}=req.body;
+        const {dateOfBirth="",about="",contactNumber="",gender=""}=req.body;
         
         //get user data
         const id=req.user.id;
 
         //validation
-        if(!contactNumber || !gender || !id){
-            return res.status(400).json({
-                success: false,
-                message:"all field are required"
-            })
-        }
+        // if(!contactNumber || !gender || !id){
+        //     return res.status(400).json({
+        //         success: false,
+        //         message:"all field are required"
+        //     })
+        // }
 
         //find profile
         const userDetails =await User.findById(id);

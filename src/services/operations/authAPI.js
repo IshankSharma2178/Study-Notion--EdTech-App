@@ -3,6 +3,7 @@ import { setLoading ,setUser,setToken} from "../../slices/authSlice";  // Ensure
 import { apiConnector } from "../apiconnector";
 import toast from "react-hot-toast";
 import { endpoints } from "../apis";
+import { setProfileUser } from "../../slices/profileSlice";
 
 const {
   SENDOTP_API,
@@ -132,7 +133,7 @@ export function login(email,password,navigate){
       localStorage.setItem("token", JSON.stringify(response.data.token))
       localStorage.setItem("user", JSON.stringify(response.data.user))
       dispatch(setToken(JSON.stringify(response.data.token)))
-      dispatch(setUser(response.data.user))
+      dispatch(setUser( JSON.stringify(response.data.user)))
       navigate("/dashboard/my-profile")
       dispatch(setLoading(false));
       console.log()
@@ -149,7 +150,8 @@ export function logout(navigate){
     dispatch(setLoading(true));
     dispatch(setToken(null));
     dispatch(setUser(null));
-    localStorage.removeItem("tokens");
+    dispatch(setProfileUser(null));
+    localStorage.removeItem("token");
     localStorage.removeItem("user");
     toast.success("Logged out");
     dispatch(setLoading(false));
