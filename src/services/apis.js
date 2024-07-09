@@ -5,7 +5,7 @@ export const categories = {
 };
 
 export const settingsEndpoints = {
-    UPDATE_DISPLAY_PICTURE_API:BASE_URL + "/profile/updateDisp1ayPicture",
+    UPDATE_DISPLAY_PICTURE_API:BASE_URL + "/profile/updateDisplayPicture",
     UPDATE_PROFILE_API:BASE_URL + "/profILE/updateProfiLe",
     CHANGE_PASSWORD_API:BASE_URL + "/auth/changepassword",
     DELETE_PROFILE_API:BASE_URL + "/profiLe/de1eteProfiLe",

@@ -9,8 +9,9 @@ const profileSlice =createSlice({
     name:"profile",
     initialState :initialState,
     reducers:{
-        setProfileUser(state,action){
+        setUser(state,action){
             state.user = action.payload;
+            localStorage.setItem("user", JSON.parse(action.payload));
         },
         setLoading(state,action){
             state.loading =action.payload;
@@ -18,5 +19,5 @@ const profileSlice =createSlice({
     }
 })
 
-export const {setProfileUser ,setLoading} = profileSlice.actions;
+export const {setUser ,setLoading} = profileSlice.actions;
 export default profileSlice.reducer;

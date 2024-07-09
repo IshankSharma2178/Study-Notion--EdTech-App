@@ -14,6 +14,7 @@ import Contact from './pages/Contact';
 import PrivateRoute from './component/core/HomePage/Auth/PrivateRoute';
 import MyProfile from './component/core/Dashboard/MyProfile';
 import Error from './pages/Error';
+import Settings from './component/core/Dashboard/Setting/Settings';
 
 function App() {
   
@@ -38,7 +39,7 @@ function App() {
             } 
             >
             <Route path="/dashboard/my-profile" element={<PrivateRoute>  <MyProfile/></PrivateRoute>}/>
-            {/* <Route path="/dashboard/settings" element={<PrivateRoute>  <Setting/></PrivateRoute>}/> */}
+            <Route path="/dashboard/settings" element={<PrivateRoute>  <Settings/></PrivateRoute>}/>
 
         </Route>
 

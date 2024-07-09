@@ -4,14 +4,15 @@ const router = express.Router()
 
 
 const {createCourse,
-    showAllCourses
+    showAllCourses,
+    getCourseDetails
     ,getFullCourseDetails
     ,editCourse
     ,getInstructorCourses
     ,deleteCourse
 } = require("../controllers/Course")
 
-// const {updateCourseProgress} = require("../controllers/courseProgress");
+const {updateCourseProgress} = require("../controllers/courseProgress");
 
 // Categories Controllers Import
 const {showAllCategorys,createCategory,categoryPageDetails} = require("../controllers/Category")
@@ -60,6 +61,7 @@ router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses)
 // Delete a Course
 router.delete("/deleteCourse",auth,isInstructor, deleteCourse)
 // router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);
+router.post("/getCourseDetails", getCourseDetails)
 
 // ********************************************************************************************************
 //                                      Category routes (Only by Admin)

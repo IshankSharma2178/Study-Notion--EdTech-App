@@ -115,6 +115,7 @@ exports.getAllUserDetails =async(req,res)=>{
 
 exports.updateDisplayPicture=async(req,res)=>{
     try{
+        console.log("hello")
         const file=req.files.imageFile;
         console.log(file);
         // console.log("hii")
@@ -147,3 +148,4 @@ exports.updateDisplayPicture=async(req,res)=>{
         })
     }
 }
+

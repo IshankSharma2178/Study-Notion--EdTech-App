@@ -203,3 +203,10 @@ exports.login=async(req,res)=>{
 }
 
 //change password
+exports.changePassword = async(req,res)=>{
+    try{
+        
+    }catch(err){
+
+    }
+}

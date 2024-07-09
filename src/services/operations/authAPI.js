@@ -3,15 +3,11 @@ import { setLoading ,setUser,setToken} from "../../slices/authSlice";  // Ensure
 import { apiConnector } from "../apiconnector";
 import toast from "react-hot-toast";
 import { endpoints } from "../apis";
-import { setProfileUser } from "../../slices/profileSlice";
+import { setUser as setProfileUser } from "../../slices/profileSlice";
+import {settingsEndpoints} from "../apis";
 
-const {
-  SENDOTP_API,
-  SIGNUP_API,
-  LOGIN_API,
-  RESETPASSTOKEN_API,
-  RESETPASSWORD_API,
-} = endpoints;
+const {SENDOTP_API,SIGNUP_API,LOGIN_API,RESETPASSTOKEN_API,RESETPASSWORD_API,} = endpoints;
+const {UPDATE_DISPLAY_PICTURE_API}=settingsEndpoints;
 
 export function signUp(accountType,firstName,lastName,email,password,confirmPassword,otp,navigate){
 
@@ -120,8 +116,6 @@ export function login(email,password,navigate){
     dispatch(setLoading(true));
 
     try{
-      
-      console.log("point 1")
       const response = await apiConnector("POST",LOGIN_API,{email,password});
 
       if(!response.data.success){
@@ -159,3 +153,21 @@ export function logout(navigate){
   }
 }
 
+export function updateDisplayPicture(imageFile){
+  console.log(imageFile);
+  console.log("point 1")
+  return async (dispatch)=>{
+    try{
+      setLoading(true);
+      const response = await apiConnector("PUT" ,UPDATE_DISPLAY_PICTURE_API,{imageFile})    
+      if(!response.data.success){
+        throw new Error(response.data.message);
+      }
+      setLoading(false);
+    }catch(err){
+      setLoading(false);
+      console.log("error",err);
+      toast.error("could not upload image");
+    } 
+  }
+}

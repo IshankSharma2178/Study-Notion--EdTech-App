@@ -1,6 +1,7 @@
 const Course =require("../models/Course")
 const Category=require("../models/category");
 const User =require("../models/User");
+import {convertSecondsToDuration} from "../utils/secToDuration"
 const cloudinary =require("cloudinary")
 // const {uploadImageToCloudinary} = require("../utils/imageUploader");
 require("dotenv").config();
@@ -284,3 +285,67 @@ exports.deleteCourse = async (req,res)=>{
             })
     }
 }
+
+//get course details
+
+exports.getCourseDetails = async (req, res) => {
+    try {
+      //get id
+      const {courseId} = req.body;
+      //find course details
+      const courseDetails = await Course.findById(courseId)
+                                  .populate(
+                                      {
+                                          path:"instructor",
+                                          populate:{
+                                              path:"additionalDetails",
+                                          },
+                                      }
+                                  )
+                                  .populate("category")
+                                  .populate("ratingAndReviews")
+                                  .populate({
+                                      path:"courseContent",
+                                      populate:{
+                                          path:"subSection",
+                                          //select: "-videoUrl",
+                                      },
+                                  })
+                                  .exec();
+  
+          //validation
+          if(!courseDetails) {
+              return res.status(400).json({
+                  success:false,
+                  message:`Could not find the course with ${courseId}`,
+              });
+          }
+  
+          let totalDurationInSeconds = 0
+        courseDetails.courseContent.forEach((content) => {
+        content.subSection.forEach((subSection) => {
+          const timeDurationInSeconds = parseInt(subSection.timeDuration)
+          totalDurationInSeconds += timeDurationInSeconds
+        })
+      })
+  
+      const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+          return response
+
+          return res.status(200).json({
+              success:true,
+              message:"Course Details fetched successfully",
+              data:{courseDetails,
+                totalDuration
+              },
+          })
+  
+    }
+    catch(error) {
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:error.message,
+        });
+    }
+  }
