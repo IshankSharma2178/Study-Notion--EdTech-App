@@ -127,10 +127,11 @@ export function login(email,password,navigate){
       localStorage.setItem("token", JSON.stringify(response.data.token))
       localStorage.setItem("user", JSON.stringify(response.data.user))
       dispatch(setToken(JSON.stringify(response.data.token)))
-      dispatch(setUser( JSON.stringify(response.data.user)))
+      dispatch(setUser( response.data.user))
+      dispatch(setProfileUser( (response.data.user)))
       navigate("/dashboard/my-profile")
       dispatch(setLoading(false));
-      console.log()
+      
     }catch(e){
       console.log("ERROR............", e)
       toast.error("Could Not Login")
@@ -153,21 +154,3 @@ export function logout(navigate){
   }
 }
 
-export function updateDisplayPicture(imageFile){
-  console.log(imageFile);
-  console.log("point 1")
-  return async (dispatch)=>{
-    try{
-      setLoading(true);
-      const response = await apiConnector("PUT" ,UPDATE_DISPLAY_PICTURE_API,{imageFile})    
-      if(!response.data.success){
-        throw new Error(response.data.message);
-      }
-      setLoading(false);
-    }catch(err){
-      setLoading(false);
-      console.log("error",err);
-      toast.error("could not upload image");
-    } 
-  }
-}

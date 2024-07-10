@@ -5,6 +5,7 @@ import { apiConnector } from "../apiconnector"
 import { settingsEndpoints } from "../apis"
 import { logout } from "./authAPI"
 
+
 const {
   UPDATE_DISPLAY_PICTURE_API,
   UPDATE_PROFILE_API,
@@ -16,9 +17,7 @@ export function updateDisplayPicture(token, formData) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     try {
-      const response = await apiConnector(
-        "PUT",
-        UPDATE_DISPLAY_PICTURE_API,
+      const response = await apiConnector("PUT",UPDATE_DISPLAY_PICTURE_API,
         formData,
         {
           "Content-Type": "multipart/form-data",
@@ -40,5 +39,21 @@ export function updateDisplayPicture(token, formData) {
       toast.error("Could Not Update Display Picture")
     }
     toast.dismiss(toastId)
+  }
+}
+
+export function updateProfileInfo(token,contactNumber,dateOfBirth,firstName,lastName,gender,about){
+  return async (dispatch) =>{
+    try{
+      console.log("hello")
+      console.log(contactNumber,dateOfBirth,firstName,lastName,gender,about)
+
+      const response = await apiConnector("PUT",UPDATE_PROFILE_API,{contactNumber,dateOfBirth,firstName,lastName,gender,about} ,{
+        Authorization: `Bearer ${token}`,
+      }  )
+      console.log(response);
+    }catch(e){
+        console.log(e)
+    }
   }
 }

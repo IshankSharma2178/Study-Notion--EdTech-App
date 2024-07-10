@@ -6,21 +6,22 @@ require("dotenv").config();
 exports.auth=async(req,res,next)=>{
     try{
         //extract token
-        const token=req.cookies.token || req.body.token || req.header("Authorisation").replace("Bearer","");
-
+        const token=req.cookies.token || req.body.token || req.get("Authorization").replace("Bearer","");
+        
         if(!token){
-            return res.status(401).json({
+            return res.status(401).json({ 
                 success: false,
-                message: "token is missing"
+                message: "token is missing" 
             })
         }
-
+        
+        console.log( "auth controller")
         //verify the token
         try{
-            const decode =jwt.verify(token,process.env.JWT_SECRET);
-            console.log("decode data is : ",decode);
-            req.user=decode;
-        }
+            const payload = jwt.verify(token,process.env.JWT_SECRET);
+            req.user = payload;
+            console.log("decode data is : ",payload);
+        } 
         catch(e){
             res.status(401).json({
                 success: false,

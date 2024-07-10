@@ -1,7 +1,7 @@
 const Course =require("../models/Course")
 const Category=require("../models/category");
 const User =require("../models/User");
-import {convertSecondsToDuration} from "../utils/secToDuration"
+const convertSecondsToDuration =require("../utils/secToDuration")
 const cloudinary =require("cloudinary")
 // const {uploadImageToCloudinary} = require("../utils/imageUploader");
 require("dotenv").config();

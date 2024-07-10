@@ -16,21 +16,27 @@ async function uploadFileToCloudinary(file, folder,quality) {
 exports.updateProfile =async(req,res)=>{
     try{
         //get data
-        const {dateOfBirth="",about="",contactNumber="",gender=""}=req.body;
+        const {firstName="",lastName="",dateOfBirth="",about="",contactNumber="",gender=""}=req.body;
         
         //get user data
         const id=req.user.id;
-
+        console.log("hello ji")
+        
         //validation
         // if(!contactNumber || !gender || !id){
         //     return res.status(400).json({
-        //         success: false,
+            //         success: false,
         //         message:"all field are required"
         //     })
         // }
 
         //find profile
         const userDetails =await User.findById(id);
+        userDetails.firstName = firstName 
+        userDetails.lastName = lastName
+        userDetails.image=`https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
+        await userDetails.save();
+
         const profileId=userDetails.additionalDetails;
         const profileDetails= await Profile.findById(profileId);
 
@@ -41,13 +47,14 @@ exports.updateProfile =async(req,res)=>{
         profileDetails.contactNumber=contactNumber;
         
         await profileDetails.save();                //yahan object pehele se hi bna hua hai isliye save() kr dinge
-
+        
         return res.status(200).json({
             success: true,
             message:"profile updated successfully",
-            data:profileDetails  
+            data:profileDetails  ,
+            user:userDetails
         })
-
+        
     }catch(err){
         return res.status(500).json({
             success: false,
@@ -115,10 +122,8 @@ exports.getAllUserDetails =async(req,res)=>{
 
 exports.updateDisplayPicture=async(req,res)=>{
     try{
-        console.log("hello")
         const file=req.files.imageFile;
         console.log(file);
-        // console.log("hii")
         const supportedTypes =["jpg","jpeg","png"];
         const fileType=file.name.split(".")[1].toLowerCase();
 

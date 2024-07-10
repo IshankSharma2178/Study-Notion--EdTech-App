@@ -8,9 +8,10 @@ import IconBtn from '../../common/IconBtn';
 function MyProfile() {
     const {user} =useSelector((state)=>state.profile)
     const navigate=useNavigate();
+    console.log("user => ",user)
 
     return (
-    <div className='text-white w-[85%] content-start gap-4 m-auto flex flex-col '>
+    <div className='text-white w-[90%] content-start gap-4 m-auto flex flex-col '>
         <h1 className='text-3xl font-semibold text-richblack-5 '>
             My Profile
         </h1>
@@ -24,7 +25,7 @@ function MyProfile() {
                 className='aspect-square w-[68px] rounded-full object-cover'
                 />
                 <div>
-                    <p className='text-[18px] text-center'>{user?.firstName+" "+user?.lastName}</p>
+                    <p className='text-[18px] md:text-start  text-center'>{user?.firstName+" "+user?.lastName}</p>
                     <p className='text-richblack-300 text-[14px]'>{user?.email}</p>
                 </div>
             </div>
@@ -46,13 +47,13 @@ function MyProfile() {
             </div>
             <div className='overflow-auto w-[90%] text-wrap text-richblack-200'>
                 {
-                    user.additionalDetails.about ===null ? 
+                    user?.additionalDetails?.about ===null ? 
                     <div>
                         Write Something About Yourself
                     </div>
                     :
                     <div>
-                        { user.additionalDetails.about }
+                        { user?.additionalDetails?.about }
                     </div>
                 }
             </div>
