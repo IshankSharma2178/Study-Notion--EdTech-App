@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import IconBtn from '../../common/IconBtn';
 
-
-
 function MyProfile() {
-    const {user} =useSelector((state)=>state.profile)
+    const {userProfile} =useSelector((state)=>state.profile)
+    console.log("+++ ",userProfile)
+    const {user} = useSelector((state)=>state.auth)
     const navigate=useNavigate();
-    console.log("user => ",user)
+    console.log("userProfile => ",userProfile)
 
     return (
     <div className='text-white w-[90%] content-start gap-4 m-auto flex flex-col '>
@@ -47,13 +47,13 @@ function MyProfile() {
             </div>
             <div className='overflow-auto w-[90%] text-wrap text-richblack-200'>
                 {
-                    user?.additionalDetails?.about ===null ? 
+                    userProfile?.about ===null ? 
                     <div>
                         Write Something About Yourself
                     </div>
                     :
                     <div>
-                        { user?.additionalDetails?.about }
+                        { userProfile?.about }
                     </div>
                 }
             </div>

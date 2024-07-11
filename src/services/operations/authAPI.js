@@ -3,7 +3,7 @@ import { setLoading ,setUser,setToken} from "../../slices/authSlice";  // Ensure
 import { apiConnector } from "../apiconnector";
 import toast from "react-hot-toast";
 import { endpoints } from "../apis";
-import { setUser as setProfileUser } from "../../slices/profileSlice";
+import { setProfile } from "../../slices/profileSlice";
 import {settingsEndpoints} from "../apis";
 
 const {SENDOTP_API,SIGNUP_API,LOGIN_API,RESETPASSTOKEN_API,RESETPASSWORD_API,} = endpoints;
@@ -121,14 +121,14 @@ export function login(email,password,navigate){
       if(!response.data.success){
         throw new Error(response.data.message)
       }
-      console.log("response : => ",response)
+      console.log("response : => ",response.data.user.additionalDetails)
       console.log("data ",JSON.stringify(response.data.user));
       toast.success("login successfully");
       localStorage.setItem("token", JSON.stringify(response.data.token))
       localStorage.setItem("user", JSON.stringify(response.data.user))
       dispatch(setToken(JSON.stringify(response.data.token)))
       dispatch(setUser( response.data.user))
-      dispatch(setProfileUser( (response.data.user)))
+      dispatch(setProfile( (response.data.user.additionalDetails)))
       navigate("/dashboard/my-profile")
       dispatch(setLoading(false));
       
@@ -145,7 +145,7 @@ export function logout(navigate){
     dispatch(setLoading(true));
     dispatch(setToken(null));
     dispatch(setUser(null));
-    dispatch(setProfileUser(null));
+    dispatch(setProfile(null));
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     toast.success("Logged out");

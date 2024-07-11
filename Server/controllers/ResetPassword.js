@@ -86,3 +86,34 @@ exports.resetPassword = async(req,res)=>{
         })
     }
 }
+
+//change password
+exports.changePassword = async(req,res)=>{
+    try{
+        const {currentPassword , newPassword} =req.body;
+        const id=req.user.id; 
+        
+        const userDetails =await User.findById(id);
+        
+        if (await bcrypt.compare(currentPassword,userDetails.password)){
+            console.log("hello")
+            const hashedPassword =await bcrypt.hash(newPassword ,10);
+            userDetails.password = hashedPassword;
+            userDetails.save();
+            return res.status(200).json({
+                success: true,
+            })
+        }else{
+            return res.status(400).json({
+                success: false,
+                message:"Invalid Current Password"
+            })
+        }
+
+    }catch(err){    
+        return res.status(500).json({
+            success: false,
+            message:err
+        })
+    }
+}

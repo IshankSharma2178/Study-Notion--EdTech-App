@@ -7,25 +7,24 @@ exports.auth=async(req,res,next)=>{
     try{
         //extract token
         const token=req.cookies.token || req.body.token || req.get("Authorization").replace("Bearer","");
-        
+        console.log(token)
         if(!token){
             return res.status(401).json({ 
                 success: false,
                 message: "token is missing" 
             })
         }
-        
-        console.log( "auth controller")
-        //verify the token
+                //verify the token
+        const Secret=process.env.JWT_SECRET;
         try{
-            const payload = jwt.verify(token,process.env.JWT_SECRET);
-            req.user = payload;
+            const payload = jwt.verify(token,Secret);
             console.log("decode data is : ",payload);
+            req.user = payload;
         } 
         catch(e){
             res.status(401).json({
                 success: false,
-                message: "token is invalid"
+                message: "token is invalid "
             })
         }
         console.log("next");

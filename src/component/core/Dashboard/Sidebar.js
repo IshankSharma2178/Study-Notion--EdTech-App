@@ -9,7 +9,7 @@ import ConfirmationModal from '../../common/ConfirmationModal'
 
 function Sidebar() {
     
-    const {user, loading:profileLoading} = useSelector((state)=>state.profile);
+    const {user, loading:profileLoading} = useSelector((state)=>state.auth);
     const { loading : authLoading} = useSelector((state)=>state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();

@@ -166,7 +166,7 @@ exports.login=async(req,res)=>{
         // generate jwttoken ,after matching password
         if(await bcrypt.compare(password, user.password)){
             const payload={
-                email: user.email,
+                email: email,
                 id: user._id,
                 accountType: user.accountType
             }

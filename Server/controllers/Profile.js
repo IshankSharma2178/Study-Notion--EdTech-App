@@ -11,52 +11,49 @@ async function uploadFileToCloudinary(file, folder,quality) {
     }
     return await cloudinary.uploader.upload(file.tempFilePath,options);
 }
+
 //hamne profile ki value ko null kr rkha hai jiss wajah se uss user ki profile details hame update krni h create nhi krni
 
 exports.updateProfile =async(req,res)=>{
     try{
         //get data
-        const {firstName="",lastName="",dateOfBirth="",about="",contactNumber="",gender=""}=req.body;
+        const {firstName,lastName,dateOfBirth,about,contactNumber,gender}=req.body;
+        console.log(firstName,lastName,dateOfBirth,about,contactNumber);
         
         //get user data
         const id=req.user.id;
-        console.log("hello ji")
-        
-        //validation
-        // if(!contactNumber || !gender || !id){
-        //     return res.status(400).json({
-            //         success: false,
-        //         message:"all field are required"
-        //     })
-        // }
 
         //find profile
-        const userDetails =await User.findById(id);
-        userDetails.firstName = firstName 
-        userDetails.lastName = lastName
-        userDetails.image=`https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
-        await userDetails.save();
-
+        const userDetails =await User.findById(id).populate("additionalDetails");
+        if (firstName ) userDetails.firstName = firstName;
+        if (lastName ) userDetails.lastName = lastName;
+        if (firstName  || lastName) {
+            userDetails.image = `https://api.dicebear.com/5.x/initials/svg?seed=${firstName || userDetails.firstName} ${lastName || userDetails.lastName}`;
+        }
+        
+        const resp= await userDetails.save();
+        console.log("userDetails",resp);
+        
         const profileId=userDetails.additionalDetails;
         const profileDetails= await Profile.findById(profileId);
+        
+        // //update profile
+        if (dateOfBirth ) profileDetails.dateOfBirth = dateOfBirth;
+        if (about ) profileDetails.about = about;
+        if (gender ) profileDetails.gender = gender;
+        if (contactNumber ) profileDetails.contactNumber = contactNumber;
+        
+        await profileDetails.save();
+        await userDetails.save();
 
-        //update profile
-        profileDetails.dateOfBirth = dateOfBirth;
-        profileDetails.about=about;
-        profileDetails.gender=gender;
-        profileDetails.contactNumber=contactNumber;
-        
-        await profileDetails.save();                //yahan object pehele se hi bna hua hai isliye save() kr dinge
-        
         return res.status(200).json({
             success: true,
             message:"profile updated successfully",
-            data:profileDetails  ,
-            user:userDetails
+            profileData:profileDetails  ,
+            userData:userDetails
         })
-        
     }catch(err){
-        return res.status(500).json({
+        return res.status(400).json({
             success: false,
             message:err.message
         })

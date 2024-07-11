@@ -5,18 +5,18 @@ import {updateProfileInfo} from "../../../../services/operations/SettingAPI"
 
 function PersonalInformationUpload() {
   const{register , handleSubmit ,reset , formState:{errors , isSubmitSuccessful} } =useForm();
+  const {user} =useSelector((state)=>state.auth)
+  const {userProfile} = useSelector((state)=>state.profile);
   const dispatch = useDispatch();
   const {token} = useSelector((state)=>state.auth);
-  console.log(JSON.parse(token));
 
   const submitHandler = async(data)=>{
-    console.log(data);
     const {contactNumber,dateOfBirth,firstName,lastName,gender,about} = data;
     dispatch(updateProfileInfo(token,contactNumber,dateOfBirth,firstName,lastName,gender,about));
   }
 
     return (
-    <form className='flex flex-col w-[90%] m-auto gap-6' onSubmit={handleSubmit(submitHandler)}>
+    <form className='flex flex-col w-[90%] m-auto gap-2' onSubmit={handleSubmit(submitHandler)}>
       <div className='flex flex-col  gap-6 text-white m-auto w-[100%]  bg-richblack-800 rounded-xl border border-richblack-600 p-6 '>
           <h1 className='text-2xl font-semibold '>
             Profile Information
@@ -96,7 +96,7 @@ function PersonalInformationUpload() {
       </div>
 
       <div className='text-end p'>
-          <button type="submit" className='text-center w-full md:w-fit mt-3 md:mt-1 text-[17px] font-semibold text-nowrap px-6 py-3 rounded-md bg-yellow-50 text-black
+          <button type="submit" className='text-center w-full md:w-fit mt-1 md:mt- text-[17px] font-semibold text-nowrap px-6 py-3 rounded-md bg-yellow-50 text-black
                         shadow-[2px_2px_0px_0px_rgba(255,255,255,0.18)] hover:shadow-none hover:scale-95 transition-all duration-200'>
                 Submit
           </button>

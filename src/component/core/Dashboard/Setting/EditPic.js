@@ -7,7 +7,7 @@ import IconBtn from "../../../common/IconBtn"
 
 export default function ChangeProfilePicture() {
   const { token } = useSelector((state) => state.auth)
-  const { user } = useSelector((state) => state.profile)
+  const { user } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(false)

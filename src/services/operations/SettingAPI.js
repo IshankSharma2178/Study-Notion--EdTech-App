@@ -1,10 +1,10 @@
 import { toast } from "react-hot-toast"
 
-import { setUser } from "../../slices/profileSlice"
+import { setProfile } from "../../slices/profileSlice"
 import { apiConnector } from "../apiconnector"
 import { settingsEndpoints } from "../apis"
 import { logout } from "./authAPI"
-
+import {setUser} from "../../slices/authSlice"
 
 const {
   UPDATE_DISPLAY_PICTURE_API,
@@ -33,7 +33,8 @@ export function updateDisplayPicture(token, formData) {
         throw new Error(response.data.message)
       }
       toast.success("Display Picture Updated Successfully")
-      dispatch(setUser(response.data.data))
+      console.log("Display Picture Updated Successfully",response)
+      dispatch(setProfile(response.data.data))
     } catch (error) {
       console.log("UPDATE_DISPLAY_PICTURE_API API ERROR............", error)
       toast.error("Could Not Update Display Picture")
@@ -45,15 +46,42 @@ export function updateDisplayPicture(token, formData) {
 export function updateProfileInfo(token,contactNumber,dateOfBirth,firstName,lastName,gender,about){
   return async (dispatch) =>{
     try{
-      console.log("hello")
       console.log(contactNumber,dateOfBirth,firstName,lastName,gender,about)
-
       const response = await apiConnector("PUT",UPDATE_PROFILE_API,{contactNumber,dateOfBirth,firstName,lastName,gender,about} ,{
         Authorization: `Bearer ${token}`,
       }  )
-      console.log(response);
+      console.log("response + =",response);
+      dispatch(setUser(response.data.userData))
+      dispatch(setProfile(response.data.profileData))
     }catch(e){
+      console.log("hii")
         console.log(e)
+    }
+  }
+}
+
+export function updatePassword(token,currentPassword , newPassword){
+  return async(dispatch)=>{
+    try{
+      const response = await apiConnector("POST", CHANGE_PASSWORD_API,{currentPassword,newPassword},{
+        Authorization: `Bearer ${token}`,
+      } )
+      console.log(response)
+    }catch(e){
+      console.log(e)
+    } 
+  }
+}
+
+export function deleteAccount(token,navigate){
+  return async (dispatch) => {
+    try{
+      const response = await apiConnector("DELETE",DELETE_PROFILE_API,{
+        Authorization: `Bearer ${token}`,
+      })
+      navigate("/")
+    }catch(err){
+      console.log(err)
     }
   }
 }
