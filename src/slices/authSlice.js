@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit"
 
 const initialState = {
     loading:false,
-    user:null,
+    user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
     token : localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null,          // localstorage m token save rahega agr app browser close bhi kr de toh
 }
 

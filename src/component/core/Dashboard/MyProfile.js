@@ -82,15 +82,15 @@ function MyProfile() {
             </div>
             <div className='flex flex-col gap-2  break-words'>
                 <p className='text-richblack-500'>Gender</p>
-                <p className='text-richblack-25'>{user?.additionalDetails?.gender || "-"}</p>
+                <p className='text-richblack-25'>{userProfile?.gender || "-"}</p>
             </div>
             <div className='flex flex-col gap-2  break-words'>
                 <p className='text-richblack-500'>Contact Number</p>
-                <p className='text-richblack-25'>{user?.additionalDetails?.contactNumber || "-"}</p>
+                <p className='text-richblack-25'>{userProfile?.contactNumber || "-"}</p>
             </div>
             <div className='flex flex-col gap-2  break-words'>
                 <p className='text-richblack-500'>Date Of Birth</p>
-                <p className='text-richblack-25'>{user?.additionalDetails?.dateOfBirth || "-"}</p>
+                <p className='text-richblack-25'>{userProfile?.dateOfBirth || "-"}</p>
             </div>
 
             </div>

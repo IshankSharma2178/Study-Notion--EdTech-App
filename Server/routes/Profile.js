@@ -3,7 +3,8 @@ const router = express.Router()
 
 const {  deleteAccount,updateProfile,getAllUserDetails,
   updateDisplayPicture,
-  // getEnrolledCourses,instructorDashboard
+  // getEnrolledCourses,
+  // instructorDashboard
   } = require("../controllers/Profile")
 
 // Importing Middlewares

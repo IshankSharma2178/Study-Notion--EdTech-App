@@ -134,7 +134,9 @@ export function login(email,password,navigate){
       
     }catch(e){
       console.log("ERROR............", e)
-      toast.error("Could Not Login")
+      toast.error("Please Sign up first")
+      dispatch(setLoading(false));
+      navigate("/login")
     }
   }
 }

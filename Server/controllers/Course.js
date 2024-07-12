@@ -235,10 +235,18 @@ exports.getInstructorCourses = async(req,res)=>{
             })
         }
 
-        const data = await User.findById(userId).populate("courses");
+        const data = await User.findById(userId).populate({
+                                                path:"courses",
+                                                populate:{
+                                                    path:"courseContent",
+                                                    populate:{
+                                                        path:"subSection"
+                                                    }
+                                                }
+        })
+                                                            ;
         console.log(data.courses);
         return res.status(200).json({
-            success:false,
             data:data.courses
         })
     }catch(err){

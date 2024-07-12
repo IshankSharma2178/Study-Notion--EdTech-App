@@ -2,7 +2,7 @@ import React from 'react'
 import { AiOutlineCaretDown } from "react-icons/ai"
 import { VscDashboard, VscSignOut } from "react-icons/vsc"
 import { useRef, useState, useEffect } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { logout } from "../../services/operations/authAPI"
 import { useDispatch } from 'react-redux';
 
@@ -44,9 +44,9 @@ function ProfileDropDown() {
           {
             isVisible &&
             <div   ref={divRef} className='border-[1px] z-40 rounded-md  flex flex-col border-richblack-700 bg-richblack-800 duration-300 translate-y-[10%] right-0 w-fit h-fit absolute'>
-                <p className='flex w-fit px-3  h-10 hover:cursor-pointer flex-row items-center justify-center  text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25'>
+                <NavLink to="/dashboard/my-profile" className='flex w-fit px-3  h-10 hover:cursor-pointer flex-row items-center justify-center  text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25'>
                     <VscDashboard className='mr-1' /> Dashboard
-                </p>
+                </NavLink>
                 <hr className='border-1 border-richblack-700'></hr>
 
                   <p className='flex  px-3  w-full h-10 hover:cursor-pointer flex-row items-center justify-start  text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25'

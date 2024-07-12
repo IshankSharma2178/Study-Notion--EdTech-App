@@ -4,7 +4,7 @@ import { setProfile } from "../../slices/profileSlice"
 import { apiConnector } from "../apiconnector"
 import { settingsEndpoints } from "../apis"
 import { logout } from "./authAPI"
-import {setUser} from "../../slices/authSlice"
+import {setUser ,setToken} from "../../slices/authSlice"
 
 const {
   UPDATE_DISPLAY_PICTURE_API,
@@ -48,8 +48,9 @@ export function updateProfileInfo(token,contactNumber,dateOfBirth,firstName,last
     try{
       console.log(contactNumber,dateOfBirth,firstName,lastName,gender,about)
       const response = await apiConnector("PUT",UPDATE_PROFILE_API,{contactNumber,dateOfBirth,firstName,lastName,gender,about} ,{
-        Authorization: `Bearer ${token}`,
-      }  )
+         Authorization: `Bearer ${token}`
+      })
+      
       console.log("response + =",response);
       dispatch(setUser(response.data.userData))
       dispatch(setProfile(response.data.profileData))
@@ -64,8 +65,8 @@ export function updatePassword(token,currentPassword , newPassword){
   return async(dispatch)=>{
     try{
       const response = await apiConnector("POST", CHANGE_PASSWORD_API,{currentPassword,newPassword},{
-        Authorization: `Bearer ${token}`,
-      } )
+        Authorization: `Bearer ${token}`, 
+    } )
       console.log(response)
     }catch(e){
       console.log(e)
@@ -74,11 +75,15 @@ export function updatePassword(token,currentPassword , newPassword){
 }
 
 export function deleteAccount(token,navigate){
-  return async (dispatch) => {
+  return async (dispatch) => { 
     try{
-      const response = await apiConnector("DELETE",DELETE_PROFILE_API,{
-        Authorization: `Bearer ${token}`,
-      })
+      const response = await apiConnector("DELETE",DELETE_PROFILE_API, null,{
+        Authorization: `Bearer ${token}`, 
+    })
+      localStorage.clear();
+      dispatch(setUser(null))
+      dispatch(setToken(null))
+      dispatch(setProfile(null))
       navigate("/")
     }catch(err){
       console.log(err)

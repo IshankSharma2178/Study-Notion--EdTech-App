@@ -6,14 +6,13 @@ require("dotenv").config();
 exports.auth=async(req,res,next)=>{
     try{
         //extract token
-        const token=req.cookies.token || req.body.token || req.get("Authorization").replace("Bearer","");
-        console.log(token)
-        if(!token){
+        const token = req.body.token || req.cookies.token || req.get("Authorization")?.replace("Bearer ", "").slice(1,-1);
+        if(!token){ 
             return res.status(401).json({ 
                 success: false,
                 message: "token is missing" 
             })
-        }
+        } 
                 //verify the token
         const Secret=process.env.JWT_SECRET;
         try{
