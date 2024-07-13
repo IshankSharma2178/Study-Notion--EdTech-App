@@ -56,12 +56,12 @@ function PersonalInformationUpload() {
                 {...register("dateOfBirth")}
               />
             </div>
-            <div className='flex flex-col w-full md:w-[50%] gap-1'>
+            <div className='flex flex-col w-full md:w-[50%] gap-1 '>
               <label htmlFor='gender'>Gender</label>
               <select 
                 name='gender'
                 id='gender'
-                className="w-full rounded-[0.5rem] outline-none shadow-custom bg-richblack-700 focus:shadow-none  p-[12px] text-richblack-5"
+                className="w-full rounded-[0.5rem] outline-none shadow-custom bg-richblack-700 focus:shadow-none py-[15px] p-[12px] text-richblack-5"
                 {...register("gender")}
               >
                 <option value='Male'>Male</option>

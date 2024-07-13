@@ -1,8 +1,11 @@
 import { apiConnector } from "../apiconnector"
 import {courseEndpoints} from "../apis"
 import {setEntireCourseData} from "../../slices/viewCourseSlice"
+import toast from "react-hot-toast"
 
-const {GET_ALL_INSTRUCTOR_COURSES_API} =courseEndpoints
+const {GET_ALL_INSTRUCTOR_COURSES_API
+    ,COURSE_CATEGORIES_API
+} =courseEndpoints
 
 export function getInstructorCourses(token){
     return async (dispatch) => {
@@ -17,4 +20,20 @@ export function getInstructorCourses(token){
             console.log(err)
         }
     }
+}
+
+export async function fetchCourseCategories(){
+    let result= [];
+    try{
+        const response = await  apiConnector("GET",COURSE_CATEGORIES_API)
+        console.log("Courses Categories api response"  , response);
+        if(!response?.data?.success){
+            throw new Error("Could not get courses categories")
+        }
+        result= response?.data?.data
+    }catch(e){
+        console.log("Courses Categories api error ..." , e);
+        toast.error(e.message)
+    }
+    return result
 }

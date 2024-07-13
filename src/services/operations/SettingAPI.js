@@ -1,5 +1,4 @@
 import { toast } from "react-hot-toast"
-
 import { setProfile } from "../../slices/profileSlice"
 import { apiConnector } from "../apiconnector"
 import { settingsEndpoints } from "../apis"
@@ -54,6 +53,8 @@ export function updateProfileInfo(token,contactNumber,dateOfBirth,firstName,last
       console.log("response + =",response);
       dispatch(setUser(response.data.userData))
       dispatch(setProfile(response.data.profileData))
+      toast.success("Changed Successfully")
+
     }catch(e){
       console.log("hii")
         console.log(e)
@@ -68,6 +69,7 @@ export function updatePassword(token,currentPassword , newPassword){
         Authorization: `Bearer ${token}`, 
     } )
       console.log(response)
+      toast.success("Changed Successfully")
     }catch(e){
       console.log(e)
     } 
@@ -85,6 +87,7 @@ export function deleteAccount(token,navigate){
       dispatch(setToken(null))
       dispatch(setProfile(null))
       navigate("/")
+      toast.success("Account deleted successfully")
     }catch(err){
       console.log(err)
     }

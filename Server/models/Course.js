@@ -1,4 +1,5 @@
 const mongoose= require('mongoose');
+const now= new Date();
 
 const courseSchema= new mongoose.Schema({
     courseName:{
@@ -52,6 +53,10 @@ const courseSchema= new mongoose.Schema({
     status:{
         type:String,
         enum:["Draft", "Published"]
+    },
+    createdAt:{
+        type:Date,
+        default:now,
     }
 
 

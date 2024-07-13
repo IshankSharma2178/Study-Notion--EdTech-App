@@ -20,6 +20,7 @@ import Cart from './component/core/Dashboard/Cart';
 import { ACCOUNT_TYPE } from './utils/constants';
 import { useSelector } from 'react-redux';
 import CoursesTable from "./component/core/Dashboard/InstructorCourses/CoursesTable"
+import AddCourse from "./component/core/Dashboard/AddCourse/AddCourse"
 
 function App() {
   
@@ -59,6 +60,7 @@ function App() {
               (
                 <>
                   <Route path="/dashboard/my-courses" element={<PrivateRoute><CoursesTable/></PrivateRoute>} />
+                  <Route path="/dashboard/add-course" element={<PrivateRoute><AddCourse/></PrivateRoute>} />
                 </>
               )
             }
