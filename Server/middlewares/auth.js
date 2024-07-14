@@ -23,16 +23,16 @@ exports.auth=async(req,res,next)=>{
             req.user = payload;
         } 
         catch(e){
-            res.status(401).json({
+            console.log("next");
+            return res.status(401).json({
                 success: false,
                 message: "token is invalid "
             })
         }
-        console.log("next");
         next();
     }
     catch(err){
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: err.message
         })

@@ -85,6 +85,7 @@ function ContactUsForm() {
                 <label  className='text-richblack-100  pb-2 mt-7' >Phone Number</label>
                     <div  className='flex gap-4 flex-row'>
                         <select
+                        defaultValue=""
                         className='w-[77px] rounded-[0.5rem] outline-none shadow-custom bg-richblack-800 focus:shadow-none p-[12px] text-richblack-5'
                         name="dropdown"
                         id="dropdown"
