@@ -19,7 +19,9 @@ async function uploadFileToCloudinary(file,folder,quality){
 //create course
 exports.createCourse = async (req,res)=>{
     try{
+        console.log("inside course");
         const {courseName,courseDescription,whatYouWillLearn,price,category} = req.body      //Category m id ayegi becoz course model m Category ref le rkha hai
+        console.log(req.body)
         
         //get thumbnail 
         const thumbnail =req.files.thumbnailImage;

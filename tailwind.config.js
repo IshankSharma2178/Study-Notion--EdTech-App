@@ -179,6 +179,7 @@ module.exports = {
       },
       boxShadow: {
         'custom': '0 1.5px rgba(255, 255, 255, 0.25)',
+        'custom2':'0 1.5px rgb(110, 114, 127)'
       },
 
       borderRadius: {
