@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import { FaCheck } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import CourseConfirmationForm from './CourseConfirmationForm'
 import CourseBuilderForm from './CourseBuilder/CourseBuilderForm'
 import { CgBorderStyleDotted } from "react-icons/cg";
+import {setStep} from "../../../../slices/courseSlice"
 
 function RenderSteps() {
 
     const {step} = useSelector((state)=>state.course)
+    // const dispatch =useDispatch();
+    // dispatch(setStep(1))
+  // console.log("step : ",step)
 
     const steps = [
         {
@@ -26,6 +30,7 @@ function RenderSteps() {
 
   return (
     <div className='w-[100%] my-16'>
+      {/* Step number */}
         <div className="relative mb-2 flex w-full justify-center">
             {steps.map((item)=> (
                 <>  
@@ -39,7 +44,7 @@ function RenderSteps() {
                          ${step > item.id ? ' bg-yellow-50' :'text-yellow-50'}`}
                          >
                             {step > item.id ? (
-                                <FaCheck className='font-bold text-richblack-900'/>
+                                <FaCheck className='font-bold translate-x-2  text-richblack-900'/>
                             ) : 
                             (item.id)}
                         </button>

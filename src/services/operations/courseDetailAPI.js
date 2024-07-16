@@ -75,7 +75,8 @@ export const editCourseDetails = async (formData, token) => {
         throw new Error("Could Not Add Course Details")
       }
       toast.success("Course Details Added Successfully")
-      result = response?.data?.newCourse
+      result = response?.data?.data
+      console.log("result in api ",result)
     } catch (error) {
       console.log("CREATE COURSE API ERROR............", error)
       toast.error(error.message)

@@ -120,7 +120,6 @@ exports.getAllUserDetails =async(req,res)=>{
 exports.updateDisplayPicture=async(req,res)=>{
     try{
         const file=req.files.imageFile;
-        console.log(file);
         const supportedTypes =["jpg","jpeg","png"];
         const fileType=file.name.split(".")[1].toLowerCase();
 
@@ -133,15 +132,14 @@ exports.updateDisplayPicture=async(req,res)=>{
 
         const response =await uploadFileToCloudinary(file,"codehelp");
 
-        console.log("response is : " , response);
-
-        const updatedUser = await User.findOneAndUpdate({email:req.user.email},{image:response.url},{new:true});        
+        const updatedUser = await User.findOneAndUpdate({email:req.user.email},{image:response.url},{new:true,_id:false});        
 
         console.log("updated user is : " , updatedUser);
 
         res.status(200).json({
             success: true,
-            message: "profile updated successfully"
+            message: "profile updated successfully",
+            data: updatedUser
         })
     }catch(err){
         res.status(500).json({

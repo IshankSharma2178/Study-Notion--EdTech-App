@@ -63,6 +63,7 @@ function CourseConfirmationForm() {
     };
 
     const onSubmit = async (data) => {
+        console.log(editCourse)
         if (editCourse) {
             if (isFormUpdated()) {
                 const currentValues = getValues();
@@ -104,15 +105,16 @@ function CourseConfirmationForm() {
             }
             return;
         }
-
+        console.log("[[[",data)
         const formData = new FormData();
         formData.append("courseName", data.courseTitle);
         formData.append("courseDescription", data.courseShortDescription);
         formData.append("price", data.coursePrice);
         // formData.append("tags", JSON.stringify(data.courseTags || []));
-        formData.append("whatWillYouLearn", data.courseBenefits);
+        formData.append("whatYouWillLearn", data.courseBenefits);
         formData.append("category", data.courseCategory);
         formData.append("status", COURSE_STATUS.DRAFT);
+        formData.append("thumbnailImage",data.courseImage)
         formData.append("instructions", JSON.stringify(data.courseRequirements || []));
         if (data.courseImage && data.courseImage[0]) {
             formData.append("thumbnailImage", data.courseImage[0]);
@@ -120,6 +122,7 @@ function CourseConfirmationForm() {
         logFormData(formData); 
         setLoading(true);
         const result = await addCourseDetails(formData, token);
+        console.log("result",result);
         setLoading(false);
         if (result) {
             dispatch(setStep(2));
@@ -129,6 +132,8 @@ function CourseConfirmationForm() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='rounded-md border border-richblack-700 text-black  bg-richblack-800 p-6 space-y-8'>
+
+        {/* Course title Input Field */}
             <div className='text-richblack-25 flex flex-col gap-2  '>
                 <label htmlFor='courseTitle' className='tracking-wider text-[14px]'>Course Title <sup className='text-pink-200 '>*</sup></label>
                 <input 
@@ -140,6 +145,7 @@ function CourseConfirmationForm() {
                 {errors.courseTitle && <div className='text-pink-200 text-[12px]'>Course Title is Required</div>}
             </div>
 
+        {/* Course Description INput Field */}
             <div  className='text-richblack-25 flex flex-col gap-2  ' >
                 <label htmlFor='courseShortDescription' className='tracking-wider text-[14px]'>Course Short Description <sup className='text-pink-200'>*</sup></label>
                 <textarea 
@@ -151,6 +157,7 @@ function CourseConfirmationForm() {
                 {errors.courseShortDescription && <span className='text-pink-200 text-[12px]'>Course Description is required</span>}
             </div>
 
+        {/* Price Input Field */}
             <div className='relative text-richblack-25 flex flex-col gap-2  '>
                 <label htmlFor='coursePrice' className='tracking-wider text-[14px]'>Course Price <sup className='text-pink-200 '>*</sup></label>
                 <input 
@@ -159,10 +166,11 @@ function CourseConfirmationForm() {
                     {...register("coursePrice", { required: true, valueAsNumber: true })}
                     className='w-full rounded-[0.5rem] outline-none shadow-custom2 placeholder-richblack-300 placeholder:text-base pl-10   bg-richblack-700 focus:shadow-none p-[12px] text-richblack-25'
                 />
-                <HiOutlineCurrencyRupee className='absolute text-richblack-300 bottom-8 -translate-y-[24%]  text-2xl z-10 mx-2' />
-                {errors.coursePrice && <div className='text-pink-200 text-[12px]'>Course Price is Required</div>}
+                <HiOutlineCurrencyRupee className='absolute text-richblack-300 bottom-3 -translate-y-[2%]  text-2xl z-10 mx-2' />
             </div>
+                {errors.coursePrice && <div className=' text-pink-200 -translate-y-6  text-[12px]'>Course Price is Required</div>}
 
+        {/* Course Category Input Field */}
             <div className='text-richblack-25 flex flex-col gap-2  '>
                 <label htmlFor='courseCategory' className='tracking-wider text-[14px]'>Course Category <sup className='text-pink-200'>*</sup></label>
                 <select
@@ -183,7 +191,8 @@ function CourseConfirmationForm() {
                 </select>
                 {errors.courseCategory && <div className='text-pink-200 text-[12px]'>Course Category is Required</div>}
             </div>
-            
+
+        {/*Tags Input Field  */}
             <ChipInput
                 name={"tag"}
                 placeholder={"Enter tags"}
@@ -193,6 +202,7 @@ function CourseConfirmationForm() {
                 setValue={setValue}
                 />
 
+        {/* Image Upload Field */}
             <FileUpload 
                 name="courseImage"
                 label="Course Thumbnail"
@@ -202,7 +212,7 @@ function CourseConfirmationForm() {
                 editData={editCourse ? course?.thumbnail : null}
             />
 
-
+        {/* Course Benefit Input Field */}
             <div className='text-richblack-25 flex flex-col gap-2  '>
                 <label htmlFor='courseBenefits' className='tracking-wider text-[14px]'>Benefits of the Course <sup className='text-pink-200'>*</sup></label>
                 <textarea 
@@ -214,6 +224,7 @@ function CourseConfirmationForm() {
                 {errors.courseBenefits && <div className='text-pink-200 text-[12px]'>Benefits of the Course Required</div>}
             </div>
 
+        {/* Requiremnt Input Field */}
             <RequirementField 
                 name="courseRequirements"
                 label="Requirements / Instructor"
@@ -223,6 +234,7 @@ function CourseConfirmationForm() {
                 getValues={getValues}
             />
             
+        {/* Buttons */}
             <div  className='text-end '>
                 {editCourse && (
                     <button onClick={() => dispatch(setStep(2))} className='flex items-center gap-x-2 bg-richblack-300'>
