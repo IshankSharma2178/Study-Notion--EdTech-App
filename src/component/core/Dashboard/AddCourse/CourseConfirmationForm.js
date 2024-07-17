@@ -209,6 +209,7 @@ function CourseConfirmationForm() {
                 register={register}
                 setValue={setValue}
                 errors={errors}
+                image={true}
                 editData={editCourse ? course?.thumbnail : null}
             />
 

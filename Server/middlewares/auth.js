@@ -6,7 +6,7 @@ require("dotenv").config();
 exports.auth=async(req,res,next)=>{
     try{
         //extract token
-        console.log("before get token")
+        console.log("before get token",req.get("Authorization")?.replace("Bearer ", ""))
         const token = req.body.token || req.cookies.token || req.get("Authorization")?.replace("Bearer ", "").replace(/^"|"$/g, '');
             console.log( token)
         if(!token){ 

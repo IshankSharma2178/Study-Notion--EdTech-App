@@ -13,7 +13,8 @@ export default function Upload({
   register,
   setValue,
   errors,
-  video = false,
+  image=false,
+  video=false ,
   viewData = null,
   editData = null,
 }) {
@@ -34,9 +35,9 @@ export default function Upload({
         }
       });
     },
-    accept: {
-      'image/jpg ,image/jpeg': []
-    }
+    accept: 
+      image ? { "image/*": [".jpeg", ".jpg", ".png"] }
+      :video ? { "video/*": [".mp4"] } : { "pdf/*": [".pdf"]}
   });
 
   useEffect(() => {

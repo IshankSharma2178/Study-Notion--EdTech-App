@@ -15,14 +15,23 @@ exports.createSection =async(req,res)=>{
         const newSection =await Section.create({sectionName});
 
         //update course with section objectid
-        const updatedCourseDetails = await Course.findByIdAndUpdate(courseId,{$push:{courseContent:newSection._id}},{next:true})
+        const updatedCourse = await Course.findByIdAndUpdate(courseId, {
+            $push: {
+              courseContent:newSection._id
+            }  
+          }, {new:true})
+          .populate({
+              path:"courseContent",
+              populate: {
+                  path:"subSection"
+              }});
 
         ///todo populate to replace section and subsection both in updated course details
 
         return res.status(200).json({
             success: true,
             message:"section created successfully",
-            data:updatedCourseDetails
+            data:updatedCourse
         })
     }catch(err){
         return res.status(500).json({
@@ -73,7 +82,14 @@ exports.deleteSection = async(req,res)=>{
             })
         }
         
-        const response = await Course.findByIdAndUpdate({_id:courseId}, {$pull:{courseContent:sectionId}},{new:true})
+        const response = await Course.findByIdAndUpdate({_id:courseId}, {$pull:{courseContent:sectionId}},{new:true}).populate({
+                                                                                                                            path:"courseContent",
+                                                                                                                            populate:{
+                                                                                                                                path:"subSection"
+                                                                                                                            }
+        })
+
+
         const result=await Section.findByIdAndDelete({_id:sectionId});
         
         
@@ -81,7 +97,7 @@ exports.deleteSection = async(req,res)=>{
         return res.status(200).json({
             success: true,
             message:"section deleted successfully",
-            data:result
+            data:response
         })
     }
     catch(err){
