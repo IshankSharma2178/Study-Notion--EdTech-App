@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState , useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ConfirmationModal from "../../../../common/ConfirmationModal"
 import { RxDropdownMenu } from 'react-icons/rx'
@@ -9,6 +9,7 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import SubSectionModal from './SubSectionModal'
 import { deleteSection ,deleteSubSection} from '../../../../../services/operations/courseDetailAPI'
 import {setCourse} from "../../../../../slices/courseSlice"
+import { GoDotFill } from "react-icons/go";
 
 function NestedView({handleChnagedSectionName}) {
 
@@ -31,6 +32,13 @@ function NestedView({handleChnagedSectionName}) {
         }
         setConfirmation(null)
     }
+    console.log(";; " , course.courseContent)
+    course.courseContent.map((data)=>{
+        console.log("k11")
+        console.log(data.subSection)
+    })
+
+    useEffect(()=>{},[course])
 
     const handleDeleteSubSection= async(subSectionId,sectionId) =>{ 
         console.log("\\",token)
@@ -46,7 +54,7 @@ function NestedView({handleChnagedSectionName}) {
             {course?.courseContent?.map((section) =>(
                 <details key={section._id} open>
                     <summary  className="flex cursor-pointer items-center justify-between border-b-2 border-b-richblack-600 py-2">
-                        <div className="flex items-center gap-x-3">
+                        <div className="flex items-center gap-x-3 ">
                             <RxDropdownMenu  className="text-2xl text-richblack-50"/>
                             <p  className="font-semibold text-richblack-50">{section.sectionName}</p>
                         </div>
@@ -75,16 +83,16 @@ function NestedView({handleChnagedSectionName}) {
 
                         </div>
                     </summary>
-                    <div>
+                    <div className='mt-10'>
                         {
                             section?.subSection.map((data)=>{
-                                <div key={data?._id} 
+                                return <div key={data?._id} 
                                     onClick={()=>setViewSubSection(data)}
-                                    className='flex items-center justify-center gap-x-3 border-b-2'
+                                    className='flex items-center mb-2 pb-2 justify-center gap-x-3 border-b-2'
                                 >
                                 <div className='flex flex-row gap-x-3 items-center'>
-                                    <RxDropdownMenu/>
-                                    <p  className="font-semibold text-richblack-50">{data.sectionName}</p>
+                                    <GoDotFill className='text-richblack-50'/>
+                                    <p  className="font-semibold text-richblack-50">{data.title }</p>
                                 </div>
                                 <div className='flex items-center gap-x-3'>
                                     <button

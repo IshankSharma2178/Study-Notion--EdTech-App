@@ -1,5 +1,5 @@
 import IconBtn from '../../../../common/IconBtn';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
@@ -58,6 +58,8 @@ function CourseBuilderForm() {
     setEditSectionName(sectionId);
     setValue("sectionName", sectionName);
   }
+
+  
 
   const goToNext = () => {
     if(course.courseContent.length === 0) {

@@ -73,13 +73,17 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
                 return
             }
             const formData = new FormData();
+            formData.append("courseId", course._id);
             formData.append("sectionId",modalData);
             formData.append("title",data.lectureTitle);
             formData.append("description",data.lectureDescription);
             formData.append("video",data.lectureVideo);
+            formData.append("timeDuration",data.timeDuration);
             setLoading(true);
             const result = await createSubSection(formData,token);
+            console.log("two ");
             if(result){
+                console.log("three ");
                 dispatch(setCourse(result));
             }
             setModalData(null)
@@ -107,8 +111,8 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
                     setValue={setValue}
                     video={true}
                     errors={errors}
-                    viewData={view ? modalData.videoUrl: null}
-                    editData={edit ? editData.videoUrl: null}
+                    viewData={view ? modalData.videoUrl : null}
+                    editData={edit ? modalData.videoUrl : null}
                 />
                 <div>
 

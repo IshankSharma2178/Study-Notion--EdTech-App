@@ -122,17 +122,18 @@ export const createSubSection = async (data, token) => {
     const response = await apiConnector("POST", CREATE_SUBSECTION_API, data, {
       Authorization: `Bearer ${token}`,
     })
-    console.log("CREATE SUB-SECTION API RESPONSE............", response)
+    console.log("CREATE SUB-SECTION API RESPONSE............", response?.data?.data)
     if (!response?.data?.success) {
       throw new Error("Could Not Add Lecture")
     }
     toast.success("Lecture Added")
-    result = response?.data?.updatedSection
+    result = response?.data?.data
   } catch (error) {
     console.log("CREATE SUB-SECTION API ERROR............", error)
     toast.error(error.message)
   }
   toast.dismiss(toastId)
+  console.log("one")
   return result
 }
 

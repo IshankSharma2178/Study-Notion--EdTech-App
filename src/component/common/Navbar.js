@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import ProfileDropDown from "./ProfileDropDown"
 import { apiConnector } from '../../services/apiconnector'
-import { categories } from '../../services/apis'
+import { courseEndpoints } from '../../services/apis'
 import { IoIosArrowDown } from "react-icons/io";
 
 
@@ -19,9 +19,9 @@ function Navbar() {
 
     const fetchSubLinks = async() =>{
       try{
-        const result =await apiConnector("GET",categories.CATEGORIES_API)
-        console.log("printing  " ,result);
-        setSubLinks(result.data.data);
+        const result =await apiConnector("GET",courseEndpoints.COURSE_CATEGORIES_API)
+        console.log("printing  " ,result.data.Categorys);
+        setSubLinks(result.data.Categorys);
         console.log(subLinks)
       }catch(e){
         console.log("could not fetch the category list")
@@ -72,7 +72,7 @@ function Navbar() {
                                         subLinks.map(( sublink , index)=>{
                                           return (
                                           <Link className='rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50' to={`catalog/${sublink.name}`}key={index}>
-                                            <p>{sublink.courseName}</p>
+                                            <p>{sublink.name}</p>
                                           </Link>
                                         )
                                         })

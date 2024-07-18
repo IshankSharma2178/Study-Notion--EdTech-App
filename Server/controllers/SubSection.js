@@ -1,6 +1,7 @@
 const SubSection = require("../models/SubSection")
 const Section =require("../models/Section")
 const {uploadImageToCloudinary}=require("../utils/imageUploader")
+const Course = require("../models/Course")
 const cloudinary = require("cloudinary").v2;
 require("dotenv").config()
 
@@ -17,13 +18,15 @@ async function uploadVideoToCloudinary(video){
 exports.createSubSection = async(req,res)=>{
     try{
         //fetch data from req body
-        const {sectionId , title, timeDuration , description} =req.body;
+        console.log("body  , ",req.body)
+        const {sectionId , title, timeDuration , description,courseId} =req.body;
         
         //extract file/video
-        const video=req.files.videoFile;
+        const video=req.files.video;
+        console.log(video)
         
         //validate
-        if(!sectionId || !title || !timeDuration || !description || !video){
+        if(!sectionId || !title || !timeDuration || !description || !video || !courseId){
             return res.status(400).json({
                 success: false,
                 message:"all field are required"
@@ -43,13 +46,19 @@ exports.createSubSection = async(req,res)=>{
          
         //update section with this subsection objectId
         const updatedSection = await Section.findByIdAndUpdate({_id:sectionId}, {$push:{subSection:subSectionDetails._id}},{new:true})
-
+        const data = await Course.findById(courseId).populate({
+            path: "courseContent",
+            populate: {
+              path: "subSection"
+            }
+          });
+          
         //todo : log updated section here after adding populate query
 
         return res.status(200).json({
             success: true,
             message:"sub section created successfully",
-            data:updatedSection
+            data:data
         })
 
     }catch(err){

@@ -123,8 +123,10 @@ function CourseConfirmationForm() {
         setLoading(true);
         const result = await addCourseDetails(formData, token);
         console.log("result",result);
+        console.log("two");
         setLoading(false);
         if (result) {
+            console.log("three");
             dispatch(setStep(2));
             dispatch(setCourse(result));
         }
