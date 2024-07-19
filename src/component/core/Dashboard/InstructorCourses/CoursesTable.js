@@ -1,18 +1,20 @@
 import React, { useEffect ,useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {getInstructorCourses} from "../../../../services/operations/courseDetailAPI"
+import {deleteCourse, getInstructorCourses} from "../../../../services/operations/courseDetailAPI"
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import {setEntireCourseData} from "../../../../slices/viewCourseSlice"
+import { useNavigate } from 'react-router';
 
 function CoursesTable() {
     
     const {token}= useSelector((state)=>state.auth)
     const dispatch =useDispatch()
+    const navigate = useNavigate() 
     const {courseEntireData} = useSelector((state)=>state.viewCourse)
     const [loading , setLoading] =useState(false);
-    console.log("==>",courseEntireData)
     const handleOnSubmit = ()=>{
-            dispatch(getInstructorCourses(token))
+        dispatch(getInstructorCourses(token))
     }
     
     const formatDateTime = (dateTimeString) => {
@@ -62,7 +64,17 @@ function CoursesTable() {
       return time;
   }
   
+  const deleteHandler = (data) => {
+    const result= deleteCourse(data._id,token)
+    if(result){
+      const updatedCourse = courseEntireData.filter((course) => course._id !== data._id)
+      dispatch(setEntireCourseData(updatedCourse)) 
+    }
+  }
+
     useEffect(()=>{
+    console.log("",courseEntireData)
+
       setLoading(true);
       handleOnSubmit()
       setLoading(false);
@@ -93,7 +105,7 @@ function CoursesTable() {
             {/* courses cards */}
             {
               courseEntireData.map((element,index)=>(
-                <div className='flex md:flex-row flex-col md:m-0 m-auto   p-3'>
+                <div key={index} className='flex md:flex-row flex-col md:m-0 m-auto   p-3'>
                   <div className='md:flex-row flex-col flex md:w-[65%] w-[291px] rounded-lg group md:m-0 md:bg-none px-4 md:p-0 py-4 md:bg-richblack-900 md:border-none   bg-richblack-600 bg-opacity-40 border border-richblack-500 m-auto gap-3'>
                     <div className=' rounded-lg '>
                       <img src={element.thumbnail} className= ' group-[]: w-[260px] object-cover  h-[260px] md:w-[130px] md:h-[130px] lg:w-[180px] lg:h-[130px] rounded-lg'/>
@@ -125,8 +137,8 @@ function CoursesTable() {
                     </p>
                     <p>₹{element.price}</p>
                     <div className='flex flex-row gap-2 text-[20px]'>
-                      <p><MdModeEdit /></p>
-                      <p><RiDeleteBin6Line /></p>
+                      <p><MdModeEdit className='cursor-pointer ' onClick={()=>{ navigate(`/dashboard/edit-course/${element._id}`)}}/></p>
+                      <p onClick={()=>deleteHandler(element)} className='cursor-pointer'><RiDeleteBin6Line /></p>
                     </div>
                   </div>
                 </div>
@@ -134,7 +146,21 @@ function CoursesTable() {
             }
         </div>) 
         
-        :(<div></div>)
+        :(<>
+          <div className='hidden md:flex  flex-row justify-between border-b border-richblack-600  text-richblack-200 text-[14px] '>
+              <div className='p-3 w-[65%]'>
+                <p>COURSES </p>
+              </div>
+              <div className='flex flex-row justify-end mr-4 gap-7 tracking-wider p-3 w-[35%]'>
+                <p>DURATION</p>
+                <p>PRICE</p>
+                <p>ACTION</p>
+              </div>
+          </div>
+          
+          <div className='flex justify-center items-center  text-richblack-100 text-4xl my-10 '>No Course Added Yet</div>
+          </>
+        )
         }
       </div>
         )

@@ -76,19 +76,20 @@ exports.createSubSection = async(req,res)=>{
 exports.updateSubSection=async(req,res)=>{
 
     try{
-        const {sectionId , title,timeDuration ,description } = req.body;
+        const {sectionId , title,timeDuration ,description ,subSectionId} = req.body;
         if(!sectionId){
             return res.status(400).json({
                 success:false,
                 message:"cannot get sectionId"
             })
         }
-        if(!title && !timeDuration && !description ){
-            return res.status(404).json({
-                success:false,
-                message:"give atleast one field for updation"
-            })
-        }
+        console.log(req.body)
+        // if(!title  !timeDuration && !description ){
+        //     return res.status(404).json({
+        //         success:false,
+        //         message:"give atleast one field for updation"
+        //     })
+        // }
         
         const video=req.files?.video;
         
@@ -96,18 +97,17 @@ exports.updateSubSection=async(req,res)=>{
         if(title) updateData.title = title;
         if(timeDuration) updateData.timeDuration = timeDuration
         if(description) updateData.description = description
-        
-        const subsectionId=await Section.findById({_id:sectionId})
-        
-        const data = await SubSection.findByIdAndUpdate(subsectionId.subSection[0]._id,{$set:updateData},{new:true})
-
         if(video){
-            var videoData =await uploadVideoToCloudinary(video)
+            var videoData =await uploadVideoToCloudinary(video,process.env.FOLDER_NAME)
+            updateData.videoUrl =  videoData.secure_url
         }
 
+        const data = await SubSection.findByIdAndUpdate(subSectionId,{$set:updateData},{new:true})
+        const updatedSection = await Section.findById(sectionId).populate("subSection")
+        console.log("updated Successfully")
         return res.status(200).json({
             success: true,
-            data: data,
+            data: updatedSection,
             videoData:videoData
         })
 
@@ -121,7 +121,7 @@ exports.updateSubSection=async(req,res)=>{
 
 exports.deleteSubSection = async(req,res)=>{
     try{
-        const {sectionId , subSectionId}=req.body;
+        const {sectionId , subSectionId,course}=req.body;
 
         if(!sectionId || !subSectionId){
             return res.status(400).json({
@@ -139,7 +139,8 @@ exports.deleteSubSection = async(req,res)=>{
             })
           }
           const subSectionResponse = await SubSection.findByIdAndDelete(subSectionId);
-    
+          const updatedSection = await Section.findById(sectionId).populate("subSection")
+
           if(!subSectionId) {
             return res.status(400).json({
                 success:false,
@@ -149,7 +150,7 @@ exports.deleteSubSection = async(req,res)=>{
 
         return res.status(200).json({
             success:true,
-            sectionResponse:subSectionResponse,
+            sectionResponse:updatedSection,
             subSectionResponse:subSectionResponse
         })
           

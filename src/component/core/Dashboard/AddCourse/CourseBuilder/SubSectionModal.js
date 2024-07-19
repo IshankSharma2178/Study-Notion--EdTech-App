@@ -15,11 +15,13 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
     const [loading,setLoading]=useState(false);
     const {token} = useSelector((state)=>state.auth)
     const {course} = useSelector((state)=>state.course)
-
+    console.log(";;;;;;;;;;;;`",modalData)
+    
     useEffect(()=>{
         if(view || edit){
+            console.log(" dsd")
             setValue("lectureTitle",modalData.title);
-            setValue("lectureDesc",modalData.description);
+            setValue("lectureDescription",modalData.description);
             setValue("lectureVideo",modalData.videoUrl);            
         }
     },[]);
@@ -37,23 +39,28 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
 
         const handleEditSubSection = async()=>{
             const currentValues = getValues();
+            console.log("Current values , ",currentValues);
             const formData =new FormData();
-            formData.append("secttionId",modalData.sectionId);
+            formData.append("sectionId",modalData.sectionId);
             formData.append("subSectionId",modalData._id);
              
             if(currentValues.lectureTitle !== modalData.title){
-                formData.append("title",currentValues.title);
+                formData.append("title",currentValues.lectureTitle);
             }
             if(currentValues.lectureDescription !== modalData.description){
-                formData.append("description",currentValues.description);
+                formData.append("description",currentValues.lectureDescription);
             }
             if(currentValues.lectureVideo !== modalData.videoUrl){
                 formData.append("video",currentValues.lectureVideo); 
+                formData.append("timeDuration",currentValues.timeDuration);
             }
             setLoading(true);
             const result = await updateSubSection(formData,token);
             if(result){
-                dispatch(setCourse(result))
+                console.log("llan",result);
+                const updatedCourseContent = course.courseContent.map((section) =>section._id === modalData.sectionId ? result : section)
+                const updatedCourse = { ...course, courseContent: updatedCourseContent }
+                dispatch(setCourse(updatedCourse))
             }
             setModalData(null);
             setLoading(false);
@@ -106,6 +113,7 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
              >
                 <FileUpload 
                     name="lectureVideo"
+                    id="lectureVideo"
                     label="Lecture Video"
                     register={register}
                     setValue={setValue}

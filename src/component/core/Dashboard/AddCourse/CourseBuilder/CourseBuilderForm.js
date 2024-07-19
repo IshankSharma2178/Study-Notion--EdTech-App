@@ -39,22 +39,30 @@ function CourseBuilderForm() {
           courseId : course._id,
         },token
       )
+      console.log("resp  ",result)
+      const updatedCoursContent = course.courseContent.map((section)=>section._id === editSectionName ? result : section)
+      const updatedCourse = {...course, courseContent:updatedCoursContent} 
+      dispatch(setCourse(updatedCourse))
+
+      setLoading(false)
      }else{
       result = await createSection({
         sectionName: data.sectionName,
         courseId : course._id,
       },token)
-     }
-     console.log("result / ",result)
-     if(result){
-       dispatch(setCourse(result));
-       setEditSectionName(null)
-       setValue("sectionName", "")
+      
+      if(result){
+        dispatch(setCourse(result));
+        setEditSectionName(null)
+        setValue("sectionName", "")
       }
       setLoading(false);
+    }
+
   }
 
-  const handleChnagedSectionName = (sectionName,sectionId) =>{
+  const handleChnagedSectionName = (sectionId,sectionName) =>{
+    
     setEditSectionName(sectionId);
     setValue("sectionName", sectionName);
   }
@@ -62,14 +70,16 @@ function CourseBuilderForm() {
   
 
   const goToNext = () => {
+    console.log("course " , course)
     if(course.courseContent.length === 0) {
       toast.error("Please add atleast one course");
       return 
     }
-    if(course.courseContent.some((section)=>section.subsection.length === 0) ){
+    if(course.courseContent.some((section)=>section.subSection.length === 0) ){
       toast.error("Please add atleast one sub-section");
       return
     }
+    console.log("first")
     dispatch(setStep(3))
   }
 

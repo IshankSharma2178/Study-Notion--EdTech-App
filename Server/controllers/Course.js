@@ -359,3 +359,22 @@ exports.getCourseDetails = async (req, res) => {
         });
     }
   }
+
+exports.updateCourseStatus= async(req, res)=>{
+    try{
+        const {courseId ,status} = req.body;
+
+        if(!courseId || !status){
+            return res.status(404).json({
+                success: false,
+                message: 'all fields are required'
+            })
+        }            
+        const response = await Course.findByIdAndUpdate(courseId,{status:status},{new:true});
+
+        console.log(response)
+        return res.status(200).json({success:true, message:response});
+    }catch(e){
+        return res.status(500).json({success:false, message:e.message});
+    }
+}

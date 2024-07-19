@@ -40,7 +40,8 @@ export const profileEndpoints = {
     DELETE_SUBSECTION_API: BASE_URL + "/course/deleteSubSection",
     DELETE_COURSE_API: BASE_URL + "/course/deleteCourse",
     GET_FULL_COURSE_DETAILS_AUTHENTICATED:
-      BASE_URL + "/course/getFullCourseDetails",
+    BASE_URL + "/course/getFullCourseDetails",
     LECTURE_COMPLETION_API: BASE_URL + "/course/updateCourseProgress",
     CREATE_RATING_API: BASE_URL + "/course/createRating",
+    UPDATE_COURSE_STATUS_API: BASE_URL + "/course/updatecourseStatus",
   }

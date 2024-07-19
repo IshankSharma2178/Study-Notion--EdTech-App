@@ -5,6 +5,7 @@ import CourseConfirmationForm from './CourseConfirmationForm'
 import CourseBuilderForm from './CourseBuilder/CourseBuilderForm'
 import { CgBorderStyleDotted } from "react-icons/cg";
 import {setStep} from "../../../../slices/courseSlice"
+import PublishCourse from './PublishCourse/PublishCourse'
 
 function RenderSteps() {
 
@@ -87,7 +88,7 @@ function RenderSteps() {
       {/* Render specific component based on current step */}
       {step === 1 && <CourseConfirmationForm />}
       {step === 2 && <CourseBuilderForm />}
-      {/* {step === 3 &&  <PublishCourse /> } */}
+      {step === 3 &&  <PublishCourse /> }
 
     </div>
   )

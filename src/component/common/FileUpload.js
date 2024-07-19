@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { CgSoftwareUpload } from "react-icons/cg";
+import { IoCloudUploadOutline } from "react-icons/io5";
 
 export default function Upload({
   name,
@@ -16,7 +17,8 @@ export default function Upload({
   const [file, setFile] = useState(null);
   const [previewFile, setPreviewFile] = useState(null);
   const [videoDuration, setVideoDuration] = useState(null);
-  const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
+  const [reupload, setReupload] = useState(false);
+  const { acceptedFiles, getRootProps, getInputProps, onDropAccepted } = useDropzone({
     accept: image
       ? { "image/*": [".jpeg", ".jpg", ".png"] }
       : video
@@ -53,43 +55,57 @@ export default function Upload({
   useEffect(() => {
     register(name, { required: true });
   }, [register, name]);
-
-  const files = acceptedFiles.map((file) => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
+  
+  useEffect(() => {
+    if(editData){
+      console.log("fgbs",editData)
+    setValue("lectureVideo",editData)
+    }
+  },[])
 
   return (
-    <section className="w-full rounded-[0.5rem] min-h-[200px] flex justify-center items-center flex-col outline-none shadow-custom2 placeholder-richblack-300  placeholder:text-base bg-richblack-700 focus:shadow-none p-[12px] text-richblack-25">
-      {file ? (
-        <div className="flex flex-col gap-6 items-center">
-          {image && <img src={previewFile} className="h-[130px] aspect-auto" />}
+    <section>
+      {file || viewData ? (
+        <div className="w-full rounded-[0.5rem] min-h-[200px] flex justify-center items-center flex-col outline-none shadow-custom2 
+                         placeholder-richblack-300 placeholder:text-base bg-richblack-700 focus:shadow-none p-[12px] text-richblack-25">
+          {image && <img src={previewFile} className="h-[130px] aspect-auto" alt="preview" />}
           {video && (
             <>
-              <video src={previewFile} className="h-[230px
-              ] sm:h-[330px] aspect-auto" controls />
+              <video src={previewFile || viewData} className="h-[230px] sm:h-[330px] aspect-auto" controls />
               {videoDuration && <p>Video duration: {videoDuration.toFixed(2)} seconds</p>}
             </>
           )}
-          <ul>{files}</ul>
-          <button
-            type="button"
-            onClick={open}
-            className="flex justify-center text-richblack-100 items-center gap-2"
-          >
-            Reupload
-            <CgSoftwareUpload />
-          </button>
+          { file && <ul className="my-3">{ <li key={file.path}>{file.path} - {(file.size/1000000).toFixed(2)} Mb</li>}</ul>}
+          <div {...getRootProps()}>
+            <input {...getInputProps()} id="thumbnail" />
+             {!viewData && (<div className="flex flex-row justify-center items-center cursor-pointer gap-2 ">
+              Reupload
+              <CgSoftwareUpload className="text-yellow-25"/>
+            </div>)}
+            
+          </div>
         </div>
       ) : (
         <div>
           <div {...getRootProps()}>
-            <input {...getInputProps()} />
-            <p>Drag 'n' drop some files here, or click to select files</p>
-          </div>
-          <div>
-            <h4>Files</h4>
+           {(editData ||  !reupload) && (<input {...getInputProps()}  id={video ? "lectureVideo":"thumbnail"}/>)}
+            <label htmlFor="thumbnail" className='tracking-wider text-[14px] text-richblack-25'>
+              Course Thumbnail <sup className="text-pink-200">*</sup>
+            </label>
+            <div className="w-full rounded-[0.5rem] min-h-[200px] flex justify-center items-center flex-col outline-none shadow-custom2 
+                         placeholder-richblack-300 placeholder:text-base bg-richblack-700 focus:shadow-none p-[12px] text-richblack-25">
+               {editData && <video src={editData} className="h-[230px] sm:h-[330px] aspect-auto" controls />}
+              {!editData && (<div className="rounded-full bg-[rgb(23,23,23)] text-center items-center flex justify-center size-12">
+                <IoCloudUploadOutline className="text-yellow-25 text-2xl" />
+              </div>)}
+              <p className="text-richblack-200 max-w-[180px] text-sm text-center">
+                Drag and drop an image, or click to Browse a file
+              </p>
+              {image && (<ul className="mt-10 md:flex list-disc justify-between md:space-x-12 text-xs text-richblack-200">
+                <li>Aspect ratio 16:9</li>
+                <li>Recommended size 1024x576</li>
+              </ul>)}
+            </div>
           </div>
         </div>
       )}

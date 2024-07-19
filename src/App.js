@@ -21,6 +21,7 @@ import { ACCOUNT_TYPE } from './utils/constants';
 import { useSelector } from 'react-redux';
 import CoursesTable from "./component/core/Dashboard/InstructorCourses/CoursesTable"
 import AddCourse from "./component/core/Dashboard/AddCourse/AddCourse"
+import EditCourse from './component/core/Dashboard/EditCourse/EditCourse';
 
 function App() {
   
@@ -61,6 +62,7 @@ function App() {
                 <>
                   <Route path="/dashboard/my-courses" element={<PrivateRoute><CoursesTable/></PrivateRoute>} />
                   <Route path="/dashboard/add-course" element={<PrivateRoute><AddCourse/></PrivateRoute>} />
+                  <Route path="/dashboard/edot-course/:courseId" element={<PrivateRoute><EditCourse/></PrivateRoute>} />
                 </>
               )
             }

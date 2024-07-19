@@ -52,7 +52,7 @@ exports.updateSection=async(req, res)=>{
         }
 
         //update data
-        const section =await Section.findByIdAndUpdate(sectionId,{sectionName:sectionName},{new:true}) 
+        const section =await Section.findByIdAndUpdate(sectionId,{sectionName:sectionName},{new:true}).populate("subSection")
 
         return res.status(200).json({
             success: true,

@@ -10,6 +10,9 @@ import SubSectionModal from './SubSectionModal'
 import { deleteSection ,deleteSubSection} from '../../../../../services/operations/courseDetailAPI'
 import {setCourse} from "../../../../../slices/courseSlice"
 import { GoDotFill } from "react-icons/go";
+import { IoOptionsOutline } from "react-icons/io5";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { GoEye } from "react-icons/go";
 
 function NestedView({handleChnagedSectionName}) {
 
@@ -32,30 +35,30 @@ function NestedView({handleChnagedSectionName}) {
         }
         setConfirmation(null)
     }
-    console.log(";; " , course.courseContent)
     course.courseContent.map((data)=>{
-        console.log("k11")
-        console.log(data.subSection)
+        // console.log(data.subSection)
     })
 
     useEffect(()=>{},[course])
 
     const handleDeleteSubSection= async(subSectionId,sectionId) =>{ 
-        console.log("\\",token)
-        const result =await deleteSubSection({subSectionId,sectionId},token)
+        const result =await deleteSubSection({subSectionId,sectionId,},token)
+        console.log("vid",result)
         if(result){
-            dispatchEvent(setCourse(result))
+            const updatedCourseContent = course.courseContent.map((section)=>section._id===sectionId ? result : section)
+            const updatedCourse = {...course, courseContent: updatedCourseContent}
+            dispatch(setCourse(updatedCourse))
         }
-        setConfirmation(null)
+        setConfirmation(null) 
     }
   return (
     <div>
         <div className='rounded-lg bg-richblack-700 p-6 px-8'>
             {course?.courseContent?.map((section) =>(
-                <details key={section._id} open>
-                    <summary  className="flex cursor-pointer items-center justify-between border-b-2 border-b-richblack-600 py-2">
+                <details key={section._id} open >
+                    <summary  className="flex cursor-pointer items-center  justify-between border-b-2 border-b-richblack-400 py-2">
                         <div className="flex items-center gap-x-3 ">
-                            <RxDropdownMenu  className="text-2xl text-richblack-50"/>
+                            <IoOptionsOutline  className="text-xl "/>
                             <p  className="font-semibold text-richblack-50">{section.sectionName}</p>
                         </div>
                         <div className='flex items-center gap-x-3'>
@@ -77,41 +80,42 @@ function NestedView({handleChnagedSectionName}) {
                                 <RiDeleteBin6Line className="text-xl text-richblack-300" />
                             </button>
                             <span className="font-medium text-richblack-300">|</span>
-                            <button>
-                                <BiSolidDownArrow className='text '/>
-                            </button>
-
+                            <div className='text-2xl  '>
+                                <IoMdArrowDropdown    />
+                            </div>
                         </div>
                     </summary>
-                    <div className='mt-10'>
+                    <div className='w-[95%] m-auto cursor-pointer'>
                         {
                             section?.subSection.map((data)=>{
-                                return <div key={data?._id} 
-                                    onClick={()=>setViewSubSection(data)}
-                                    className='flex items-center mb-2 pb-2 justify-center gap-x-3 border-b-2'
+                                return <div key={data?._id} onClick={()=>setViewSubSection(data)}
+                                    className='flex items-center m-2 pb-2 px-4 justify-between gap-x-3 mt-4  border-b-richblack-600 border-b-2'
                                 >
                                 <div className='flex flex-row gap-x-3 items-center'>
                                     <GoDotFill className='text-richblack-50'/>
                                     <p  className="font-semibold text-richblack-50">{data.title }</p>
                                 </div>
                                 <div className='flex items-center gap-x-3'>
-                                    <button
-                                        onClick={()=>setEditSubSection({...data,sectionId:section._id})}
-                                    >
-                                        <MdEdit className="text-xl text-richblack-300" />
-                                    </button>
-                                    <button
-                                        onClick={()=>setConfirmation({
-                                            text1: "Delete this Sub-Section?",
-                                            text2: "Selected Lecture will be deleted",
-                                            btn1Text: "Delete",
-                                            btn2Text: "Cancel",
-                                            btn1Handler: () => handleDeleteSubSection(data._id,section._id),
-                                            btn2Handler: () => setConfirmation(null),      
-                                        })}
-                                    >
-                                        <RiDeleteBin6Line className="text-xl text-richblack-300" />
-                                    </button>
+                                     <GoEye className="text-xl text-richblack-300"/>
+                                     <div onClick={(e)=>e.stopPropagation()}>
+                                        <button
+                                            onClick={()=>setEditSubSection({...data,sectionId:section._id})}
+                                        >
+                                            <MdEdit className="text-xl text-richblack-300" />
+                                        </button>
+                                        <button
+                                            onClick={()=>setConfirmation({
+                                                text1: "Delete this Sub-Section?",
+                                                text2: "Selected Lecture will be deleted",
+                                                btn1Text: "Delete",
+                                                btn2Text: "Cancel",
+                                                btn1Handler: () => handleDeleteSubSection(data._id,section._id),
+                                                btn2Handler: () => setConfirmation(null),      
+                                            })}
+                                        >
+                                            <RiDeleteBin6Line className="text-xl text-richblack-300" />
+                                        </button>
+                                     </div>
                                     
                                 </div>
                                 </div>
@@ -119,7 +123,7 @@ function NestedView({handleChnagedSectionName}) {
                         }
                         <button
                             onClick={()=>setAddSubSection(section._id)}
-                            className="mt-3 flex items-center gap-x-1 text-yellow-50">
+                            className="mt-3 flex items-center gap-x-1 border border-dashed border-yellow-25 p-2 rounded-lg text-yellow-50">
                             <AiOutlinePlus/>
                             <p>Add Lecture</p>
                         </button>
@@ -130,7 +134,7 @@ function NestedView({handleChnagedSectionName}) {
 
         {addSubSection ? (<SubSectionModal modalData={addSubSection} setModalData={setAddSubSection} add={true}/>):
         viewSubSection ? (<SubSectionModal modalData={viewSubSection} setModalData={setViewSubSection} view={true}/>):
-        editSubSection ?(<SubSectionModal modalData={editSubSection} setModalData={setEditSubSection} editt={true}/>):
+        editSubSection ?(<SubSectionModal modalData={editSubSection} setModalData={setEditSubSection} edit={true}/>):
         <div></div>}
 
         {Confirmation && <ConfirmationModal modalData={Confirmation}/>}
