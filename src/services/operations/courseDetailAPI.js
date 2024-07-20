@@ -264,7 +264,6 @@ export const updateCourseStatus= async (data,token)=>{
 
 export const getFullDetailsOfCourse = async (courseId, token) => {
   const toastId = toast.loading("Loading...")
-  //   dispatch(setLoading(true));
   let result = null
   try {
     const response = await apiConnector("POST",GET_FULL_COURSE_DETAILS_AUTHENTICATED,{courseId,},
@@ -277,13 +276,13 @@ export const getFullDetailsOfCourse = async (courseId, token) => {
     if (!response.data.success) {
       throw new Error(response.data.message)
     }
-    result = response?.data?.data
+    result = response?.data?.courseDetails
   } catch (error) {
     console.log("COURSE_FULL_DETAILS_API API ERROR............", error)
     result = error.response.data
     // toast.error(error.response.data.message);
   }
   toast.dismiss(toastId)
-  //   dispatch(setLoading(false));
-  // return result
+  console.log(result)
+  return result
 }

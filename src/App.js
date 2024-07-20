@@ -62,7 +62,7 @@ function App() {
                 <>
                   <Route path="/dashboard/my-courses" element={<PrivateRoute><CoursesTable/></PrivateRoute>} />
                   <Route path="/dashboard/add-course" element={<PrivateRoute><AddCourse/></PrivateRoute>} />
-                  <Route path="/dashboard/edot-course/:courseId" element={<PrivateRoute><EditCourse/></PrivateRoute>} />
+                  <Route path="/dashboard/edit-course/:courseId" element={<PrivateRoute><EditCourse/></PrivateRoute>} />
                 </>
               )
             }

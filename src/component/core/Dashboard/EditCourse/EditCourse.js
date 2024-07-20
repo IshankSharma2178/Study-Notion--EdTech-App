@@ -15,10 +15,11 @@ function EditCourse() {
     useEffect(() => {
         const populateCourseDetails = async() =>{
             setLoading(true)
+            console.log("heello")
             const result = await getFullDetailsOfCourse(courseId, token)
-            if (result?.courseDetails) {
+            if (result) {
               dispatch(setEditCourse(true))
-              dispatch(setCourse(result?.courseDetails))
+              dispatch(setCourse(result))
             }
             setLoading(false)
         }

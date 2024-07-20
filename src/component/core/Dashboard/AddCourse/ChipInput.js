@@ -43,7 +43,7 @@ function ChipInput({name,placeholder,label,errors,register,setValue}) {
     <div className='text-richblack-25 flex flex-col gap-2  '>
 
         <div className='flex felx-row'>
-            {allTag.length >0 &&
+            {allTag?.length >0 &&
                 allTag?.map((element,index)=>(
                     <div className='bg-yellow-100 px-3 py-2 text-md text-black mr-2 flex flex-row rounded-full'>
                         {element!=="" && element}
