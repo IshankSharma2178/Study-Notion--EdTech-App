@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { PiArrowBendDownRightFill } from "react-icons/pi";
 import { IoIosRemoveCircle } from "react-icons/io";
+import { useSelector } from 'react-redux';
 
 function RequirementField({ name, label, register, errors, setValue, getValues }) {
     const [requirement, setRequirement] = useState("");
     const [requirementList, setRequirementList] = useState([]);
-    
+    const {course} = useSelector((state)=>state.course)
+
     const handleAddRequirement = () => {
         if (requirement) {
             setRequirementList([...requirementList, requirement]);
@@ -19,6 +21,9 @@ function RequirementField({ name, label, register, errors, setValue, getValues }
             required: true,
             validate: (value) => value?.length > 0,
         });
+        if(course?.instructions?.length>0){
+            setRequirementList(course?.instructions)
+        }
     }, []);
 
     useEffect(() => {

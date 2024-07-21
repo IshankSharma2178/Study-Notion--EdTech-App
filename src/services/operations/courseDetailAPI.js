@@ -62,7 +62,7 @@ export const editCourseDetails = async (formData, token) => {
         throw new Error("Could Not Update Course Details")
       }
       toast.success("Course Details Updated Successfully")
-      result = response?.data?.data
+      result = response?.data?.message
     } catch (error) {
       console.log("EDIT COURSE API ERROR............", error)
       toast.error(error.message)

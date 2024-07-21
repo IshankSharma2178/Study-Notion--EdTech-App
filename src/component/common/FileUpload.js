@@ -33,6 +33,7 @@ export default function Upload({
     acceptedFiles.forEach((a) => console.log("accepted : ", a));
     console.log(acceptedFiles);
     setFile(file);
+    console.log("accepted files : ", file);
     setValue(name, file, { shouldValidate: true });
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -58,14 +59,20 @@ export default function Upload({
   
   useEffect(() => {
     if(editData){
-      console.log("fgbs",editData)
-    setValue("lectureVideo",editData)
+      if(video){
+        console.log("fgbs",editData)
+        setValue("lectureVideo",editData)
+      }else{
+        console.log("fgbs",editData)
+        setValue("thumbnail",editData)
+        setPreviewFile(editData)
+      }
     }
   },[])
 
   return (
     <section>
-      {file || viewData ? (
+      {file ||editData  ? (
         <div className="w-full rounded-[0.5rem] min-h-[200px] flex justify-center items-center flex-col outline-none shadow-custom2 
                          placeholder-richblack-300 placeholder:text-base bg-richblack-700 focus:shadow-none p-[12px] text-richblack-25">
           {image && <img src={previewFile} className="h-[130px] aspect-auto" alt="preview" />}
@@ -78,7 +85,7 @@ export default function Upload({
           { file && <ul className="my-3">{ <li key={file.path}>{file.path} - {(file.size/1000000).toFixed(2)} Mb</li>}</ul>}
           <div {...getRootProps()}>
             <input {...getInputProps()} id="thumbnail" />
-             {!viewData && (<div className="flex flex-row justify-center items-center cursor-pointer gap-2 ">
+             { (<div className="flex flex-row justify-center items-center cursor-pointer gap-2 ">
               Reupload
               <CgSoftwareUpload className="text-yellow-25"/>
             </div>)}

@@ -10,9 +10,7 @@ import PublishCourse from './PublishCourse/PublishCourse'
 function RenderSteps() {
 
     const {step} = useSelector((state)=>state.course)
-    // const dispatch =useDispatch();
-    // dispatch(setStep(1))
-  // console.log("step : ",step)
+    const dispatch =useDispatch();
 
     const steps = [
         {

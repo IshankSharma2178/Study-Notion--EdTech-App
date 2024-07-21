@@ -5,6 +5,7 @@ import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import {setEntireCourseData} from "../../../../slices/viewCourseSlice"
 import { useNavigate } from 'react-router';
+import ConfirmationModal from "../../../common/ConfirmationModal"
 
 function CoursesTable() {
     
@@ -13,6 +14,7 @@ function CoursesTable() {
     const navigate = useNavigate() 
     const {courseEntireData} = useSelector((state)=>state.viewCourse)
     const [loading , setLoading] =useState(false);
+    const [dltModal , setDltModal] = useState(null);
     const handleOnSubmit = ()=>{
         dispatch(getInstructorCourses(token))
     }
@@ -73,8 +75,6 @@ function CoursesTable() {
   }
 
     useEffect(()=>{
-    console.log("",courseEntireData)
-
       setLoading(true);
       handleOnSubmit()
       setLoading(false);
@@ -115,8 +115,7 @@ function CoursesTable() {
                       <p className='text-richblack-200 mb-2 text-[13px] text-wrap'>{element.courseDescription.length > 100 ?element.courseDescription.slice(0,90)+("...") : element.courseDescription }</p>
                       <p className='text-richblack-50 mb-2 text-[12px] '>Created: {" "}{formatDateTime(element.createdAt)}</p>
                       <div className='bg-richblack-600 mb-1 rounded-3xl w-fit px-2 text-[13px] text-yellow-50  '>
-                        <></>
-                        Published
+                       {element.status==="Published"? "Published" : (<div className='text-pink-200 '>Draft</div>)} 
                       </div>
                     </div>
                     <div className='w-[100%] m-auto flex md:hidden flex-row items-center gap-10 md:mr-5 justify-center md:justify-end text-richblack-200'>
@@ -138,12 +137,20 @@ function CoursesTable() {
                     <p>₹{element.price}</p>
                     <div className='flex flex-row gap-2 text-[20px]'>
                       <p><MdModeEdit className='cursor-pointer ' onClick={()=>{ navigate(`/dashboard/edit-course/${element._id}`)}}/></p>
-                      <p onClick={()=>deleteHandler(element)} className='cursor-pointer'><RiDeleteBin6Line /></p>
+                      <p onClick={()=>{setDltModal({
+                                            text1:"Are you sure?",
+                                            text2:"Do you want to delete Course?",
+                                            btn1Text: "Delete",
+                                            btn2Text: "Cancel",
+                                            btn2Handler:()=>setDltModal(null),
+                                            btn1Handler:()=>deleteHandler(element)
+                      })}} className='cursor-pointer'><RiDeleteBin6Line /></p>
                     </div>
                   </div>
                 </div>
               ))
             }
+            {dltModal && <ConfirmationModal modalData={dltModal}/>}
         </div>) 
         
         :(<>

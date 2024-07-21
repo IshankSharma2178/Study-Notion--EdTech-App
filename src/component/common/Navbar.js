@@ -71,7 +71,7 @@ function Navbar() {
                                   subLinks?.length ? (
                                         subLinks.map(( sublink , index)=>{
                                           return (
-                                          <Link className='rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50' to={`catalog/${sublink.name}`}key={index}>
+                                          <Link className='rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50' to={`catalog/${sublink.name.split(" ").join("-").toLowerCase()}`}key={index}>
                                             <p>{sublink.name}</p>
                                           </Link>
                                         )

@@ -20,15 +20,15 @@ async function uploadFileToCloudinary(file,folder,quality){
 exports.createCourse = async (req,res)=>{
     try{
         console.log("inside course");
-        const {courseName,courseDescription,whatYouWillLearn,price,category} = req.body      //Category m id ayegi becoz course model m Category ref le rkha hai
+        const {courseName,courseDescription,whatYouWillLearn,price,category,tag,instructions} = req.body      //Category m id ayegi becoz course model m Category ref le rkha hai
         console.log(req.body)
         
         //get thumbnail 
         const thumbnail =req.files.thumbnailImage;
-        console.log(courseName, req.files.thumbnailImage , courseDescription ,whatYouWillLearn,price,category )
+        console.log(courseName, req.files.thumbnailImage , courseDescription ,whatYouWillLearn,price,category ,instructions,tag)
         
 
-        if(!courseName || !courseDescription|| !whatYouWillLearn || !price || !category || !thumbnail){
+        if(!courseName || !courseDescription|| !whatYouWillLearn || !price || !category || !thumbnail || !tag || !instructions){
             return res.status(400).json({
                 success: false,
                 message:"all fields are required"
@@ -67,7 +67,9 @@ exports.createCourse = async (req,res)=>{
             whatYouWillLearn:whatYouWillLearn,
             price:price,
             Category:CategoryDetails[0]._id,
-            thumbnail:thumbnailImage.secure_url
+            thumbnail:thumbnailImage.secure_url,
+            tag:tag,
+            instructions:instructions
         })
 
         //add new course to user schema of instructor
@@ -167,7 +169,7 @@ exports.getFullCourseDetails = async (req,res)=>{
 //edit course
 exports.editCourse = async(req,res)=>{
     try{
-        const {courseName,courseDescription,price,tag,whatYouWillLearn,category,courseId} = req.body;
+        const {courseName,courseDescription,price,tag,whatYouWillLearn,category,courseId,instructions} = req.body;
         const thumbnailImage = req.files?.thumbnailImage;
         
         console.log("thumbnail :  ", thumbnailImage)
@@ -194,8 +196,9 @@ exports.editCourse = async(req,res)=>{
         if(tag) updateData.tag = tag;
         if(whatYouWillLearn) updateData.whatYouWillLearn = whatYouWillLearn;
         if(price) updateData.price = price;
+        if(instructions) updateData.instructions = instructions;
 
-        const response = await Course.findByIdAndUpdate(courseId,{$set:updateData},{new:true});
+        const response = await Course.findByIdAndUpdate(courseId,{$set:updateData},{new:true}).populate("Category").exec();
         
         if(thumbnailImage) {
             try{

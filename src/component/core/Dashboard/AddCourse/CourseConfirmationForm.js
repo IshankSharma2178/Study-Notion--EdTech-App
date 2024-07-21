@@ -23,17 +23,11 @@ function CourseConfirmationForm() {
     const [courseCategories, setCourseCategories] = useState();
 
 
-    const logFormData = (formData) => {
-        for (let [key, value] of formData.entries()) {
-            console.log(key, value);
-        }
-    };
-
     useEffect(() => {
         const getCategories = async () => {
             setLoading(true);
             const categories = await fetchCourseCategories();
-            console.log("==> ", categories);
+            console.log("==> ", course);
             if (categories.length > 0) {
                 setCourseCategories(categories);
             }
@@ -43,12 +37,14 @@ function CourseConfirmationForm() {
             setValue("courseTitle", course.courseName);
             setValue("courseShortDescription", course.courseDescription);
             setValue("coursePrice", course.price);
-            setValue("courseBenefits", course.whatWillYouLearn);
-            setValue("courseCategory", course.category);
+            setValue("courseBenefits", course.whatYouWillLearn);
+            setValue("courseCategory", course.Category.name);
             setValue("courseRequirements", course.instructor);
+            setValue("tag", course.tag);
+            setValue("courseImage", course.thumbnail);
         }
         getCategories();
-    }, [editCourse, course, setValue]);
+    }, [editCourse, course, setValue,]);
 
     const isFormUpdated = () => {
         const currentValues = getValues();
@@ -57,13 +53,13 @@ function CourseConfirmationForm() {
             currentValues.courseShortDescription !== course?.courseDescription ||
             currentValues.coursePrice !== course?.price ||
             currentValues.courseBenefits !== course?.whatWillYouLearn ||
-            currentValues.courseCategory !== course?.category._id ||
-            currentValues.courseRequirements.toString() !== course.instructor.toString()
+            currentValues.courseCategory !== course?.Category._id ||
+            currentValues.courseRequirements !== course.instructor
         );
     };
 
     const onSubmit = async (data) => {
-        console.log(editCourse)
+        console.log(isFormUpdated())
         if (editCourse) {
             if (isFormUpdated()) {
                 const currentValues = getValues();
@@ -79,22 +75,23 @@ function CourseConfirmationForm() {
                     formData.append("price", data.coursePrice);
                 }
                 if (currentValues.courseTags && currentValues.courseTags.toString() !== course.tags.toString()) {
-                    formData.append("tags", JSON.stringify(data.courseTags));
+                    formData.append("tag", JSON.stringify(data.courseTags));
                 }
                 if (currentValues.courseBenefits !== course.whatWillYouLearn) {
                     formData.append("whatWillYouLearn", data.courseBenefits);
                 }
-                if (currentValues.courseCategory !== course.category._id) {
+                if (currentValues.courseCategory !== course.Category._id) {
                     formData.append("category", data.courseCategory);
                 }
-                if (currentValues.courseRequirements.toString() !== course.instructor.toString()) {
-                    formData.append("instructions", JSON.stringify(data.courseRequirements));
+                if (currentValues.courseRequirements !== course.instructor) {
+                    formData.append("instructions", (data.courseRequirements));
                 }
                 if (currentValues.courseImage && currentValues.courseImage !== course.thumbnail) {
-                    formData.append("thumbnailImage", data.courseImage[0]);
+                    formData.append("thumbnail", data.courseImage[0]);
                 }
                 setLoading(true);
                 const result = await editCourseDetails(formData, token);
+                console.log("resu : ",result);
                 setLoading(false);
                 if (result) {
                     dispatch(setStep(2));
@@ -105,21 +102,19 @@ function CourseConfirmationForm() {
             }
             return;
         }
-        console.log("[[[",data)
         const formData = new FormData();
         formData.append("courseName", data.courseTitle);
         formData.append("courseDescription", data.courseShortDescription);
         formData.append("price", data.coursePrice);
-        // formData.append("tags", JSON.stringify(data.courseTags || []));
+        formData.append("tag", (data.tag || []));
         formData.append("whatYouWillLearn", data.courseBenefits);
         formData.append("category", data.courseCategory);
         formData.append("status", COURSE_STATUS.DRAFT);
         formData.append("thumbnailImage",data.courseImage)
-        formData.append("instructions", JSON.stringify(data.courseRequirements || []));
+        formData.append("instructions", (data.courseRequirements || []));
         if (data.courseImage && data.courseImage[0]) {
             formData.append("thumbnailImage", data.courseImage[0]);
         }
-        logFormData(formData); 
         setLoading(true);
         const result = await addCourseDetails(formData, token);
         console.log("result",result);
@@ -197,6 +192,7 @@ function CourseConfirmationForm() {
         {/*Tags Input Field  */}
             <ChipInput
                 name={"tag"}
+
                 placeholder={"Enter tags"}
                 label={"Tags"}
                 errors={errors}
@@ -207,6 +203,7 @@ function CourseConfirmationForm() {
         {/* Image Upload Field */}
             <FileUpload 
                 name="courseImage"
+                id="thumbnail"
                 label="Course Thumbnail"
                 register={register}
                 setValue={setValue}

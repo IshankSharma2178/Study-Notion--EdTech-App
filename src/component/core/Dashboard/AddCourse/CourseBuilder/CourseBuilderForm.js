@@ -14,7 +14,7 @@ function CourseBuilderForm() {
   const {register ,handleSubmit,setValue,formState:{errors}}=useForm();
   const [editSectionName , setEditSectionName] = useState(null);
   const [loading,setLoading]= useState(false )
-  const {course} = useSelector((state)=>state.course);
+  const {course,editCourse} = useSelector((state)=>state.course);
   const {token} = useSelector((state)=>state.auth);
   const dispatch = useDispatch();
 
@@ -128,6 +128,11 @@ function CourseBuilderForm() {
 
         {/* next and back buttons */}
         <div>
+        {editCourse && (
+                    <button onClick={() => dispatch(setStep(3))} className='flex items-center gap-x-2 bg-richblack-300'>
+                        Continue Without Saving
+                    </button>
+                )}
           <button 
             onClick={goBack}
             className='rounded-md cursor-pointer flex items-center'> 

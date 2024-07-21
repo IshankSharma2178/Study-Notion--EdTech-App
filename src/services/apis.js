@@ -45,3 +45,7 @@ export const profileEndpoints = {
     CREATE_RATING_API: BASE_URL + "/course/createRating",
     UPDATE_COURSE_STATUS_API: BASE_URL + "/course/updatecourseStatus",
   }
+
+  export const catalogData={
+    CATALOGPAGEDATA_API:BASE_URL + "/course/getCategoryPageDetails",
+  }
