@@ -54,12 +54,12 @@ exports.createCourse = async (req,res)=>{
                 message:"Category details not found"
             })
         }
-
+        
         //upload image to cloudinary server
         const thumbnailImage = await uploadFileToCloudinary(thumbnail , process.env.FOLDER_NAME);
 
         //create an entry for new course
-
+        
         const newCourse = await Course.create({
             courseName,
             courseDescription,
@@ -71,7 +71,10 @@ exports.createCourse = async (req,res)=>{
             tag:tag,
             instructions:instructions
         })
+        
+        const addCourseToCategory = await Category.findByIdAndUpdate({_id:category},{$push:{course:newCourse._id}},{new:true});
 
+        console.log("first",addCourseToCategory);
         //add new course to user schema of instructor
         await User.findByIdAndUpdate({_id:instructorDetails._id},{$push:{courses:newCourse._id}},{new:true});
  
@@ -100,9 +103,10 @@ exports.showAllCourses = async(req,res)=>{
                                                 thumbnail:true,
                                                 instructor:true,
                                                 ratingAndReview:true,
-                                                studentsEnrolled:true})
+                                                studentsEnrolled:true},{new:true})
                                                 .populate("instructor")
                                                 .exec();
+        console.log("koip")
 
         return res.status(200).json({
             success: true,

@@ -13,11 +13,12 @@ export const getCatalogPageData = async(categoryId) => {
         const response = await apiConnector("POST",CATALOGPAGEDATA_API,{categoryId:categoryId})
     
         console.log("api response...",response);
-        if(!response?.data?.success){
+        if(!response?.data?.status === 200){  
             throw new Error("Could not Fetch Categories page Data")
         }
         result= response?.data
         toast.dismiss(toastId )
+        return result;
 
     }catch(err){
         console.log("error while fetching data...",err)

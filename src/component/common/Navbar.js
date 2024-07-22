@@ -19,10 +19,9 @@ function Navbar() {
 
     const fetchSubLinks = async() =>{
       try{
-        const result =await apiConnector("GET",courseEndpoints.COURSE_CATEGORIES_API)
+        const result =await apiConnector("GET",courseEndpoints.CATEGORIES_API)
         console.log("printing  " ,result.data.Categorys);
         setSubLinks(result.data.Categorys);
-        console.log(subLinks)
       }catch(e){
         console.log("could not fetch the category list")
       }
@@ -35,7 +34,8 @@ function Navbar() {
     
     const loaction =useLocation();
     const matchRoute = (route)=>{     
-        return matchPath({path:route},loaction.pathname)
+        const matchRouteLink="/"+loaction.pathname.split("/")[1]
+        return matchPath({path:route},matchRouteLink)
     }
 
   return (
@@ -52,7 +52,7 @@ function Navbar() {
                 <li key={index}>
                   {
                     link.title === "Catalog" ? 
-                    <p className='flex relative flex-row group items-center gap-1 text-[17px] cursor-pointer'>
+                    <p className={`${matchRoute(link?.path)?"text-yellow-25 text-[17px]":"text-[17px] text-richblack-25"} flex relative flex-row group items-center gap-1 text-[17px] cursor-pointer`}>
                         {link.title}
                         <IoIosArrowDown className=' transition-all group-hover:rotate-180 duration-300 transform translate-all   '/>
                         <div className={`invisible absolute left-[50%] 
