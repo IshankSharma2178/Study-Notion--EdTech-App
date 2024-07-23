@@ -23,6 +23,7 @@ import CoursesTable from "./component/core/Dashboard/InstructorCourses/CoursesTa
 import AddCourse from "./component/core/Dashboard/AddCourse/AddCourse"
 import EditCourse from './component/core/Dashboard/EditCourse/EditCourse';
 import Catalog from './pages/Catalog';
+import CourseDetails from './pages/CourseDetails';
 
 function App() {
   
@@ -41,7 +42,8 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmail/>} />
         <Route path='/about' element={<About/>}/>
         <Route path="/contact" element={<Contact/>}/>
-        
+        <Route path='courses/:courseId' element={<CourseDetails/>}/>
+
         <Route 
             element={
               <PrivateRoute>

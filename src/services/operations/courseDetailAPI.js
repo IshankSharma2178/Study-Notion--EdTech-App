@@ -5,7 +5,7 @@ import toast from "react-hot-toast"
 
 const {GET_ALL_INSTRUCTOR_COURSES_API,
   GET_FULL_COURSE_DETAILS_AUTHENTICATED
-    ,COURSE_CATEGORIES_API,
+    ,CATEGORIES_API,
     EDIT_COURSE_API,
     UPDATE_SECTION_API,
     UPDATE_SUBSECTION_API,
@@ -15,6 +15,7 @@ const {GET_ALL_INSTRUCTOR_COURSES_API,
     DELETE_SECTION_API,
     DELETE_COURSE_API,
     CREATE_SECTION_API,
+    COURSE_DETAILS_API,
     CREATE_COURSE_API
 } =courseEndpoints
 
@@ -36,7 +37,7 @@ export function getInstructorCourses(token){
 export async function fetchCourseCategories(){
     let result= [];
     try{
-        const response = await  apiConnector("GET",COURSE_CATEGORIES_API)
+        const response = await  apiConnector("GET",CATEGORIES_API)
         console.log("Courses Categories api response"  , response);
         if(!response?.data?.success){
             throw new Error("Could not get courses categories")
@@ -284,5 +285,29 @@ export const getFullDetailsOfCourse = async (courseId, token) => {
   }
   toast.dismiss(toastId)
   console.log(result)
+  return result
+}
+
+export const getCourseDetails = async ( courseId) =>{
+  const toastId = toast.loading("Loading...")
+  //   dispatch(setLoading(true));
+  let result = null
+  try {
+    const response = await apiConnector("POST", COURSE_DETAILS_API, {
+      courseId,
+    })
+    console.log("COURSE_DETAILS_API API RESPONSE............", response)
+
+    if (!response.data.success) {
+      throw new Error(response.data.message)
+    }
+    result = response.data
+  } catch (error) {
+    console.log("COURSE_DETAILS_API API ERROR............", error)
+    result = error.response.data
+    // toast.error(error.response.data.message);
+  }
+  toast.dismiss(toastId)
+  //   dispatch(setLoading(false));
   return result
 }

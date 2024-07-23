@@ -1,34 +1,38 @@
-import GetAvgRating from '@/src/utils/avgRating';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import GetAvgRating from '../../../../utils/avgRating';
 
-function CourseCard({course,height}) {
+function CourseCard({ course, Height }) {
+    const [avgReviewCount, setAvgReviewCount] = useState(0);
+    console.log(course)
+        
+    useEffect(() => {
+        const count = GetAvgRating(course.ratingAndReviews);
+        setAvgReviewCount(count);
+        console.log(course);
+    }, [course]);
 
-    const [avgReviewCount,setAvgReviewCount] = useState(0);
-    
-    useEffect(() =>{
-        const count = GetAvgRating()
-    },[course]);
-
-  return (
-    <div>
-        <Link to={`/courses/${course._id  }`}>
-            <div>
+    return (
+        <div className='bg-richblack-800 border border-richblack-500  rounded-xl'>
+            <Link to={`/courses/${course._id}`}> 
                 <div>
-                    <img src={course?.thumbnail} alt="Course image" className={`${height} w-full rounded-xl object-cover`}/>
-                </div>
-                <div>
-                    <p>{course?.courseName}</p>
-                    <p>{course?.instructor?.firstName} {course?.instructor?.lastName}</p>
                     <div>
-                        <span></span>
-                        <span></span>
+                        <img src={course?.thumbnail} alt="Course image" className={`${Height} w-full   rounded-3xl object-cover p-2 `} />
                     </div>
-                    <p></p>
+                    <div className="flex flex-col gap-2 px-4 py-5">
+                        <p  className="text-xl text-richblack-5">{course?.courseName}</p>
+                        <p className="text-sm text-richblack-50">{course?.instructor?.firstName} {course?.instructor?.lastName}</p>
+                        <div className="flex items-center gap-2">
+                            <span  className="text-yellow-5">{avgReviewCount || 0}</span>
+                            {/* <span>{course?.reviews?.length} Reviews</span> */}
+                            <span  className="text-richblack-400">{course?.ratingAndReviews?.length} reviews</span>
+                        </div>
+                        <p  className="text-xl text-richblack-5">₹ {course?.price}</p>
+                    </div>
                 </div>
-            </div>
-        </Link>
-    </div>
-  )
+            </Link>
+        </div>
+    );
 }
 
-export default CourseCard
+export default CourseCard;

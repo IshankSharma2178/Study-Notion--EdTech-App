@@ -3,16 +3,19 @@ import { useParams } from 'react-router-dom'; // Ensure correct import
 import Footer from '../component/common/Footer';
 import { getCatalogPageData } from '../services/operations/PageAndComponentData';
 import { apiConnector } from '../services/apiconnector';
-import { catalogData, courseEndpoints } from '../services/apis';
+import { courseEndpoints } from '../services/apis';
 import CourseCard from "../component/core/Dashboard/Catalog/CourseCard";
-import CourseSlider from "../component/core/Dashboard/Catalog/CourseSlider"
+import CourseSlider from "../component/core/Dashboard/Catalog/CourseSlider";
 
 const { CATEGORIES_API } = courseEndpoints;
 
 function Catalog() {
+
     const { catalogName } = useParams();
     const [catalogPageData, setCatalogPageData] = useState(null);
     const [categoryId, setCategoryId] = useState("");
+    const [active, setActive] = useState(1)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const getCategories = async () => {
@@ -23,6 +26,7 @@ function Catalog() {
                 );
                 if (category) {
                     setCategoryId(category._id);
+                    console.log("id  :", category._id);
                 } else {
                     console.error("Category not found");
                 }
@@ -34,12 +38,11 @@ function Catalog() {
     }, [catalogName]);
 
     useEffect(() => {
-        const getCategoryDetails = async () => {
+        const getCategoryDetails = async () => { 
             if (!categoryId) return;
             try {
                 const res = await getCatalogPageData(categoryId);
                 setCatalogPageData(res);
-                console.log(res);
             } catch (error) {
                 console.error("Error fetching catalog page data:", error);
             }
@@ -47,58 +50,97 @@ function Catalog() {
         getCategoryDetails();
     }, [categoryId]);
 
+    useEffect(() => {
+        console.log("kii", catalogPageData);
+    }, [catalogPageData]);
+
     return (
-        <div className='text-white'>
-            <div>
-                <p>{`Home / Catalog / `}
-                    <span>{catalogPageData?.selectedCategory?.name}</span>
-                </p>
-                <p>
-                <span>{catalogPageData?.selectedCategory?.name}</span>
-                </p>
-                <p>
-                <span>{catalogPageData?.selectedCategory?.description}</span>
-                </p>
-            </div>
-            
-            {/* Section-1 */}
-            <div>
-            <div>Courses to get you started</div>
-                <div className='flex gap-x-3'>
-                    <p>Most Popular</p>
-                    <p>New</p>
-                </div>
-                <div>
-                    <CourseSlider Course={catalogPageData?.selectedCategory?.course}/> 
-                </div>
-            </div>
-
-            {/* Section-2 */}
-            <div>
-                <p>Top Course {catalogPageData?.selectedCategory?.name} </p>
-                <div>
-                    <CourseSlider Course={catalogPageData?.differentCourse?.course}/>
-                </div>
-            </div>
-
-            
-            {/* Section-3 */}
-            <div>
-                <p>Frequently Bought Courses</p>
-                <div className='py-8'>
-                    <div className='grid grid-cols-1 lg:grid-cols-2'>
-                        {
-                            catalogPageData?.mostSellingCourse?.slice(0,4).map((course,index) =>{
-                                <CourseCard course={course} key={index} Height={"h"}/>
-                            })
-                        }
-                    </div>
-                </div>
-            </div>
-
-            <Footer />
+        <>
+        {
+            (!catalogPageData) ? 
+            (<div className=' text-center text-xl text-richblack-300 my-8'> No Courses for the category </div>) 
+            :(
+                <>    
+    <div className=" box-content bg-richblack-800 px-4">
+        <div className="mx-auto flex min-h-[260px] max-w-maxContentTab flex-col justify-center gap-4 lg:max-w-maxContent ">
+        <p className="text-sm text-richblack-300">{`Home / Catalog / `}
+        <span className="text-yellow-25">
+            {catalogPageData?.selectedCategory?.name}
+        </span></p>
+        <p className="text-3xl text-richblack-5"> {catalogPageData?.selectedCategory?.name} </p>
+        <p className="max-w-[870px] text-richblack-200"> {catalogPageData?.selectedCategory?.description}</p>
         </div>
-    );
+    </div>
+
+    <div >
+        {/* section1 */}
+        <div className=" mx-auto box-content w-full max-w-maxContentTab py-12 lg:max-w-maxContent">
+        <div className="section_heading">Courses to get you started</div>
+            <div className="my-4 flex border-b border-b-richblack-600 text-sm">
+            <p
+            className={`px-4 py-2 ${
+              active === 1
+                ? "border-b border-b-yellow-25 text-yellow-25"
+                : "text-richblack-50"
+            } cursor-pointer`}
+            onClick={() => setActive(1)}
+          >
+            Most Popular
+          </p>
+          <p
+            className={`px-4 py-2 ${
+              active === 2
+                ? "border-b border-b-yellow-25 text-yellow-25"
+                : "text-richblack-50"
+            } cursor-pointer`}
+            onClick={() => setActive(2)}
+          >
+            New
+          </p>
+            </div>
+            <div className=' px-4 '>
+                <CourseSlider Courses={catalogPageData?.selectedCategory?.course} />
+            </div>
+        </div>  
+
+        {/* section2 */}
+        <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
+        <div className="section_heading">Checkout {catalogPageData?.differentCourses?.name} Courses Also</div>
+            <div className="py-8">
+                <CourseSlider Courses={catalogPageData?.differentCourses?.course}/>
+                
+            </div>
+        </div>
+
+        {/* section3 */}
+        <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
+            <div className="section_heading">Most Selling Courses</div>
+            <div className='py-8'>
+
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+
+                    {
+                        catalogPageData?.mostSellingCourse?.length === 0 ? (<p className=' text-xl text-white'>No Most selling courses</p>) : (catalogPageData?.mostSellingCourse?.slice(0,4)
+                        .map((course, index) => (
+                            <CourseCard course={course} key={index} Height={"h-[400px]"}/>
+                        )))
+                    }
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div className='w-full'>
+        <Footer />
+    </div>
+    </>
+            )
+        }
+    </>
+  )
 }
+
 
 export default Catalog;

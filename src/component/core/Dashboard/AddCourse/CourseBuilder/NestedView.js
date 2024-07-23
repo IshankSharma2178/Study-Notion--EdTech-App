@@ -35,7 +35,7 @@ function NestedView({handleChnagedSectionName}) {
         }
         setConfirmation(null)
     }
-    course.courseContent.map((data)=>{
+    course?.courseContent?.map((data)=>{
         // console.log(data.subSection)
     })
 
@@ -45,7 +45,7 @@ function NestedView({handleChnagedSectionName}) {
         const result =await deleteSubSection({subSectionId,sectionId,},token)
         console.log("vid",result)
         if(result){
-            const updatedCourseContent = course.courseContent.map((section)=>section._id===sectionId ? result : section)
+            const updatedCourseContent = course?.courseContent?.map((section)=>section._id===sectionId ? result : section)
             const updatedCourse = {...course, courseContent: updatedCourseContent}
             dispatch(setCourse(updatedCourse))
         }
@@ -87,7 +87,7 @@ function NestedView({handleChnagedSectionName}) {
                     </summary>
                     <div className='w-[95%] m-auto cursor-pointer'>
                         {
-                            section?.subSection.map((data)=>{
+                            section?.subSection?.map((data)=>{
                                 return <div key={data?._id} onClick={()=>setViewSubSection(data)}
                                     className='flex items-center m-2 pb-2 px-4 justify-between gap-x-3 mt-4  border-b-richblack-600 border-b-2'
                                 >
