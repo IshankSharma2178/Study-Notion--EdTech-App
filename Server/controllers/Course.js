@@ -6,7 +6,6 @@ const cloudinary =require("cloudinary");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
 const category = require("../models/category");
-// const {uploadImageToCloudinary} = require("../utils/imageUploader");
 require("dotenv").config();
 
 async function uploadFileToCloudinary(file,folder,quality){

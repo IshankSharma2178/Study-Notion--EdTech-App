@@ -16,14 +16,14 @@ function CourseSlider({Courses}) {
         {
             Courses?.length ? (
                 <Swiper
-                    slidesPerView={1}
+                    slidesPerView={2}
                     spaceBetween={25}
                     loop={true}
                     navigation={true} 
                     modules={[FreeMode, Pagination, Navigation]}
                     breakpoints={{
                         1024: {
-                        slidesPerView: 3,
+                        slidesPerView: 2,
                         },
                         768:{
                           slidesPerView: 2,

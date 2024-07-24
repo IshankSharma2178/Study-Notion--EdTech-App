@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-// import { buyCourse } from '../services/operations/studentFeaturesAPI.js';
+import { buyCourse } from '../services/operations/StudentFeaturesAPI';
 import { getCourseDetails } from '../services/operations/courseDetailAPI';
 import { setCourse } from '../slices/courseSlice';
 import GetAvgRating from '../utils/avgRating';
@@ -86,20 +86,20 @@ const CourseDetails = () => {
         return `${month} ${day} ${year} | ${time}`;
     }
 
-    // const handleBuyCourse = () => {
-    //     if (token) {
-    //         buyCourse(token, [courseId], user, navigate,dispatch);
-    //         return;
-    //     }
-    //     setConfirmationModal({
-    //         text1:"you are not Logged in",
-    //         text2:"Please login to purchase the course",
-    //         btn1Text:"Login",
-    //         btn2Text:"Cancel",
-    //         btn1Handler:() => navigate("/login"),
-    //         btn2Handler:()=>setConfirmationModal(null),
-    //     })
-    // }
+    const handleBuyCourse = () => {
+        if (token) {
+            buyCourse(token, [courseId], user, navigate,dispatch);
+            return;
+        }
+        setConfirmationModal({
+            text1:"you are not Logged in",
+            text2:"Please login to purchase the course",
+            btn1Text:"Login",
+            btn2Text:"Cancel",
+            btn1Handler:() => navigate("/login"),
+            btn2Handler:()=>setConfirmationModal(null),
+        })
+    }
 
     if(loading || !courseData) {
         return (
@@ -175,7 +175,7 @@ const CourseDetails = () => {
                             Rs. {price}
                         </p>
 
-                        <button className='yellowButton'>Buy Now</button>
+                        <button className='yellowButton' onClick={()=>handleBuyCourse()}>Buy Now</button>
                         <button className='lg:blackButton bg-richblack-400 font-bold  px-[20px] py-[8px]'> Add to Cart</button>
                    </div>
                     
@@ -185,7 +185,7 @@ const CourseDetails = () => {
                 <CourseDetailsCard 
                     course = {courseData?.data?.courseDetails}
                     setConfirmationModal = {setConfirmationModal}
-                    // handleBuyCourse = {handleBuyCourse}
+                    handleBuyCourse = {handleBuyCourse}
                 />
                 </div>
             </div>

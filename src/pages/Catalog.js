@@ -122,7 +122,7 @@ function Catalog() {
                     {
                         catalogPageData?.mostSellingCourse?.length === 0 ? (<p className=' text-xl text-white'>No Most selling courses</p>) : (catalogPageData?.mostSellingCourse?.slice(0,4)
                         .map((course, index) => (
-                            <CourseCard course={course} key={index} Height={"h-[400px]"}/>
+                            <CourseCard course={course} key={index} Height={"h-[200px]"}/>
                         )))
                     }
 
