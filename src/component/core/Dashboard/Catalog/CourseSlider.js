@@ -16,21 +16,24 @@ function CourseSlider({Courses}) {
         {
             Courses?.length ? (
                 <Swiper
-                    slidesPerView={2}
+                    slidesPerView={1}
                     spaceBetween={25}
                     loop={true}
                     navigation={true} 
                     modules={[FreeMode, Pagination, Navigation]}
                     breakpoints={{
                         1024: {
-                        slidesPerView: 2,
+                        slidesPerView: 3,
                         },
                         768:{
                           slidesPerView: 2,
+                        },
+                        640:{
+                            slidesPerView: 1,
                         }
 
                     }}
-                    className="max-h-[30rem] md mySwiper"
+                    className="max-h-[30rem] md mySwiper "
                 >
                     {
                         Courses?.map((course, index)=> (

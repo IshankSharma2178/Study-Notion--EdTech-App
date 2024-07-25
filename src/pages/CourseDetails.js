@@ -19,7 +19,7 @@ import IconBtn from '../component/common/IconBtn';
 
 const CourseDetails = () => {
     const {token} = useSelector((state)=> state.auth)
-    const {user} = useSelector((state) => state.profile )
+    const {userProfile} = useSelector((state) => state.profile )
     const {loading} = useSelector((state) => state.profile);
     const { cart } = useSelector((state) => state.cart)
     const {courseId} = useParams()
@@ -88,7 +88,7 @@ const CourseDetails = () => {
 
     const handleBuyCourse = () => {
         if (token) {
-            buyCourse(token, [courseId], user, navigate,dispatch);
+            buyCourse(token, [courseId], userProfile, navigate,dispatch);
             return;
         }
         setConfirmationModal({

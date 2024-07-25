@@ -14,6 +14,7 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     // console.log("Course Instruction type is", typeof(course?.instructions))
+
     const {
         thumbnail: ThumbnailImage,
         price: CurrentPrice,
@@ -26,9 +27,7 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
             return
         }
         if (token) {
-            // console.log("dispatching add to cart")
             dispatch(addToCart(course));
-            // console.log("CART IN SLICE IS", cart)
             return;
         }
         setConfirmationModal({

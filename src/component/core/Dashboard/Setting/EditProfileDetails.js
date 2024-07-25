@@ -1,21 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {updateProfileInfo} from "../../../../services/operations/SettingAPI"
 
 function PersonalInformationUpload() {
-  const{register , handleSubmit ,reset , formState:{errors , isSubmitSuccessful} } =useForm();
+  const{register , handleSubmit ,reset,setValue, getValues, formState:{errors , isSubmitSuccessful} } =useForm();
   const {user} =useSelector((state)=>state.auth)
   const {userProfile} = useSelector((state)=>state.profile);
   const dispatch = useDispatch();
   const {token} = useSelector((state)=>state.auth);
-
+  console.log("user ",user)
   const submitHandler = async(data)=>{
     const {contactNumber,dateOfBirth,firstName,lastName,gender,about} = data;
     dispatch(updateProfileInfo(token,contactNumber,dateOfBirth,firstName,lastName,gender,about));
   }
 
+  useEffect(()=>{
+    if(user.firstName)setValue("firstName",user.firstName);
+    if(user.lastName)setValue("lastName",user.lastName);
+    if(userProfile.dateOfBirth)setValue("dateOfBirth",userProfile.dateOfBirth);
+    if(userProfile.about)setValue("about",userProfile.about);
+    if(userProfile.gender)setValue("gender",userProfile.gender);
+    if(userProfile.contactNumber)setValue("contactNumber",userProfile.contactNumber);
+  },[])
     return (
+      
     <form className='flex flex-col w-[90%] m-auto gap-2' onSubmit={handleSubmit(submitHandler)}>
       <div className='flex flex-col  gap-6 text-white m-auto w-[100%]  bg-richblack-800 rounded-xl border border-richblack-600 p-6 '>
           <h1 className='text-2xl font-semibold '>

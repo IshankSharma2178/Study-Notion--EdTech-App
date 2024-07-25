@@ -13,8 +13,9 @@ function EnrolledCourses() {
 
   const getEnrolledCourses = async() => {
       try{
-          const response = await getUserEnrolledCourses(token);
-          setEnrolledCourses(response);
+          const result = await getUserEnrolledCourses(token);
+          console.log("result ...",result);
+          setEnrolledCourses(result);
       }
       catch(error) {
           console.log("Unable to Fetch Enrolled Courses");
@@ -33,7 +34,7 @@ function EnrolledCourses() {
         </div>
         {
           !enrolledCourses ?(<div className='spinner m-auto '></div>):
-            enrolledCourses.length ?(<div>You have not enrolled in any courses yet.</div>):
+            enrolledCourses?.length===0 ?(<div>You have not enrolled in any courses yet.</div>):
               (
                 <div>
                   <div>
@@ -43,7 +44,7 @@ function EnrolledCourses() {
                   </div>
                   {/* Cards  */}
                   {
-                    enrolledCourses.map((course, index) =>(
+                    enrolledCourses?.map((course, index) =>(
                        <div>
                           <div>
                             <img src={course?.thumbnail}/>
@@ -60,7 +61,7 @@ function EnrolledCourses() {
                           <div>
                             <p>Progress: {course?.progressPercentage || 0}</p>
                             <ProgressBar
-                                completed={course.progressPercentage || 0}
+                                completed={course?.progressPercentage || 0}
                                 height='8px'
                                 isLabelVisible={false}
                             />
