@@ -23,7 +23,7 @@ function RenderTotalAmount() {
   }
 
   return (
-    <div className='lg:sticky mt-0 md:mt-10   rounded-2xl top-[160px]  max-h-[350px] w-full md:w-fit mx-auto flex flex-col '>
+    <div className='lg:sticky mt-10 md:mt-0   rounded-2xl top-[160px]  max-h-[350px] w-full md:w-fit mx-auto flex flex-col '>
        <div  className="min-w-[220px] rounded-md border-[1px]    border-richblack-700  max-h-[200px]   bg-richblack-800 p-6">
         <p className="mb-1 text-sm font-medium text-richblack-300">Total:</p>
         <p className="mb-6 text-3xl font-medium text-yellow-100">{handlePrice(total)}</p>

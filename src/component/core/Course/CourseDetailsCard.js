@@ -1,19 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { json, useNavigate } from 'react-router-dom';
 // import copy from 'copy-to-clipboard';
 import { toast } from 'react-hot-toast';
 import { ACCOUNT_TYPE } from '../../../utils/constants';
-import { addToCart } from '../../../slices/cartSlice';
+import { addToCart ,removeFromCart } from '../../../slices/cartSlice';
 import { BiSolidRightArrow } from 'react-icons/bi';
 
 const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
     const { cart } = useSelector((state) => state.cart)
-    const {user} = useSelector((state)=>state.profile);
+    const {user} = useSelector((state)=>state.auth);
     const {token} = useSelector((state)=>state.auth);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    // console.log("Course Instruction type is", typeof(course?.instructions))
+    const dispatch = useDispatch(); 
 
     const {
         thumbnail: ThumbnailImage,
@@ -39,10 +38,35 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
             btn2Handler: ()=> setConfirmationModal(null),
         })
     }
+    const isAlreadyBuy = ()=>{
+        const coursesEnrolled = user.courses;
+        for(const userCourse of coursesEnrolled ){
+            if(userCourse === course._id)
+                return true;
+        }
+        return false;
+    }
     
     const handleShare = () => {
         // copy(window.location.href);
         toast.success("Link Copied to Clipboard")
+    }
+
+    function isCourseAddded(){
+        if(localStorage.getItem("cart")){
+            const cartItems=JSON.parse(localStorage.getItem("cart"));
+            for (const cartCourse of cartItems) {
+            if(cartCourse._id === course._id){
+                return true;
+            }
+        }
+        console.log("Course true",localStorage.getItem("cart")._id,course._id)
+        return false;
+    }
+}
+
+    const handleRemoveToCart = () => {
+        dispatch(removeFromCart(course._id))
     }
 
     return (
@@ -59,23 +83,31 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
         <div className='flex flex-col gap-y-6'>
             <button className='yellowButton'
                 onClick={
-                    user && course?.studentsEnrolled?.includes(user?._id)
+                    user && isAlreadyBuy()
                     ? ()=> navigate("/dashboard/enrolled-courses")
                     : handleBuyCourse
                 }
             >
-                {
-                    user && course?.studentsEnrolled?.includes(user?._id) ? "Go to Course ": "Buy Now"
-                }
+                        {
+                            isAlreadyBuy() ? (<button  >Go To Course</button>):
+                        (<button onClick={()=>handleBuyCourse()}>Buy Now</button>)
+                        }
             </button>
-
+            
         {
             (!course?.studentsEnrolled?.includes(user?._id)) && (
-                <button onClick={handleAddToCart} className='blackButton'>
-                    Add to Cart
-                </button>
+                    isCourseAddded() ? (                      
+                        <button onClick={handleRemoveToCart} className='blackButton'>
+                            Remove From Cart
+                        </button>):
+                    (
+                        <button onClick={handleAddToCart} className='blackButton'>
+                            Add to Cart
+                        </button>
+                    )
             )
         }
+
         </div>
 
         <div>

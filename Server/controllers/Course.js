@@ -1,10 +1,11 @@
 const Course =require("../models/Course")
 const Category=require("../models/category");
 const User =require("../models/User");
-const convertSecondsToDuration =require("../utils/secToDuration")
+// const convertSecondsToDuration =require("../utils/secToDuration")
 const cloudinary =require("cloudinary");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
+const { convertSecondsToDuration } = require("../utils/secToDuration")
 const category = require("../models/category");
 require("dotenv").config();
 
@@ -152,11 +153,31 @@ exports.getFullCourseDetails = async (req,res)=>{
                 message:`could not find the course with ${courseId}`
             })
         }
+
+        const userId =req.user.id;
+
+        const userData = await User.findById(userId).populate({path:"courseProgress" , populate:{path:"completedVideo"}});
+
+        const courseProgressCount = userData.courseProgress.completedVideo;
+
+        let totalDurationInSeconds = 0
+        details.courseContent.forEach((content) => {
+          content.subSection.forEach((subSection) => {
+            const timeDurationInSeconds = parseInt(subSection.timeDuration)
+            totalDurationInSeconds += timeDurationInSeconds
+          })
+        })
+    
+        const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
         
         return res.status(200).json({
             success: true,
+            totalDuration,
             message:"course details fetch successfully",
-            courseDetails:details
+            courseDetails:details,
+            completedVideos: courseProgressCount?.completedVideo
+            ? courseProgressCount?.completedVideo
+            : [],
         })
     }
     catch(err){

@@ -35,6 +35,7 @@ const cartSlice= createSlice({
         removeFromCart: (state, action) => {
             const courseId = action.payload
             const index = state.cart.findIndex((item) => item._id === courseId)
+            console.log("index : ",index)
       
             if (index >= 0) {
               // If the course is found in the cart, remove it

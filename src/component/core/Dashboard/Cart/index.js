@@ -2,9 +2,11 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import RenderTotalAmount from "./RenderTotalAmount"
 import RenderCartCourses from "./RenderCartCourses"
+import IconBtn from "../../../common/IconBtn"
+import { useNavigate } from 'react-router'
 
 function Cart() {
-
+    const navigate =useNavigate()
     const {total , totalItems} =useSelector((state) => state.cart)
 
   return (
@@ -18,7 +20,12 @@ function Cart() {
                 <RenderTotalAmount />
             </div>)
             :
-            (<div className="mt-14 text-center text-3xl text-richblack-100">Your Cart is Empty</div>)
+            (
+              <div className='flex items-center justify-center m-auto flex-col gap-5'> 
+                <div className="mt-14 text-center text-3xl text-richblack-100">Your Cart is Empty </div>
+                <IconBtn text={"Buy Courses"} active={true} onClick={()=>navigate("/catalog/javascript")}/>
+              </div>
+                )
         }
     </div>
   )

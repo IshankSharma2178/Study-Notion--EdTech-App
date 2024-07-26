@@ -6,6 +6,7 @@ import { getCourseDetails } from '../services/operations/courseDetailAPI';
 import { setCourse } from '../slices/courseSlice';
 import GetAvgRating from '../utils/avgRating';
 import Error from "./Error"
+import { ACCOUNT_TYPE } from '../utils/constants';
 import ConfirmationModal from "../component/common/ConfirmationModal"
 // import RatingStars from "../components/common/RatingStars"
 import { IoIosInformationCircleOutline } from 'react-icons/io';
@@ -16,12 +17,14 @@ import CourseDetailsCard from '../component/core/Course/CourseDetailsCard'
 import { toast } from 'react-hot-toast';
 import Footer from '../component/common/Footer.js'
 import IconBtn from '../component/common/IconBtn';
+import {addToCart ,removeFromCart } from "../slices/cartSlice"
 
 const CourseDetails = () => {
     const {token} = useSelector((state)=> state.auth)
     const {userProfile} = useSelector((state) => state.profile )
     const {loading} = useSelector((state) => state.profile);
     const { cart } = useSelector((state) => state.cart)
+    const {user} = useSelector((state) => state.auth);
     const {courseId} = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -100,6 +103,49 @@ const CourseDetails = () => {
             btn2Handler:()=>setConfirmationModal(null),
         })
     }
+    const handleAddToCart = () => {
+        if (user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
+            toast.error("Instructor cannot buy the course")
+            return
+        }
+        if (token) {
+            dispatch(addToCart(courseData.data?.courseDetails));
+            return;
+        }
+        setConfirmationModal({
+            text1:"you are not logged in",
+            text2:"Please login to add to cart",
+            btn1text:"login",
+            btn2Text:"cancel",
+            btn1Handler:()=>navigate("/login"),
+            btn2Handler: ()=> setConfirmationModal(null),
+        })
+    }
+    function isCourseAddded(){
+        if(localStorage.getItem("cart")){
+            const cartItems=JSON.parse(localStorage.getItem("cart"));
+            for (const cartCourse of cartItems) {
+            if(cartCourse._id === courseData.data?.courseDetails._id){
+                return true;
+            }
+        }
+        console.log("Course true",localStorage.getItem("cart")._id,courseData.data?.courseDetails._id)
+        return false;
+    }
+}
+
+    const handleRemoveToCart = () => {
+        dispatch(removeFromCart(courseData.data?.courseDetails._id))
+    }
+
+    const isAlreadyBuy = ()=>{
+        const coursesEnrolled = user.courses;
+        for(const userCourse of coursesEnrolled ){
+            if(userCourse === courseId)
+                return true;
+        }
+        return false;
+    }
 
     if(loading || !courseData) {
         return (
@@ -138,14 +184,14 @@ const CourseDetails = () => {
                 <div className='mx-auto grid min-h-[450px] max-w-maxContentTab justify-items-center py-8 lg:mx-0 lg:justify-items-start lg:py-0 xl:max-w-[810px]'>
                    
                    <div className='relative block max-h-[30rem] lg:hidden w-full'>
-                        <div className='absolute bottom-0 left-0 h-full  w-full shadow-[#161D29_0px_-64px_36px_-28px_inset]'>
+                        <div className='absolute bottom-0 left-0 h-full  w-full rounded-md '>
                         </div>
                         <img src={thumbnail} className='aspect-auto w-full'/>
                    </div>
 
                    <div className='z-30 my-5 flex flex-col justify-center gap-4 py-5 text-lg w-full text-richblack-5'>
                         <p className='text-4xl font-bold text-richblack-5 sm:text-[42px]'>{courseName}</p>
-                        <p className='text-richblack-200'>{courseDescription}</p>
+                        <p className='text-richblack-200 xl:w-[80%]'>{courseDescription}</p>
                         
                         <div className='text-md flex flex-wrap items-center gap-2'>
                             <span className='text-yellow-25'>{avgReviewCount}</span>
@@ -174,9 +220,24 @@ const CourseDetails = () => {
                         <p className='space-x-3 pb-4 text-3xl font-semibold text-richblack-5'>
                             Rs. {price}
                         </p>
+                        {
+                            isAlreadyBuy() ? (<button onClick={()=>navigate("/dashboard/enrolled-courses")} className='yellowButton'>Go To Course</button>):
+                        (<button className='yellowButton' onClick={()=>handleBuyCourse()}>Buy Now</button>)
+                        }
 
-                        <button className='yellowButton' onClick={()=>handleBuyCourse()}>Buy Now</button>
-                        <button className='lg:blackButton bg-richblack-400 font-bold  px-[20px] py-[8px]'> Add to Cart</button>
+                        {
+                        (!courseData.data?.courseDetails?.studentsEnrolled?.includes(user?._id)) && (
+                                isCourseAddded() ? (                      
+                                    <button onClick={handleRemoveToCart} className='lg:blackButton bg-richblack-400 font-bold rounded-md  px-[20px] py-[8px]'>
+                                        Remove From Cart
+                                    </button>):
+                                (
+                                    <button onClick={handleAddToCart} className='lg:blackButton bg-richblack-400 font-bold rounded-md  px-[20px] py-[8px]'>
+                                        Add to Cart
+                                    </button>
+                                )
+                            )
+                         }
                    </div>
                     
                 </div>
