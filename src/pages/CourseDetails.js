@@ -28,7 +28,6 @@ const CourseDetails = () => {
     const {courseId} = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
     const [courseData, setCourseData] = useState(null);
     const [confirmationModal, setConfirmationModal] = useState(null)
     const [avgReviewCount, setAvgReviewCount] = useState(0);
@@ -139,7 +138,10 @@ const CourseDetails = () => {
     }
 
     const isAlreadyBuy = ()=>{
-        const coursesEnrolled = user.courses;
+        if(user === null){
+            return false;
+        } 
+        const coursesEnrolled = user?.courses;
         for(const userCourse of coursesEnrolled ){
             if(userCourse === courseId)
                 return true;

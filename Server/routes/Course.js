@@ -61,7 +61,7 @@ router.post("/editCourse", auth, isInstructor, editCourse)
 router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses)
 // Delete a Course
 router.delete("/deleteCourse",auth,isInstructor, deleteCourse)
-// router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);
+router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);
 router.post("/getCourseDetails", getCourseDetails)
 
 router.post("/updateCourseStatus", auth, isInstructor, updateCourseStatus)

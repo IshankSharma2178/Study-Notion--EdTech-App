@@ -11,17 +11,17 @@ function ViewCourse() {
 
     const [reviewModal , setReviewModal] = useState(false)
     const {courseId} =useParams(); 
-    const token =useSelector((state)=>state.auth);
+    const {token} =useSelector((state)=>state.auth);
     const dispatch = useDispatch();
 
     useEffect(()=>{
         const setCourseSpecififcDetails = async()=>{
             const courseData = await getFullDetailsOfCourse(courseId, token);
-            dispatch(setCourseSectionData(courseData.courseDetails.courseContent));
-            dispatch(setEntireCourseData(courseData.courseDetails));
-            dispatch(setCompletedLectures(courseData.setCompletedLectures));
+            dispatch(setCourseSectionData(courseData.courseContent));
+            dispatch(setEntireCourseData(courseData));
+            dispatch(setCompletedLectures(courseData.completedVideos));
             let lectures =0;
-            courseData?.courseDetails?.courseContent?.forEach((sec)=>{
+            courseData?.courseContent?.forEach((sec)=>{
                 lectures += sec.subSection.length;
             })
             dispatch(setTotalNoOfLectures(lectures));
@@ -30,13 +30,16 @@ function ViewCourse() {
     })
   return (
     <>
-        <div>
-            <VideoDetailsSidebar setReviewModal={setReviewModal}/>
-            <div>
+         <div className="relative flex min-h-[calc(100vh-3.5rem)]">
+            <VideoDetailsSidebar setReviewModal={setReviewModal} />
+            <div className="h-[calc(100vh-3.5rem)] flex-1 m-auto overflow-auto">
+                <div className=" m-auto mx-auto w-11/12 max-w-[1000px] py-10">
                 <Outlet />
+                </div>
             </div>
+            {reviewModal && (<CourseReviewModal setReviewModal={setReviewModal} />)}
         </div>
-        {reviewModal && <CourseReviewModal />}
+        
     </>
   )
 }

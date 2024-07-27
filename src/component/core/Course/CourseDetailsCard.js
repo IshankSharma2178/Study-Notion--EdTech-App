@@ -39,6 +39,7 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
         })
     }
     const isAlreadyBuy = ()=>{
+        if(user === null) return false;
         const coursesEnrolled = user.courses;
         for(const userCourse of coursesEnrolled ){
             if(userCourse === course._id)

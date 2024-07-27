@@ -38,7 +38,7 @@ function CourseConfirmationForm() {
             setValue("courseShortDescription", course.courseDescription);
             setValue("coursePrice", course.price);
             setValue("courseBenefits", course.whatYouWillLearn);
-            setValue("courseCategory", course.Category.name);
+            setValue("courseCategory", course.Category?.name);
             setValue("courseRequirements", course.instructor);
             setValue("tag", course.tag);
             setValue("courseImage", course.thumbnail);
