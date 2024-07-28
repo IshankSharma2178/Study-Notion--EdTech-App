@@ -27,7 +27,7 @@ function CourseConfirmationForm() {
         const getCategories = async () => {
             setLoading(true);
             const categories = await fetchCourseCategories();
-            console.log("==> ", course);
+            console.log("==> ", editCourse);
             if (categories.length > 0) {
                 setCourseCategories(categories);
             }
@@ -69,7 +69,7 @@ function CourseConfirmationForm() {
                     formData.append("courseName", data.courseTitle);
                 }
                 if (currentValues.courseShortDescription !== course.courseDescription) {
-                    formData.append("description", data.courseShortDescription);
+                    formData.append("courseDescription", data.courseShortDescription);
                 }
                 if (currentValues.coursePrice !== course.price) {
                     formData.append("price", data.coursePrice);

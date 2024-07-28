@@ -65,7 +65,7 @@ function VideoDetailsSidebar({ setReviewModal }) {
   };
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] w-[230px] max-w-[300px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800">
+    <div className="lg:flex h-[calc(100vh-3.5rem)] w-[230px] max-w-[300px] hidden  flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800">
       {/* for buttons and headings */}
       <div className="mx-5 flex flex-col items-start justify-between gap-2 gap-y-4 border-b border-richblack-600 py-5 text-lg font-bold text-richblack-25">
         {/* for buttons */}
@@ -97,7 +97,7 @@ function VideoDetailsSidebar({ setReviewModal }) {
 
       {/* for sections and subSections */}
       <div className="h-[calc(100vh - 5rem)] overflow-y-auto">
-        {courseSectionData.map((course, index) => (
+        {courseSectionData?.map((course, index) => (
           <div
             className="mt-2 cursor-pointer text-sm text-richblack-5"
             onClick={() => handleDropDown(course._id)}
@@ -125,7 +125,7 @@ function VideoDetailsSidebar({ setReviewModal }) {
             <div>
               {activeStatus.includes(course?._id) && (
                 <div>
-                  {course.subSection.map((topic, index) => (
+                  {course?.subSection?.map((topic, index) => (
                     <div
                       className={`flex gap-3 px-5 py-2 ${
                         videoBarActive === topic._id

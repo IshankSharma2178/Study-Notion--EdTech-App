@@ -17,6 +17,7 @@ function ViewCourse() {
     useEffect(()=>{
         const setCourseSpecififcDetails = async()=>{
             const courseData = await getFullDetailsOfCourse(courseId, token);
+            console.log("-----",courseData);
             dispatch(setCourseSectionData(courseData.courseContent));
             dispatch(setEntireCourseData(courseData));
             dispatch(setCompletedLectures(courseData.completedVideos));
@@ -33,7 +34,7 @@ function ViewCourse() {
          <div className="relative flex min-h-[calc(100vh-3.5rem)]">
             <VideoDetailsSidebar setReviewModal={setReviewModal} />
             <div className="h-[calc(100vh-3.5rem)] flex-1 m-auto overflow-auto">
-                <div className=" m-auto mx-auto w-11/12 max-w-[1000px] py-10">
+                <div className=" m-auto mx-auto w-11/12 max-w-[1000px] ">
                 <Outlet />
                 </div>
             </div>

@@ -24,6 +24,10 @@ const viewCourseSlice = createSlice({
       state.completedLectures = action.payload
     },
     updateCompletedLectures: (state, action) => {
+      if (!Array.isArray(state.completedLectures)) {
+        console.error("completedLectures is not an array:", state.completedLectures);
+        state.completedLectures = []; // Reset to an empty array if the type is incorrect
+      }
       state.completedLectures = [...state.completedLectures, action.payload]
     },
   },

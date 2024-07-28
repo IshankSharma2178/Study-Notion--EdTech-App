@@ -1,5 +1,7 @@
 const SubSection = require("../models/SubSection")
 const Section =require("../models/Section")
+const User = require("../models/User")
+const Comments = require("../models/Comments")
 const {uploadImageToCloudinary}=require("../utils/imageUploader")
 const Course = require("../models/Course")
 const cloudinary = require("cloudinary").v2;
@@ -69,9 +71,6 @@ exports.createSubSection = async(req,res)=>{
     }
 }
 
-//  todo updateSubsection and delete subsection  
-
-//update SubSection   --------------------------------
 
 exports.updateSubSection=async(req,res)=>{
 
@@ -161,3 +160,83 @@ exports.deleteSubSection = async(req,res)=>{
         })
     }
 }
+
+exports.AddComment = async (req, res) => {
+    try {
+
+        const { comment, subSectionId } = req.body;
+        console.log(comment,subSectionId);
+        const userId = req.user.id;
+
+        if (!comment || !subSectionId || !userId) {
+            return res.status(400).json({ success: false, message: "Enter all fields" });
+        }
+
+        // Await the result of the user fetch
+        const user = await User.findOne({ _id: userId }); 
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        const userName = user.firstName + " " + user.lastName;
+        
+        // Create the comment
+        const response = await Comments.create({Comment: comment,UserImageOfComment: user.image,UserNameOfComment: userName});
+
+        const subSection = await SubSection.findByIdAndUpdate(subSectionId,{$push: {Comment: response._id}},{new:true});
+
+        if (!subSection) {
+            return res.status(404).json({ success: false, message: "Subsection not found" });
+        }
+
+
+
+        if (!response) {
+            return res.status(200).json({ success: true, message: "Error in updating subsection" });
+        }
+
+        return res.status(200).json({ success: true, message: "Comment added successfully", data: response });
+
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+  
+exports.fetchComment = async (req, res) => {
+    try {
+        const { subSectionId } = req.body;
+
+        if (!subSectionId)
+            return res.status(400).json({
+                success: false,
+                message: "Enter subSectionId"
+            });
+
+            const subSection = await SubSection.findById(subSectionId);
+
+        if (!subSection) {
+            return res.status(400).json({
+                success: false,
+                message: "Can't fetch section"
+            });
+        }
+
+        const commentsIds= subSection.Comment;
+        
+        let comments =[];
+        for(const commentId of commentsIds) {
+            const comment = await Comments.findOne(commentId);
+            comments.push(comment);
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Comments fetched successfully",
+            comments: comments
+        });
+
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};

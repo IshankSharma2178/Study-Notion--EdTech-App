@@ -78,6 +78,7 @@ exports.createCourse = async (req,res)=>{
         await User.findByIdAndUpdate({_id:instructorDetails._id},{$push:{courses:newCourse._id}},{new:true});
  
         //update Category schema
+        
 
 
         return res.status(200).json({
@@ -156,7 +157,7 @@ exports.getFullCourseDetails = async (req,res)=>{
 
         const userId =req.user.id;
 
-        const userData = await User.findById(userId).populate({path:"courseProgress" , populate:{path:"completedVideo"}});
+        const userData = await User.findById(userId).populate({path:"courseProgress" , populate:{path:"completedVideos"}});
 
         const courseProgressCount = userData.courseProgress.completedVideo;
 

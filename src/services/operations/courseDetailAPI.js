@@ -1,5 +1,5 @@
 import { apiConnector } from "../apiconnector"
-import {courseEndpoints} from "../apis"
+import {courseEndpoints , commentEndpoint} from "../apis"
 import {setEntireCourseData} from "../../slices/viewCourseSlice"
 import toast from "react-hot-toast"
 
@@ -13,6 +13,7 @@ const {GET_ALL_INSTRUCTOR_COURSES_API,
     CREATE_SUBSECTION_API,
     DELETE_SUBSECTION_API,
     DELETE_SECTION_API,
+    ADD_COMMENT,
     DELETE_COURSE_API,
     LECTURE_COMPLETION_API,
     CREATE_SECTION_API,
@@ -20,6 +21,8 @@ const {GET_ALL_INSTRUCTOR_COURSES_API,
     CREATE_RATING_API,
     CREATE_COURSE_API
 } =courseEndpoints
+
+const {FETCH_COMMENTS} =commentEndpoint
 
 export function getInstructorCourses(token){
     return async (dispatch) => {
@@ -269,6 +272,7 @@ export const getFullDetailsOfCourse = async (courseId, token) => {
   const toastId = toast.loading("Loading...")
   let result = null
   try {
+    console.log("before full details");  
     const response = await apiConnector("POST",GET_FULL_COURSE_DETAILS_AUTHENTICATED,{courseId,},
       {
          Authorization : `Bearer ${token}`
@@ -362,3 +366,43 @@ export const markLectureAsComplete = async (data, token) => {
   toast.dismiss(toastId)
   return result
 }
+
+export const fetchComments = async(token,subSectionId) => {
+  let result = [];
+  try{
+    const response = await apiConnector("POST",FETCH_COMMENTS,{subSectionId},{
+      Authorization: `Bearer ${token}`,
+    })
+
+    console.log("API response........" , response);
+    result = response?.data?.comments;
+    
+  }catch(error){
+    console.log("API error........" , error.message);
+  }
+
+  return result;
+}
+
+export const addComment = async (data, token) => {
+  try {
+    console.log("API addComment........", data, token);
+    
+    const response = await apiConnector(
+      "POST",
+      ADD_COMMENT,
+      data,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+
+    console.log(response);
+
+    return response;
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    throw error;
+  }
+};
+

@@ -63,7 +63,7 @@ exports.isInstructor = async(req,res,next)=>{
         if(req.user.accountType !=="Instructor"){
             return res.status(403).json({
                 success: false,
-                message:"this is a protected route for Instructor only.you can access it"
+                message:"this is a protected route for Instructor only.you can't access it"
             })
         }
             next();
@@ -81,7 +81,7 @@ exports.isAdmin = async(req,res,next)=>{
         if(req.user.accountType !=="Admin"){
             return res.status(403).json({
                 success: false,
-                message:"this is a protected route for Admin only.you can access it"
+                message:"this is a protected route for Admin only.you can't access it"
             })
         }
             next();

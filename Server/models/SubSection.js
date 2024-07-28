@@ -13,6 +13,12 @@ const subSectionSchema= new mongoose.Schema({
     videoUrl:{
         type:String
     },
+    Comment:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Comments"
+        }
+    ],
 
 })
 

@@ -25,7 +25,7 @@ import EditCourse from './component/core/Dashboard/EditCourse/EditCourse';
 import Catalog from './pages/Catalog';
 import CourseDetails from './pages/CourseDetails';
 import ViewCourse from './pages/ViewCourse'
-import VideoDetails from './component/core/ViewCourse/VideoDetails';
+import VideoDetails from './component/core/ViewCourse/videoSlide/VideoDetails';
 
 function App() {
   

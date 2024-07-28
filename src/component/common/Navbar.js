@@ -9,6 +9,7 @@ import ProfileDropDown from "./ProfileDropDown"
 import { apiConnector } from '../../services/apiconnector'
 import { courseEndpoints } from '../../services/apis'
 import { IoIosArrowDown } from "react-icons/io";
+import SmallNavbar from './SmallNavbar'
 
 
 function Navbar() {
@@ -40,13 +41,16 @@ function Navbar() {
 
   return (
     <div className='flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 '>
-      <div className='flex w-11/12 max-w-maxContent items-center justify-between'>
+      <div className=' md:hidden flex'>
+          <SmallNavbar/>
+      </div>
+      <div className='md:flex w-11/12 max-w-maxContent items-center justify-between hidden'>
         <Link to="/">
           <img src={logo} width={160} height={42} loading='lazy' alt="Logo" />
         </Link>
 
         <nav>
-          <ul className='flex gap-x-6 text-richblack-25'>
+          <ul className=' gap-x-6 text-richblack-25 md:flex hidden'>
             {
               NavbarLinks.map((link, index) => (
                 <li key={index}>
@@ -99,7 +103,7 @@ function Navbar() {
 
                 {/* login / signup/ dashboard button */}
             
-            <div className=''>
+            <div className='flex flex-row'>
               {
                 user && user?.accountType !== "Instuctor" && (
                   <Link to="dashboard/cart" className='relative'>
@@ -117,7 +121,7 @@ function Navbar() {
               {
                 token === null && (
                   <Link to="/login"> 
-                    <button  className='border border-richblack-700 bg-richblack-800 px-4 py-[8px] text-richblack-100 rounded-md  mr-4 '>
+                    <button  className='border md:block hidden border-richblack-700 bg-richblack-800 px-4 py-[8px] text-richblack-100 rounded-md  mr-4 '>
                       Log in
                     </button>
                   </Link>
@@ -126,7 +130,7 @@ function Navbar() {
               }
               {
                 token === null && (<Link to="/signup">
-                  <button className='border border-richblack-700 bg-richblack-800 px-4 py-[8px] text-richblack-100 rounded-md   '>
+                  <button className='border md:block hidden border-richblack-700 bg-richblack-800 px-4 py-[8px] text-richblack-100 rounded-md   '>
                     Sign up
                   </button>
                 </Link>

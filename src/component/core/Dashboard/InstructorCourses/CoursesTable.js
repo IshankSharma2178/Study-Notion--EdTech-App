@@ -70,7 +70,8 @@ function CoursesTable() {
     const result= deleteCourse(data._id,token)
     if(result){
       const updatedCourse = courseEntireData.filter((course) => course._id !== data._id)
-      dispatch(setEntireCourseData(updatedCourse)) 
+      dispatch(setEntireCourseData(updatedCourse))
+      setDltModal(null) 
     }
   }
 
@@ -150,7 +151,7 @@ function CoursesTable() {
                 </div>
               ))
             }
-            {dltModal && <ConfirmationModal modalData={dltModal}/>}
+            {dltModal!==null  && <ConfirmationModal modalData={dltModal}/>}
         </div>) 
         
         :(<>
