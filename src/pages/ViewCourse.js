@@ -18,17 +18,18 @@ function ViewCourse() {
         const setCourseSpecififcDetails = async()=>{
             const courseData = await getFullDetailsOfCourse(courseId, token);
             console.log("-----",courseData);
-            dispatch(setCourseSectionData(courseData.courseContent));
-            dispatch(setEntireCourseData(courseData));
-            dispatch(setCompletedLectures(courseData.completedVideos));
+            dispatch(setCourseSectionData(courseData.courseDetails.courseContent));
+            dispatch(setEntireCourseData(courseData.courseDetails));
+            dispatch(setCompletedLectures(courseData.courseProgress));
             let lectures =0;
-            courseData?.courseContent?.forEach((sec)=>{
+            courseData?.courseDetails.courseContent?.forEach((sec)=>{
                 lectures += sec.subSection.length;
             })
             dispatch(setTotalNoOfLectures(lectures));
         }
         setCourseSpecififcDetails()
-    })
+    },[])
+    
   return (
     <>
          <div className="relative flex min-h-[calc(100vh-3.5rem)]">

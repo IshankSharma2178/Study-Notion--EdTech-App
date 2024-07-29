@@ -6,6 +6,7 @@ import IconBtn from '../../common/IconBtn';
 function MyProfile() {
     const {userProfile} =useSelector((state)=>state.profile)
     console.log("+++ ",userProfile)
+    const [showMore,setShowMore] = useState(false)  
     const {user} = useSelector((state)=>state.auth)
     const navigate=useNavigate();
     console.log("userProfile => ",userProfile)
@@ -53,7 +54,10 @@ function MyProfile() {
                     </div>
                     :
                     <div>
-                        { userProfile?.about }
+                        { showMore? userProfile?.about:userProfile?.about.slice(0,100) }
+                        {
+                            userProfile?.about.length >100 &&
+                            <button onClick={()=>setShowMore(!showMore)} className='text-yellow-100'>{showMore ?"Show Less": "...Show More"}</button>}
                     </div>
                 }
             </div>

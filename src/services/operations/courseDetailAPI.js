@@ -9,20 +9,21 @@ const {GET_ALL_INSTRUCTOR_COURSES_API,
     EDIT_COURSE_API,
     UPDATE_SECTION_API,
     UPDATE_SUBSECTION_API,
+    GET_COMPLETION_API,
     UPDATE_COURSE_STATUS_API,
     CREATE_SUBSECTION_API,
     DELETE_SUBSECTION_API,
     DELETE_SECTION_API,
-    ADD_COMMENT,
     DELETE_COURSE_API,
     LECTURE_COMPLETION_API,
+    UNMARK_COURSE_PROGRESS,
     CREATE_SECTION_API,
     COURSE_DETAILS_API,
     CREATE_RATING_API,
     CREATE_COURSE_API
 } =courseEndpoints
 
-const {FETCH_COMMENTS} =commentEndpoint
+const {FETCH_COMMENTS,ADD_COMMENT} =commentEndpoint
 
 export function getInstructorCourses(token){
     return async (dispatch) => {
@@ -273,7 +274,7 @@ export const getFullDetailsOfCourse = async (courseId, token) => {
   let result = null
   try {
     console.log("before full details");  
-    const response = await apiConnector("POST",GET_FULL_COURSE_DETAILS_AUTHENTICATED,{courseId,},
+    const response = await apiConnector("POST",GET_FULL_COURSE_DETAILS_AUTHENTICATED,{courseId},
       {
          Authorization : `Bearer ${token}`
       }
@@ -283,7 +284,7 @@ export const getFullDetailsOfCourse = async (courseId, token) => {
     if (!response.data.success) {
       throw new Error(response.data.message)
     }
-    result = response?.data?.courseDetails
+    result = response?.data
   } catch (error) {
     console.log("COURSE_FULL_DETAILS_API API ERROR............", error)
     result = error.response.data
@@ -340,8 +341,9 @@ export const createRating = async (data,token) =>{
   return success
 }
 
+
 export const markLectureAsComplete = async (data, token) => {
-  let result = null
+  let result = []
   console.log("mark complete data", data)
   const toastId = toast.loading("Loading...")
   try {
@@ -357,16 +359,61 @@ export const markLectureAsComplete = async (data, token) => {
       throw new Error(response.data.error)
     }
     toast.success("Lecture Completed")
-    result = true
+    result = response.data.courseProgress
   } catch (error) {
     console.log("MARK_LECTURE_AS_COMPLETE_API API ERROR............", error)
     toast.error(error.message)
-    result = false
   }
   toast.dismiss(toastId)
   return result
 }
 
+export const unMarkLectureProgress = async (data, token) => {
+  console.log("mark complete data", data)
+  const toastId = toast.loading("Loading...")
+  try {
+    const response = await apiConnector("POST", UNMARK_COURSE_PROGRESS, data, {
+      Authorization: `Bearer ${token}`,
+    })
+    console.log(
+      "MARK_LECTURE_AS_COMPLETE_API API RESPONSE............",
+      response
+    )
+
+    if (!response.data.message) {
+      throw new Error(response.data.error)
+    }
+    toast.success("Lecture Completed")
+  } catch (error) {
+    console.log("MARK_LECTURE_AS_COMPLETE_API API ERROR............", error)
+    toast.error(error.message)
+  }
+  toast.dismiss(toastId)
+}
+
+export const fetchMarkedAsCompleted = async(data, token) => {
+  let result = []
+  const toastId = toast.loading("Loading...")
+  try {
+    const response = await apiConnector("POST", GET_COMPLETION_API, data, {
+      Authorization: `Bearer ${token}`,
+    })
+    console.log(
+      "MARK_LECTURE_AS_COMPLETE_API API RESPONSE............",
+      response
+    )
+
+    if (!response.data.message) {
+      throw new Error(response.data.error)
+    }
+    result = response.data.courseProgress
+  } catch (error) {
+    console.log("MARK_LECTURE_AS_COMPLETE_API API ERROR............", error)
+    toast.error(error.message)
+  }
+  toast.dismiss(toastId)
+  return result
+}
 export const fetchComments = async(token,subSectionId) => {
   let result = [];
   try{
@@ -388,11 +435,7 @@ export const addComment = async (data, token) => {
   try {
     console.log("API addComment........", data, token);
     
-    const response = await apiConnector(
-      "POST",
-      ADD_COMMENT,
-      data,
-      {
+    const response = await apiConnector("POST",ADD_COMMENT,data,{
         Authorization: `Bearer ${token}`,
       }
     );
@@ -406,3 +449,26 @@ export const addComment = async (data, token) => {
   }
 };
 
+export const fetchInstructorCourses = async (token) => {
+  let result = []
+  const toastId = toast.loading("Loading...")
+  try {
+    const response = await apiConnector(
+      "GET",
+      GET_ALL_INSTRUCTOR_COURSES_API,
+      null,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    )
+    console.log("INSTRUCTOR COURSES API RESPONSE............", response)
+
+    result = response?.data?.data 
+    
+  } catch (error) {
+    console.log("INSTRUCTOR  API ERROR............", error.message)
+    toast.error(error.message)
+  }
+  toast.dismiss(toastId)
+  return result
+}

@@ -31,11 +31,11 @@ function ProfileDropDown() {
     }, []);
 
   return (
-    <div>
+    <div className='min-w-[180px]'>
       {
         user &&
         <div onClick={() => setIsVisible(true)} className='text-richblack-100 relative'>
-          <div className='flex flex-row gap-2 items-center justify-center'>
+          <div className='flex  flex-row gap-2 items-center justify-end '>
             <img src={user.image} alt="User Profile" className='aspect-square w-[30px] rounded-full object-cover' />
             {
             <AiOutlineCaretDown className={`${isVisible===true?"transform rotate-180 transition-transform duration-500" :"transform rotate-0 transition-transform duration-500" }  `}/>

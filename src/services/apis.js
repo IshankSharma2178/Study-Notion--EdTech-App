@@ -27,7 +27,7 @@ export const profileEndpoints = {
 
   export const courseEndpoints = {
     GET_ALL_COURSE_API: BASE_URL + "/course/getAllCourses",
-    COURSE_DETAILS_API: BASE_URL + "/course/getCourseDetails",  //
+    COURSE_DETAILS_API: BASE_URL + "/course/getCourseDetails",  
     EDIT_COURSE_API: BASE_URL + "/course/editCourse",
     CATEGORIES_API: BASE_URL + "/course/showAllCategories",
     CREATE_COURSE_API: BASE_URL + "/course/createCourse",
@@ -41,6 +41,8 @@ export const profileEndpoints = {
     DELETE_COURSE_API: BASE_URL + "/course/deleteCourse",
     GET_FULL_COURSE_DETAILS_AUTHENTICATED:BASE_URL + "/course/getFullCourseDetails",
     LECTURE_COMPLETION_API: BASE_URL + "/course/updateCourseProgress",
+    GET_COMPLETION_API: BASE_URL + "/course/fetchCourseProgress",
+    UNMARK_COURSE_PROGRESS: BASE_URL + "/course/unMarkProgress",
     CREATE_RATING_API: BASE_URL + "/course/createRating",
     UPDATE_COURSE_STATUS_API: BASE_URL + "/course/updatecourseStatus",
   }

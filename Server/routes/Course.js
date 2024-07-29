@@ -13,7 +13,7 @@ const {createCourse,
     updateCourseStatus
 } = require("../controllers/Course")
 
-const {updateCourseProgress} = require("../controllers/courseProgress");
+const {updateCourseProgress , fetchCompletedVideos , unMarkLectureProgress } = require("../controllers/courseProgress");
 
 // Categories Controllers Import
 const {showAllCategorys,createCategory,categoryPageDetails} = require("../controllers/Category")
@@ -67,10 +67,18 @@ router.post("/editCourse", auth, isInstructor, editCourse)
 router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses)
 // Delete a Course
 router.delete("/deleteCourse",auth,isInstructor, deleteCourse)
+
 router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);
+
+router.post("/fetchCourseProgress",auth, isStudent, fetchCompletedVideos);
+
+router.post("/unMarkProgress",auth, isStudent, unMarkLectureProgress);
+
 router.post("/getCourseDetails", getCourseDetails)
 
 router.post("/updateCourseStatus", auth, isInstructor, updateCourseStatus)
+
+
 
 // ********************************************************************************************************
 //                                      Category routes (Only by Admin)

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { markLectureAsComplete } from "../../../../services/operations/courseDetailAPI";
-import { updateCompletedLectures } from "../../../../slices/viewCourseSlice";
+import { markLectureAsComplete ,unMarkLectureProgress } from "../../../../services/operations/courseDetailAPI";
+import { updateCompletedLectures,unCompleteLectureProgress ,setCompletedLectures} from "../../../../slices/viewCourseSlice";
 import IconBtn from '../../../common/IconBtn';
 import ReactPlayer from 'react-player';
 import Description from "./Description"
@@ -16,7 +16,7 @@ function VideoDetails() {
   const location = useLocation();
   const playerRef = useRef();
   const { token } = useSelector((state) => state.auth);
-  const { courseSectionData, courseEntireData, completedLecture } = useSelector((state) => state.viewCourse);
+  const { courseSectionData, courseEntireData, completedLectures } = useSelector((state) => state.viewCourse);
   const [videoData, setVideoData] = useState([]);
   const [previewSource, setPreviewSource] = useState("");
   const [videoEnded, setVideoEnded] = useState(false);
@@ -82,12 +82,22 @@ function VideoDetails() {
       navigate(`/view-course/${courseId}/section/${prevSectionId}/sub-section/${prevSubSectionId}`);
     }
   };
+  
 
   const handleLectureCompletion = async () => {
+    console.log("handle changes")
     setLoading(true);
-    const res = await markLectureAsComplete({ courseId: courseId, subSectionId: subSectionId }, token);
-    if (res) {
+    console.log('1')
+    if(!completedLectures?.includes(subSectionId)){
+      const res = await markLectureAsComplete({ courseId: courseId, subSectionId: subSectionId }, token);
       dispatch(updateCompletedLectures(subSectionId));
+      console.log("updateCompletedLectures : ",completedLectures)
+      console.log("res....",res);
+    }else{
+      const res = await unMarkLectureProgress({courseId: courseId, subSectionId: subSectionId }, token);
+      dispatch(unCompleteLectureProgress(subSectionId))
+      console.log("unCompleteLectureProgress : ",completedLectures)
+
     }
     setLoading(false);
   };
@@ -110,13 +120,14 @@ function VideoDetails() {
                     (
                       <div className="h-full place-content-center font-inter">
                         {
-                          !completedLecture?.includes(subSectionId) && (
+                           (
                             <div className='flex justify-center items-center flex-row-reverse gap-2'>
                             <label htmlFor='markAsCompleted'>Mark As completed</label>
                             <input 
                               id='markAsCompleted'
                               type='checkbox'
                               disabled={loading}
+                              checked={completedLectures?.includes(subSectionId)}
                               onClick={() => handleLectureCompletion()}
                               className= {`${videoEnded ? "text-richblack-50":"text-richblack-200"} text-xl max-w-max px-4 mx-auto`}
                             />
@@ -187,7 +198,7 @@ function VideoDetails() {
         </div>
         <div>
           {
-            option === "Description" && <Description course={courseEntireData}></Description> || 
+            option === "Description" && <Description description={videoData.description}></Description> || 
             option === "Comment" && <Comment subSectionId={subSectionId}></Comment> || 
             option === "Rating" && <Rating></Rating>
           }

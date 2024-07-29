@@ -1,6 +1,7 @@
 const Course =require("../models/Course")
 const Category=require("../models/category");
 const User =require("../models/User");
+const CourseProgress = require("../models/CourseProgress");
 // const convertSecondsToDuration =require("../utils/secToDuration")
 const cloudinary =require("cloudinary");
 const Section = require("../models/Section");
@@ -148,6 +149,8 @@ exports.getFullCourseDetails = async (req,res)=>{
                                     .populate("studentEnrolled")
                                     .exec();
 
+        
+
         if(!details){
             return res.status(400).json({
                 success: false,
@@ -157,10 +160,11 @@ exports.getFullCourseDetails = async (req,res)=>{
 
         const userId =req.user.id;
 
-        const userData = await User.findById(userId).populate({path:"courseProgress" , populate:{path:"completedVideos"}});
-
-        const courseProgressCount = userData.courseProgress.completedVideo;
-
+        let courseProgress = await CourseProgress?.findOne({
+            courseID: courseId,
+            userId: userId,
+          });
+          
         let totalDurationInSeconds = 0
         details.courseContent.forEach((content) => {
           content.subSection.forEach((subSection) => {
@@ -176,9 +180,7 @@ exports.getFullCourseDetails = async (req,res)=>{
             totalDuration,
             message:"course details fetch successfully",
             courseDetails:details,
-            completedVideos: courseProgressCount?.completedVideo
-            ? courseProgressCount?.completedVideo
-            : [],
+            courseProgress:courseProgress?.completedVideos
         })
     }
     catch(err){
@@ -251,6 +253,7 @@ exports.getInstructorCourses = async(req,res)=>{
     try{
         const userId = req.user.id;
 
+
         if(!userId){
             return res.status(400).json({
                 success:false,
@@ -266,10 +269,11 @@ exports.getInstructorCourses = async(req,res)=>{
                                                         path:"subSection"
                                                     }
                                                 }
-        })
-                                                            ;
+        });
+
+        const result=data.courses
         return res.status(200).json({
-            data:data.courses
+            data:result
         })
     }catch(err){
         return res.status(500).json({
@@ -433,3 +437,4 @@ exports.updateCourseStatus= async(req, res)=>{
         return res.status(500).json({success:false, message:e.message});
     }
 }
+

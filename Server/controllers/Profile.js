@@ -1,6 +1,7 @@
 const Profile=require("../models/Profile");
 const User=require("../models/User");
 const cloudinary = require('cloudinary').v2;
+const Course = require("../models/Course");
 const { convertSecondsToDuration } = require("../utils/secToDuration");
 const CourseProgress = require("../models/CourseProgress");
 
@@ -212,6 +213,40 @@ exports.getEnrolledCourses = async (req,res)=>{
         return res.status(500).json({
             success:false,
             message:err.message
+        })
+    }
+}
+
+exports.instructorDashboard = async (req, res) => {
+    try{
+
+        const courseDetails = await Course.find({instructor:req.user.id});
+
+
+        const courseData = courseDetails.map((course)=>{
+            const totalStudentsEnrolled = course.studentEnrolled.length;
+            const totalAmount =  totalStudentsEnrolled * course.price
+            const courseDataWithStats = {
+                _id:course._id,
+                courseName:course.courseName,
+                courseDescription:course.courseDescription,
+                totalStudentEnrolled:totalStudentsEnrolled,
+                totalAmount:totalAmount                 
+            }
+            return courseDataWithStats
+        }) 
+        
+        console.log(courseData)
+
+        return res.status(200).json({
+            success: true,
+            courses:courseData
+        })
+
+    }catch(error){
+        res.status(500).json({
+            success: false,
+            message:error.message
         })
     }
 }

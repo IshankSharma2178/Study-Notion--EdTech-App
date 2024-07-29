@@ -26,6 +26,7 @@ import Catalog from './pages/Catalog';
 import CourseDetails from './pages/CourseDetails';
 import ViewCourse from './pages/ViewCourse'
 import VideoDetails from './component/core/ViewCourse/videoSlide/VideoDetails';
+import InstructorDashboard from './component/core/Dashboard/InstructorDashboard/InstructorDashboard';
 
 function App() {
   
@@ -57,6 +58,7 @@ function App() {
             <Route path="/dashboard/settings" element={<PrivateRoute>  <Settings/></PrivateRoute>}/>
 
 
+
             {
               user?.accountType === ACCOUNT_TYPE.STUDENT ? (
                 <>
@@ -69,6 +71,7 @@ function App() {
                   <Route path="/dashboard/my-courses" element={<PrivateRoute><CoursesTable/></PrivateRoute>} />
                   <Route path="/dashboard/add-course" element={<PrivateRoute><AddCourse/></PrivateRoute>} />
                   <Route path="/dashboard/edit-course/:courseId" element={<PrivateRoute><EditCourse/></PrivateRoute>} />
+                  <Route path="/dashboard/instructor" element={<PrivateRoute><InstructorDashboard/></PrivateRoute>} />
                 </>
               )
             }

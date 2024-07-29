@@ -5,12 +5,14 @@ import { useForm } from 'react-hook-form';
 
 function Comment({ subSectionId }) {
     const { token } = useSelector((state) => state.auth);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit,setValue, formState: { errors } } = useForm();
     const [commentsArray, setCommentsArray] = useState([]);
+    const [loadng,setLoading] = useState(false);
 
     useEffect(() => {
         const fetchComment = async () => {
-            if (!subSectionId) return;  // Avoid fetching if subSectionId is undefined
+            if (!subSectionId) return;  
+            setLoading(true);
             try {
                 const comments = await fetchComments(token, subSectionId);
                 console.log("comments: ", comments);
@@ -18,17 +20,22 @@ function Comment({ subSectionId }) {
             } catch (error) {
                 console.error("Error fetching comments: ", error);
             }
+            setLoading(false);
         };
+        
         fetchComment();
-    }, [subSectionId, token]);  // Re-run the effect if subSectionId or token changes
+        
+    }, [subSectionId, token]);
 
     const onSubmit = async (data) => {
         try {
             const result = await addComment({ comment: data.comment, subSectionId }, token);
             console.log(result);
-            // Refetch comments after adding a new one
+         
+            
             const updatedComments = await fetchComments(token, subSectionId);
             setCommentsArray(updatedComments);
+            setValue("comment","")
         } catch (error) {
             console.error("Error adding comment: ", error);
         }
@@ -54,7 +61,10 @@ function Comment({ subSectionId }) {
                     </button>
                 </div>
             </form>
-            <div className='flex flex-col gap-10 mt-6 mb-10'>
+            {
+                loadng ? (<div className='spinner w-full m-auto'></div>) : 
+
+                ( <div className='flex flex-col gap-10  mb-10'>
                 {commentsArray?.map((comment, index) => (
                     <div key={index} className='h-fit flex flex-row justify-start items-start gap-6'>
                         <div className='h-full'>
@@ -76,7 +86,9 @@ function Comment({ subSectionId }) {
                         </div>
                     </div>
                 ))}
-            </div>
+            </div>)
+            }
+           
         </div>
     );
 }

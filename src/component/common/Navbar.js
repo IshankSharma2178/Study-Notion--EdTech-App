@@ -61,16 +61,15 @@ function Navbar() {
                         <IoIosArrowDown className=' transition-all group-hover:rotate-180 duration-300 transform translate-all   '/>
                         <div className={`invisible absolute left-[50%] 
                                     translate-x-[-49%] ${subLinks.length ? "translate-y-[15%]" : "translate-y-[40%]"}
-                                 -top-[50%] z-50 
+                                 top-[60%] z-50 
                                 flex flex-col rounded-md bg-richblack-5 p-4 text-richblack-900
                                 opacity-0 transition-all duration-200 group-hover:visible
-                                group-hover:opacity-100 lg:w-[300px]`}>
+                                group-hover:opacity-100 w-[250px] lg:w-[300px]`}>
 
                                 <div className='absolute left-[50%] top-0
                                 translate-x-[80%]
                                 translate-y-[-45%] h-6 w-6 rotate-45 rounded bg-richblack-5'>
                                 </div>
-                            <div className='transition-all rounded-lg gap-y-1 my-10 py-3 pl-5 duration-200 hover:bg-richblack-100  '>
                                 {
                                   subLinks?.length ? (
                                         subLinks.map(( sublink , index)=>{
@@ -84,7 +83,6 @@ function Navbar() {
                                       <div></div>
                                   )
                                 }
-                            </div>
                         </div>
                     </p>
                     : 

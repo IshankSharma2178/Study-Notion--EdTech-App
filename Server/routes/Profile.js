@@ -4,7 +4,7 @@ const router = express.Router()
 const {  deleteAccount,updateProfile,getAllUserDetails,
   updateDisplayPicture,
   getEnrolledCourses,
-  // instructorDashboard
+  instructorDashboard
   } = require("../controllers/Profile")
 
 // Importing Middlewares
@@ -19,6 +19,6 @@ router.get("/getUserDetails", auth, getAllUserDetails)
 // Get Enrolled Courses
 router.post("/getEnrolledCourses", auth,isStudent, getEnrolledCourses)
 router.put("/updateDisplayPicture", auth, updateDisplayPicture)
-// router.get("/instructorDashboard", auth, isInstructor, instructorDashboard)
+router.get("/instructorDashboard", auth, isInstructor, instructorDashboard)
 
 module.exports = router

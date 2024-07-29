@@ -20,7 +20,7 @@ function EditCourse() {
             console.log("000000000",result)
             if (result) {
               dispatch(setEditCourse(true))
-              dispatch(setCourse(result))
+              dispatch(setCourse(result.courseDetails))
             }
             setLoading(false)
         }

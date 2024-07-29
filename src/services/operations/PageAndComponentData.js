@@ -22,7 +22,7 @@ export const getCatalogPageData = async(categoryId) => {
 
     }catch(err){
         console.log("error while fetching data...",err)
-        toast.error(err.message)
+        
         toast.dismiss(toastId )
     }
     

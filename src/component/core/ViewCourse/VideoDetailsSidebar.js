@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsChevronDown } from "react-icons/bs";
 import { IoIosArrowBack } from "react-icons/io";
+import { FaCheckCircle } from "react-icons/fa";
+import { SlCheck } from "react-icons/sl";
+import {markLectureAsComplete ,fetchMarkedAsCompleted} from "../../../services/operations/courseDetailAPI"
 import { setCompletedLectures, setCourseSectionData, setEntireCourseData, setTotalNoOfLectures } from '../../../slices/viewCourseSlice';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import IconBtn from '../../common/IconBtn';
@@ -12,56 +15,42 @@ function VideoDetailsSidebar({ setReviewModal }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const { token } = useSelector((state) => state.auth);
   const { sectionId, subSectionId } = useParams();
-  const {
-    courseSectionData,
-    courseEntireData,
-    totalNoOfLectures,
-    completedLectures,
-  } = useSelector((state) => state.viewCourse);
-  console.log("activeState : ",activeStatus)
-  useEffect(() => {
-    const setActiveFlags = () => {
-      if (!courseSectionData.length) return;
-      const currentSectionIndex = courseSectionData.findIndex(
-        (sec) => sec._id === sectionId
-      );
-      const currentSubSectionIndex = courseSectionData?.[currentSectionIndex].subSection.findIndex(
-        (subSec) => subSec._id === subSectionId
-      );
+  const { courseSectionData, courseEntireData, totalNoOfLectures, completedLectures } = useSelector((state) => state.viewCourse);
 
-      setActiveStatus(prevStatus => {
-        if (!prevStatus.includes(courseSectionData?.[currentSectionIndex]?._id)) {
-          return [...prevStatus, courseSectionData?.[currentSectionIndex]?._id];
-        }
-        return prevStatus;
-      });
-      setVideoBarActive(courseSectionData?.[currentSectionIndex].subSection?.[currentSubSectionIndex]?._id);
-    };
-
-    setActiveFlags();
-  }, [courseSectionData, location.pathname]);
+  console.log("activeState : ", activeStatus);
 
   useEffect(() => {
-    console.log(courseEntireData);
+      const setActiveFlags = () => {
+          if (!courseSectionData.length) return;
+          const currentSectionIndex = courseSectionData.findIndex((sec) => sec._id === sectionId);
+          const currentSubSectionIndex = courseSectionData?.[currentSectionIndex].subSection.findIndex((subSec) => subSec._id === subSectionId);
 
-    return () => {
-      dispatch(setCourseSectionData([]));
-      dispatch(setEntireCourseData([]));
-      dispatch(setCompletedLectures(0));
-    };
-  }, []);
+          setActiveStatus(prevStatus => {
+              if (!prevStatus.includes(courseSectionData?.[currentSectionIndex]?._id)) {
+                  return [...prevStatus, courseSectionData?.[currentSectionIndex]?._id];
+              }
+              return prevStatus;
+          });
+          setVideoBarActive(courseSectionData?.[currentSectionIndex].subSection?.[currentSubSectionIndex]?._id);
+      };
+
+      setActiveFlags();
+  }, [courseSectionData, location.pathname, sectionId, subSectionId]);
+
+
 
   const handleAddReview = () => {
-    setReviewModal(true);
+      setReviewModal(true);
   };
 
   const handleDropDown = (id) => {
-    if (activeStatus.includes(id)) {
-      setActiveStatus(activeStatus.filter(statusId => statusId !== id));
-    } else {
-      setActiveStatus([...activeStatus, id]);
-    }
+      if (activeStatus.includes(id)) {
+          setActiveStatus(activeStatus.filter(statusId => statusId !== id));
+      } else {
+          setActiveStatus([...activeStatus, id]);
+      }
   };
 
   return (
@@ -127,7 +116,7 @@ function VideoDetailsSidebar({ setReviewModal }) {
                 <div>
                   {course?.subSection?.map((topic, index) => (
                     <div
-                      className={`flex gap-3 px-5 py-2 ${
+                      className={`flex gap-3 px-5 py-2 flex-row justify-between items-center ${
                         videoBarActive === topic._id
                           ? "bg-yellow-200 font-semibold text-richblack-800"
                           : "hover:bg-richblack-900"
@@ -140,14 +129,13 @@ function VideoDetailsSidebar({ setReviewModal }) {
                         setVideoBarActive(topic?._id);
                       }}
                     >
-                      <input
-                        type='checkbox'
-                        checked={completedLectures?.includes(topic?._id)}
-                        onChange={() => {}}
-                      />
                       <span>
                         {topic.title}
                       </span>
+                      {
+                        completedLectures.includes(topic._id) &&
+                          <SlCheck className='text-[rgb(6,214,160)] font-bold '/>
+                        }
                     </div>
                   ))}
                 </div>
