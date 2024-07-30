@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, matchPath } from 'react-router-dom'
-import logo from "../../assets/Logo/Logo-Full-Light.png"
+import logo from "../../assets/Logo/LogoFullLight.png"
 import { NavbarLinks } from "../../data/navbar-links"
+import { IoReorderThree } from "react-icons/io5";
 import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -10,6 +11,7 @@ import { apiConnector } from '../../services/apiconnector'
 import { courseEndpoints } from '../../services/apis'
 import { IoIosArrowDown } from "react-icons/io";
 import SmallNavbar from './SmallNavbar'
+import Sidebar from './Sidebar'
 
 
 function Navbar() {
@@ -17,6 +19,7 @@ function Navbar() {
     const {user} = useSelector((state) => state.profile);
     const {totalItems} = useSelector((state) => state.cart);
     const [subLinks,setSubLinks] = useState([]);
+    const [showSidebar, setShowSidebar] = useState(false)
 
     const fetchSubLinks = async() =>{
       try{
@@ -41,9 +44,32 @@ function Navbar() {
 
   return (
     <div className='flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 '>
-      <div className=' md:hidden flex'>
-          <SmallNavbar/>
+
+      <div className=' md:hidden flex w-full'>
+        <div className='flex flex-row justify-evenly gap-4 w-full items-center'>
+          <button className='text-white' onClick={()=>setShowSidebar(true)}>
+            <IoReorderThree className='text-richblack-200 text-3xl'/>
+          </button>
+          <Link to="/">
+            <img src={logo} width={160} height={42} loading='lazy' alt="Logo" className='ml-5' />
+          </Link>
+          {     
+                token === null && (<Link to="/signup">
+                  <button className='border md:hidden block  border-richblack-700 bg-richblack-800 px-1 py-[8px] text-richblack-100 rounded-md   '>
+                    Sign up
+                  </button>
+                </Link>
+                )
+                
+              }
+              {
+                token !== null &&
+                <ProfileDropDown/>
+              }
+        </div>
+          <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar}/>
       </div>
+
       <div className='md:flex w-11/12 max-w-maxContent items-center justify-between hidden'>
         <Link to="/">
           <img src={logo} width={160} height={42} loading='lazy' alt="Logo" />

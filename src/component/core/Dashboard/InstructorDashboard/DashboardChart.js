@@ -81,7 +81,7 @@ const DashboardChart = ({courses}) => {
           Income
         </button>
       </div>
-      <div className="transform-x-[40%]  mx-auto aspect-square h-full w-full">
+      <div className="transform-x-[40%]  mx-auto aspect-square h-full md:w-full w-[280px]">
         {/* Render the Pie chart based on the selected chart */}
         <Pie
           data={currChart === "students" ? chartDataStudents : chartIncomeData}

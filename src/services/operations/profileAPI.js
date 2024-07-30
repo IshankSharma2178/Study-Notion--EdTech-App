@@ -8,7 +8,7 @@ export const getUserEnrolledCourses = async(token)=>{
         const toastId=toast.loading("Loading...");
         let result=[];
         try{
-            const response=await apiConnector("POST",GET_USER_ENROLLED_COURSES_API,{
+            const response=await apiConnector("POST",GET_USER_ENROLLED_COURSES_API,null,{
                 Authorization: `Bearer ${token}`, 
             })
             toast.dismiss(toastId);

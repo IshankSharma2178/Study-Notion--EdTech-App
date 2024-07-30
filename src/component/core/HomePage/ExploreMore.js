@@ -63,25 +63,44 @@ function ExploreMore() {
 
       </div>
         {/* tabs for sm screen */}
-      <div className='lg:hidden' >
-        <Carousel className="w-full  max-w-xs">
+      <div className='lg:hidden flex flex-row' >
+
+      {
+          tabsName.map( (element, index) => {
+              return (
+                  <div
+                  className={`text-[16px] flex flex-row items-center gap-9 font-medium 
+                  ${currentTab === element ? "bg-richblack-900 text-richblack-5 font-medium": "text-richblack-200" } 
+                  rounded-full transition-all duration-200 cursor-pointer
+                  hover:bg-richblack-900 hover:text-richblack-5 text-nowrap   px-8 py-2`}
+                  key={index}
+                  onClick={() => setMyCourse(element)}
+                  >
+                      {element}
+                  </div>
+              )
+          })
+        }
+        {/* <Carousel className="w-full  max-w-xs">
         <CarouselContent>
           {tabsName.map((element, index) => (
-            <CarouselItem key={index}  className="md:basis-1/4 basis-1/3">
+            <CarouselItem key={index}  className="md:basis-1/4 basis-1/3 w-fit">
               <div
-                  className={`text-[16px] flex flex-row items-center gap-9 font-medium 
+                  className={`text-[16px] flex flex-row items-center gap-9 font-medium text-nowrap w-fit
                   ${currentTab === element ? "bg-richblack-900 text-richblack-5 font-medium": "text-richblack-200" } 
                   rounded-full transition-all duration-200 cursor-pointer
                   hover:bg-richblack-900 hover:text-richblack-5 px-8 py-2`}
                   key={index}
                   onClick={() => setMyCourse(element)}
                   >
+                  <p>
                       {element}
+                  </p>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-      </Carousel>
+      </Carousel> */}
         
       </div>
       </div>

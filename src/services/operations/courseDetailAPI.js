@@ -335,8 +335,8 @@ export const createRating = async (data,token) =>{
   } catch (error) {
     success = false
     console.log("CREATE RATING API ERROR............", error)
-    toast.error(error.message)
   }
+  toast.error("You Already Review Course")
   toast.dismiss(toastId)
   return success
 }
@@ -383,7 +383,7 @@ export const unMarkLectureProgress = async (data, token) => {
     if (!response.data.message) {
       throw new Error(response.data.error)
     }
-    toast.success("Lecture Completed")
+    toast.success("Lecture Marked Uncomplete")
   } catch (error) {
     console.log("MARK_LECTURE_AS_COMPLETE_API API ERROR............", error)
     toast.error(error.message)

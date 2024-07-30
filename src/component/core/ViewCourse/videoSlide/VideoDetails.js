@@ -5,7 +5,9 @@ import { markLectureAsComplete ,unMarkLectureProgress } from "../../../../servic
 import { updateCompletedLectures,unCompleteLectureProgress ,setCompletedLectures} from "../../../../slices/viewCourseSlice";
 import IconBtn from '../../../common/IconBtn';
 import ReactPlayer from 'react-player';
+import { Player } from 'video-react';
 import Description from "./Description"
+import 'video-react/dist/video-react.css';
 import Comment from "./Comment"
 import Rating from "./Rating"
 
@@ -139,16 +141,16 @@ function VideoDetails() {
                   }
               </div>
               <div className='flex flex-col'>
-                <div className='aspect-video'>
-                  <ReactPlayer
-                    width="100%"
-                    height="auto"
-                    ref={playerRef}
-                    className="m-auto w-full max-h-445px"
-                    url={videoData?.videoUrl}
-                    controls
-                    onEnded={() => setVideoEnded(true)}
-                  />
+                <div className='aspect-video  '>
+                  <Player
+                      ref = {playerRef}
+                      aspectRatio="16:9"
+                      playsInline="true"
+                      onEnded={() => setVideoEnded(true)}
+                      src={videoData?.videoUrl}
+                      autoPlay="true"
+                      ></Player>
+                        
                 </div>
 
                 <div className={`mt-6 flex min-w-[250px] gap-x-4 text-xl ${!isFirstVideo() ? 'justify-between' : 'justify-end'}`}>
@@ -156,7 +158,7 @@ function VideoDetails() {
                     <button
                       disabled={loading}
                       onClick={goToPrevVideo}
-                      className='bg-yellow-50 px-[15px] py-[4px] rounded-lg font-semibold text-richblack-900 hover:scale-95 transition-all duration-200 '
+                      className='bg-yellow-50 px-[15px] md:flex hidden py-[4px] rounded-lg font-semibold text-richblack-900 hover:scale-95 transition-all duration-200 '
                     >
                       Prev
                     </button>
@@ -165,7 +167,7 @@ function VideoDetails() {
                     <button
                       disabled={loading}
                       onClick={goToNextVideo}
-                      className='bg-yellow-50 px-[15px] py-[4px] rounded-lg font-semibold text-richblack-800 '
+                      className='bg-yellow-50 md:flex hidden px-[15px] py-[4px] rounded-lg font-semibold text-richblack-800 '
                     >
                       Next
                     </button>

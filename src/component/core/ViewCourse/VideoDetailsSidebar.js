@@ -54,7 +54,7 @@ function VideoDetailsSidebar({ setReviewModal }) {
   };
 
   return (
-    <div className="lg:flex h-[calc(100vh-3.5rem)] w-[230px] max-w-[300px] hidden  flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800">
+    <div className="md:flex h-[calc(100vh-3.5rem)] w-[230px] max-w-[300px] hidden  flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800">
       {/* for buttons and headings */}
       <div className="mx-5 flex flex-col items-start justify-between gap-2 gap-y-4 border-b border-richblack-600 py-5 text-lg font-bold text-richblack-25">
         {/* for buttons */}

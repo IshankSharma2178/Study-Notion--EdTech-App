@@ -30,6 +30,7 @@ function EnrolledCourses() {
           const percentage = ((completedLectures.length / count) * 100).toFixed(0)
           console.log("peerCount = " , percentage)
           progress[course._id] = percentage
+          localStorage.setItem("courseProgress",JSON.stringify( progress))
         } catch (error) {
           console.log(`Error fetching progress for course ${course._id}:`, error)
         }
@@ -73,7 +74,7 @@ function EnrolledCourses() {
               key={course._id}
             >
               <div
-                className="flex w-[45%] cursor-pointer items-center gap-4 px-5 py-3"
+                className="md:flex hidden w-[45%] cursor-pointer items-center gap-4 px-5 py-3"
                 onClick={() => {
                   navigate(
                     `/view-course/${course._id}/section/${course.courseContent?.[0]?._id}/sub-section/${course.courseContent?.[0]?.subSection?.[0]?._id}`
@@ -94,6 +95,31 @@ function EnrolledCourses() {
                   </p>
                 </div>
               </div>
+
+              {/* for small screens */}
+              <div
+                className="flex md:hidden w-[45%] cursor-pointer items-center gap-4 px-5 py-3"
+                onClick={() => {
+                  navigate(
+                    `/view-course/${course._id}`
+                  )
+                }}
+              >
+                <img
+                  src={course.thumbnail}
+                  alt="course_img"
+                  className="h-14 w-14 rounded-lg object-cover"
+                />
+                <div className="flex max-w-xs flex-col gap-2">
+                  <p className="font-semibold">{course.courseName}</p>
+                  <p className="text-xs text-richblack-300">
+                    {course.description?.length > 50
+                      ? `${course.description.slice(0, 50)}...`
+                      : course.description}
+                  </p>
+                </div>
+              </div>
+              
               <div className="w-1/4 px-2 py-3">{course?.totalDuration}</div>
               <div className="flex w-1/5 flex-col gap-2 px-2 py-3">
                 <p>Progress: {courseProgress[course._id] || 0}%</p>
