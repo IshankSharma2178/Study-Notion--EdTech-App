@@ -28,6 +28,7 @@ import ViewCourse from './pages/ViewCourse';
 import VideoDetails from './component/core/ViewCourse/videoSlide/VideoDetails';
 import InstructorDashboard from './component/core/Dashboard/InstructorDashboard/InstructorDashboard';
 import CourseBar from './component/core/ViewCourse/ViewCourseForSmScreen/CourseBar';
+import SidebarForSmScreen from './component/core/Dashboard/SidebarForSmScreen';
 
 function App() {
   const { user } = useSelector((state) => state.auth);
@@ -46,7 +47,12 @@ function App() {
         <Route path='/about' element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path='courses/:courseId' element={<CourseDetails />} />
-
+        {
+          user &&
+          <Route path="/dashboard" element={<SidebarForSmScreen />} />
+        }
+        
+        
         <Route
           element={
             <PrivateRoute>

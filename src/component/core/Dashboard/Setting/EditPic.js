@@ -60,12 +60,12 @@ export default function ChangeProfilePicture() {
   }, [imageFile])
   return (
     <>
-      <div className="flex w-[90%] m-auto items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 md:py-6  p-4 md:px-12 text-richblack-5">
+      <div className="flex w-[90%] m-auto items-center justify-between rounded-xl border-[1px] border-richblack-700 bg-richblack-800 md:py-6  p-4 md:px-12 text-richblack-5">
         <div className="flex md:m-0  m-auto items-center md:gap-x-10 gap-x-4">
           <img
             src={previewSource || user?.image}
             alt={`profile-${user?.firstName}`}
-            className="aspect-square w-[78px] rounded-full object-cover"
+            className="aspect-square w-[60px] md:w-[78px] rounded-full object-cover"
           />
           <div className="space-y-2">
             <p className="text-lg ">Change Profile Picture</p>

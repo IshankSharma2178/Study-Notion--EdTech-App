@@ -3,34 +3,32 @@ import SignupForm from "./SignupForm"
 import LoginForm from './LoginForm'
 import HighlightText from '../HighlightText'
 import { useSelector } from 'react-redux'
-
+import graphic5 from "../../../../assets/Logo/graphic5.svg"
 
 function Template({img1, img2,heading,subheading1,subheading2,formType}) {
 const {loading} =useSelector((state)=>state.auth)
 
   return (
     
-    (
-      loading?
-        <div className='justify-center items-center  h-full m-auto flex'>
-          <div  className="spinner "></div> 
-
-        </div>
-      :
-      <div>
-    <div className='flex mx-auto w-[100%] max-w-maxContent justify-between gap-16 py-10 flex-col lg:flex-row '>
-        <div className='flex flex-col mx-auto  max-w-[470px]  md:m-0'>
-            <div className='text-3xl text-richblack-5 pb-5 tracking-wide font-semibold '>{heading}</div>
-            <div className='text-lg text-richblack-300'>{subheading1}</div>
-            <div className='text-base font-edu-sa pb-6'><HighlightText text={subheading2}/></div>
-
-        <div className='md:m-auto w-full'>
-            {formType==="signup" ? <SignupForm/>: <LoginForm/>}
-        </div>
-        </div>
-
-        <div className="relative mx-auto hidden lg:block  my-auto max-w-[450px] md:mx-0">
-            <img
+    <div className="grid min-h-[calc(100vh-3.5rem)] md:place-items-center">
+      {loading ? (
+        <div className="spinner"></div>
+      ) : (
+        <div className="mx-auto flex w-11/12 max-w-maxContent  flex-col justify-between gap-y-12 py-12 md:flex-row md:gap-y-0 md:gap-x-12">
+          <div className="mx-auto w-full md:w-11/12 md:max-w-[450px] md:mx-0">
+            <h1 className="text-[1.875rem] font-semibold leading-[2.375rem] text-richblack-5">
+              {heading}
+            </h1>
+            <p className="mt-4 text-[1.125rem] leading-[1.625rem]">
+              <span className="text-richblack-100">{subheading1}</span>{" "}
+              <span className="font-edu-sa font-bold italic text-blue-100">
+                {subheading2}
+              </span>
+            </p>
+            {formType === "signup" ? <SignupForm /> : <LoginForm />}
+          </div>
+          <div className="relative md:block hidden place-content-center mx-auto w-11/12 max-w-[500px] md:mx-0">
+            {/* <img
               src={img2}
               alt="Pattern"
               width={558}
@@ -44,12 +42,19 @@ const {loading} =useSelector((state)=>state.auth)
               height={504}
               loading="lazy"
               className="absolute -top-4 right-4 z-10"
-            />
-        </div>
-    </div>
-    </div>
+            /> */}
 
-  ))
+            <img  
+              alt='logo-image'
+              width={800}
+              height={504}
+              src={img1}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default Template

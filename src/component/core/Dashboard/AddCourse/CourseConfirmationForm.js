@@ -235,9 +235,9 @@ function CourseConfirmationForm() {
             />
             
         {/* Buttons */}
-            <div  className='text-end '>
+            <div  className='text-end flex flex-col md:flex-row justify-between items-center'>
                 {editCourse && (
-                    <button onClick={() => dispatch(setStep(2))} className='flex items-center gap-x-2 bg-richblack-300'>
+                    <button onClick={() => dispatch(setStep(2))} className='flex text-richblack-800 items-center gap-x-2 px-2 py-2 font-semi rounded-lg bg-richblack-200'>
                         Continue Without Saving
                     </button>
                 )}

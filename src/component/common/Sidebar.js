@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link, matchPath, NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, matchPath, NavLink, useNavigate } from 'react-router-dom';
 import threeDot from "../../assets/Logo/threeDot.svg";
 import { LuChevronFirst } from "react-icons/lu";
 import { VscSignIn } from "react-icons/vsc";
 import { GrLogin } from "react-icons/gr";
+import { RiLogoutBoxLine } from "react-icons/ri";
 import { NavbarLinks } from "../../data/navbar-links";
+import { logout } from "../../services/operations/authAPI";
 import { RiHome4Line } from "react-icons/ri";
 import { apiConnector } from "../../services/apiconnector";
 import { MdOutlinePermPhoneMsg } from "react-icons/md";
@@ -24,6 +26,8 @@ function Sidebar({ setShowSidebar, showSidebar }) {
     const location = useLocation();
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const fetchSubLinks = async () => {
         try {
@@ -87,14 +91,15 @@ function Sidebar({ setShowSidebar, showSidebar }) {
                         </div>
                     </NavLink>
 
-                    <NavLink to={"/dashboard/enrolled-courses"} onClick={() => setShow(false)}>
+                    {   user &&
+                        <NavLink to={"/dashboard/enrolled-courses"} onClick={() => setShow(false)}>
                         <div className={`flex rounded-md flex-row gap-4 items-center py-2 pl-3 ${!show && matchRoute("/enrolled-courses") ? "bg-yellow-25 text-richblue-900 text-[17px]" : "text-[17px] text-richblack-25"}`}>
                             <BsBook  className="text-2xl font-bold" />
                             <p className='text-xl font-semibold'>
                                 Enrolled Courses
                             </p>
                         </div>
-                    </NavLink>
+                    </NavLink>}
 
                     <div onClick={() => setShow(true)} className='flex flex-col'>
                         <div className={`flex rounded-md flex-row gap-4 items-center py-2 pl-3 ${show ? "bg-yellow-25 text-richblue-900 text-[17px]" : "text-[17px] text-richblack-25"}`}>
@@ -166,6 +171,15 @@ function Sidebar({ setShowSidebar, showSidebar }) {
                     </NavLink>
                 )
               }
+              {   user &&
+                        <button onClick={()=>dispatch(logout(navigate))}>
+                        <div className={`flex rounded-md flex-row gap-4 items-center py-2 pl-3 ${!show && matchRoute("/enrolled-courses") ? "bg-yellow-25 text-richblue-900 text-[17px]" : "text-[17px] text-richblack-25"}`}>
+                            <RiLogoutBoxLine   className="text-2xl font-bold" />
+                            <p className='text-xl font-semibold'>
+                                Log Out
+                            </p>
+                        </div>
+                    </button>}
 
 
                 </div>

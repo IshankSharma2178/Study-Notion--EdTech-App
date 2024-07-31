@@ -3,11 +3,13 @@ const Category=require("../models/category");
 const User =require("../models/User");
 const CourseProgress = require("../models/CourseProgress");
 // const convertSecondsToDuration =require("../utils/secToDuration")
+const Comment = require("../models/Comments");
 const cloudinary =require("cloudinary");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
 const { convertSecondsToDuration } = require("../utils/secToDuration")
 const category = require("../models/category");
+const RatingAndReview = require("../models/RatingAndReview");
 require("dotenv").config();
 
 async function uploadFileToCloudinary(file,folder,quality){
@@ -334,7 +336,7 @@ exports.deleteCourse = async (req, res) => {
             });
         }
 
-        user.courses = user.courses.filter(course => course.toString() !== courseId);
+        user.courses = user.courses.filter((course) => course.toString() !== courseId);
         await user.save();
 
         // Delete course content and subsections
@@ -353,8 +355,14 @@ exports.deleteCourse = async (req, res) => {
 
         await Promise.all(deleteSectionsPromises);
 
+        const courseRatings = await RatingAndReview.deleteMany({course:courseId});
+
+        const courseComments = await Comment.deleteMany({course:courseId});
+
+        const courseProgress = await CourseProgress.deleteMany({courseID:courseId });
+
         // Delete the course itself
-        const courseResponse = await Course.findByIdAndDelete(courseId);
+        const courseResponse = await Course.findByIdAndDelete({course:courseId});
 
         return res.status(200).json({
             success: true,

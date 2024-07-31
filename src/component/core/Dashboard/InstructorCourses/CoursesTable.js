@@ -71,9 +71,19 @@ function CoursesTable() {
     if(result){
       const updatedCourse = courseEntireData.filter((course) => course._id !== data._id)
       dispatch(setEntireCourseData(updatedCourse))
+
+      const storedData = localStorage.getItem("cart");
+
+      if (storedData) {
+        let data = JSON.parse(storedData);
+        if (Array.isArray(data)) {
+          data = data.filter(item => item._id !== data._id);
+          const updatedData = JSON.stringify(data); 
+          localStorage.setItem("cart", updatedData);
+        }
+      }}
       setDltModal(null) 
     }
-  }
 
     useEffect(()=>{
       setLoading(true);
@@ -177,5 +187,6 @@ function CoursesTable() {
       </>
   )
 }
+
 
 export default CoursesTable

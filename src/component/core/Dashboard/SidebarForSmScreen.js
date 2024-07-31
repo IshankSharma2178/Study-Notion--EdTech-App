@@ -24,8 +24,8 @@ function Sidebar() {
     }
     return (
         <>
-        <div className=' h-[calc(100vh-3.5rem)] md:flex hidden  min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10'>
-            <div className='flex flex-col'>
+        <div className=' h-[calc(100vh-3.5rem)] w-full flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10'>
+            <div className='flex flex-col w-full focus:bg-richblack-300'>
                 {sidebarLinks.map((link)=>{
                         if (link.type && user?.accountType !== link.type) return null;
                         return <SidebarLink key={link.id} link={link} iconName = {link.icon}/>
@@ -46,7 +46,7 @@ function Sidebar() {
                         btn2Handler: ()=> setConfirmationModal(null),
                     })
                 }}
-                className="px-8 py-2 text-xl font-medium text-richblack-300">
+                className="px-8 py-2  mx-2 text-xl font-medium text-richblack-300">
                     <div className="flex items-center gap-x-2">
                     <VscSignOut className="" />
                     <span>Logout</span>

@@ -2,19 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { fetchComments, addComment } from "../../../../services/operations/courseDetailAPI";
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router';
 
 function Comment({ subSectionId }) {
     const { token } = useSelector((state) => state.auth);
     const { register, handleSubmit,setValue, formState: { errors } } = useForm();
     const [commentsArray, setCommentsArray] = useState([]);
     const [loadng,setLoading] = useState(false);
-
+    const {courseId} = useParams();
     useEffect(() => {
         const fetchComment = async () => {
             if (!subSectionId) return;  
             setLoading(true);
             try {
-                const comments = await fetchComments(token, subSectionId);
+                const comments = await fetchComments(token, subSectionId,courseId);
                 console.log("comments: ", comments);
                 setCommentsArray(comments);
             } catch (error) {
@@ -29,7 +30,7 @@ function Comment({ subSectionId }) {
 
     const onSubmit = async (data) => {
         try {
-            const result = await addComment({ comment: data.comment, subSectionId }, token);
+            const result = await addComment({ comment: data.comment, subSectionId  ,courseId}, token);
             console.log(result);
          
             

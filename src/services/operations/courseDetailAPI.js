@@ -414,10 +414,10 @@ export const fetchMarkedAsCompleted = async(data, token) => {
   toast.dismiss(toastId)
   return result
 }
-export const fetchComments = async(token,subSectionId) => {
+export const fetchComments = async(token,subSectionId,courseId) => {
   let result = [];
   try{
-    const response = await apiConnector("POST",FETCH_COMMENTS,{subSectionId},{
+    const response = await apiConnector("POST",FETCH_COMMENTS,{subSectionId , courseId},{
       Authorization: `Bearer ${token}`,
     })
 

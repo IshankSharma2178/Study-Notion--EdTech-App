@@ -129,7 +129,11 @@ export function login(email,password,navigate){
       dispatch(setToken(JSON.stringify(response.data.token)))
       dispatch(setUser( response.data.user))
       dispatch(setProfile( (response.data.user.additionalDetails)))
-      navigate("/dashboard/my-profile")
+      if(response.data.user.additionalDetails === "Instructor"){ 
+        navigate("/dashboard/enrolled-courses")
+      }else{
+        navigate("dashboard/my-profile")
+      }
       dispatch(setLoading(false));
       
     }catch(e){

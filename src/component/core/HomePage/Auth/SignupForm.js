@@ -99,8 +99,8 @@ function SignupForm() {
   }
       
   return (
-      <form onSubmit={dataSubmitHandler}>
-        <div className='mt-6 flex w-full  flex-col gap-y-4 '>
+      <form onSubmit={dataSubmitHandler} className=''>
+        <div className='mt-6 flex w-full  flex-col gap-y-4  '>
             <div className='flex cursor-pointer flex-row rounded-full shadow-custom bg-richblack-800 w-fit p-1 gap-  '>
               <p className={`${accountType === "Student"? "text-white bg-richblack-900 ":" text-richblack-200" } rounded-full px-5 py-2`} onClick={()=>setaccountType("Student")}>Student</p>
               <p className={`${accountType === "Instructor"? "text-white bg-richblack-900":"text-richblack-200" }  rounded-full px-5 py-2`} onClick={()=>setaccountType("Instructor")}>Instructor</p>

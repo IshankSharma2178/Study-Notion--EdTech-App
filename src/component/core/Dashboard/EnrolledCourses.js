@@ -4,6 +4,7 @@ import { getUserEnrolledCourses } from "../../../services/operations/profileAPI"
 import { fetchMarkedAsCompleted } from "../../../services/operations/courseDetailAPI"
 import ProgressBar from '@ramonak/react-progress-bar'
 import { useNavigate } from 'react-router'
+import IconBtn from '../../common/IconBtn'
 
 function EnrolledCourses() {
   const { token } = useSelector((state) => state.auth)
@@ -15,10 +16,12 @@ function EnrolledCourses() {
     try {
       const response = await getUserEnrolledCourses(token)
       setEnrolledCourses(response)
+      console.log("bcd",response)
       const progress = {}
       
       // Calculate progress for each course
-      for (const course of response) {
+      // if(localStorage.getItem("courseProgress") === null || localStorage.getItem("courseProgress") !== enrolledCourses.length) {
+        for (const course of response) {
         try {
           const completedLectures = await fetchMarkedAsCompleted({ courseId: course._id }, token)
           let count = 0
@@ -30,6 +33,8 @@ function EnrolledCourses() {
           const percentage = ((completedLectures.length / count) * 100).toFixed(0)
           console.log("peerCount = " , percentage)
           progress[course._id] = percentage
+
+          
           localStorage.setItem("courseProgress",JSON.stringify( progress))
         } catch (error) {
           console.log(`Error fetching progress for course ${course._id}:`, error)
@@ -53,26 +58,27 @@ function EnrolledCourses() {
           <div className="spinner"></div>
         </div>
       ) : !enrolledCourses.length ? (
-        <p className="grid h-[10vh] w-full place-content-center text-richblack-5">
+        <p className=" h-[30vh] w-full place-content-center text-2xl flex flex-col items-center text-richblack-50 gap-5">
           You have not enrolled in any course yet.
+          <IconBtn text={"Buy Course"}  onClick={()=>navigate("/catalog/web-dev")} />
           {/* TODO: Modify this Empty State */}
         </p>
       ) : (
         <div className="my-8 text-richblack-5">
           {/* Headings */}
-          <div className="flex rounded-t-lg bg-richblack-500 ">
-            <p className="w-[45%] px-5 py-3">Course Name</p>
-            <p className="w-1/4 px-2 py-3">Duration</p>
-            <p className="flex-1 px-2 py-3">Progress</p>
+          <div className="flex rounded-t-lg bg-richblack-500  ">
+            <p className="w-[45%] px-5 py-3 text-left ">Course Name</p>
+            {/* <p className="w-1/4 px-2 py-3">Instructor Name</p> */}
+            {/* <p className="flex-1 px-2 py-3 text-end  mr-16">Progress</p> */}
           </div>
           {/* Course Names */}
           {enrolledCourses.map((course, i, arr) => (
             <div
-              className={`flex items-center border border-richblack-700 ${
+              className={`flex items-center border border-richblack-700  md:justify-normal justify-between ${
                 i === arr.length - 1 ? "rounded-b-lg" : "rounded-none"
               }`}
               key={course._id}
-            >
+             >
               <div
                 className="md:flex hidden w-[45%] cursor-pointer items-center gap-4 px-5 py-3"
                 onClick={() => {
@@ -80,7 +86,7 @@ function EnrolledCourses() {
                     `/view-course/${course._id}/section/${course.courseContent?.[0]?._id}/sub-section/${course.courseContent?.[0]?.subSection?.[0]?._id}`
                   )
                 }}
-              >
+               >
                 <img
                   src={course.thumbnail}
                   alt="course_img"
@@ -120,8 +126,8 @@ function EnrolledCourses() {
                 </div>
               </div>
               
-              <div className="w-1/4 px-2 py-3">{course?.totalDuration}</div>
-              <div className="flex w-1/5 flex-col gap-2 px-2 py-3">
+              {/* <div className="w-1/4 px-2 py-3">{course?.totalDuration}</div> */}
+              <div className="flex w-9/20 md:w-1/5  flex-col gap-2 px-2 py-3">
                 <p>Progress: {courseProgress[course._id] || 0}%</p>
                 <ProgressBar
                   completed={courseProgress[course._id] || 0}

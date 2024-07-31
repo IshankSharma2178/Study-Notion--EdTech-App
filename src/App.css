@@ -131,3 +131,20 @@ html,body{
 .ring-bg{
   background: linear-gradient(90deg, rgba(54, 56, 56, 1) 0%, rgba(72, 98, 119, 1) 44%, rgba(3, 28, 48, 1) 100%);
 }
+
+@keyframes upDown {
+  0%, 100% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-9px); /* Adjust the value as needed */
+  }
+}
+
+.cart-length {
+  transition: transform 0.3s ease-in-out;
+}
+
+.cart-icon:hover .cart-length {
+  animation: upDown 1.5s infinite;
+}

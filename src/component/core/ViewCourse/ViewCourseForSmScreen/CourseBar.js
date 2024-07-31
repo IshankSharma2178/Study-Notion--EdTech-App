@@ -124,23 +124,27 @@ function CourseBar() {
                 </div>
                 {/* for heading or title */}
                 </div>
+
+                <div className='flex flex-row mx-5 my-4 items-end gap-4'>
                     <div className="flex flex-col">
-                        <p className='text-md'>{courseEntireData?.courseName}</p>
+                        <p className='text-xl text-richblack-5'>{courseEntireData?.courseName}</p>
                         <p className="text-sm font-semibold pt-2 text-[rgb(6,214,160)]">{completedLectures?.length || 0} / {totalNoOfLectures} Completed</p>
                     </div>
-                            <p>
-                            <CircularProgressbar
-                                value={progress}
-                                text={`${progress}%`}
-                                styles={buildStyles({
-                                textColor: "red",
-                                pathColor: "turquoise",
-                                trailColor: "gold"
-                                })}
-                            />
-                            </p>
-                <div>
-            </div>
+                    <p className='size-8'>
+                        <CircularProgressbar
+                            value={progress}
+                            text={`${progress}%`}
+                            styles={buildStyles({
+                            textColor: "white",
+                            pathTransitionDuration:2,
+                            marginTop:8,
+                            textSize:"1.5rem",
+                            pathColor: "rgb(8, 191, 145)",
+                            trailColor: "rgb(66, 72, 84)"
+                            })}
+                        />
+                    </p>
+                </div>
 
             {/* for sections and subSections */}
             <div className="h-[calc(100vh - 5rem)] overflow-y-auto">

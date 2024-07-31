@@ -164,8 +164,8 @@ exports.deleteSubSection = async(req,res)=>{
 exports.AddComment = async (req, res) => {
     try {
 
-        const { comment, subSectionId } = req.body;
-        console.log(comment,subSectionId);
+        const { comment, subSectionId ,courseId } = req.body;
+        console.log(comment,subSectionId,courseId);
         const userId = req.user.id;
 
         if (!comment || !subSectionId || !userId) {
@@ -181,8 +181,8 @@ exports.AddComment = async (req, res) => {
         const userName = user.firstName + " " + user.lastName;
         
         // Create the comment
-        const response = await Comments.create({Comment: comment,UserImageOfComment: user.image,UserNameOfComment: userName});
-
+        const response = await Comments.create({Comment: comment,UserImageOfComment: user.image,UserNameOfComment: userName , course:courseId});
+        console.log("heelo")
         const subSection = await SubSection.findByIdAndUpdate(subSectionId,{$push: {Comment: response._id}},{new:true});
 
         if (!subSection) {

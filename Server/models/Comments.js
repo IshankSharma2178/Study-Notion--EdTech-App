@@ -21,6 +21,11 @@ const commentsSchema = new mongoose.Schema({
             ref:"Likes"
         }
     ],
+    course:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Course",
+        required:true  
+    },
 })
 
 module.exports = mongoose.model("Comments",commentsSchema);

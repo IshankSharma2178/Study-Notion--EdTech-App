@@ -94,8 +94,8 @@ function LoginForm() {
       loading ?
         <div className="spinner"></div>:
     <div>
-    <form onSubmit={handleOnSubmit}>
-      <div className='mt-6 flex w-full flex-col gap-y-4'>
+    <form onSubmit={handleOnSubmit} className=''>
+      <div className='md:mt-6 mt-0 flex w-full flex-col gap-y-4'>
         <div>
           {inputField("Email Address", "Enter Email Address", "email", "email")}
         </div>
