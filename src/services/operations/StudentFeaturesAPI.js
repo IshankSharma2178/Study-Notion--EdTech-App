@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import rzpLogo from "../../assets/Logo/rzp_logo.png"
 import { setPaymentLoading } from "../../slices/courseSlice";
 import { resetCart } from "../../slices/cartSlice";
+import {setUser } from "../../slices/authSlice";
 
 const {COURSE_PAYMENT_API, COURSE_VERIFY_API, SEND_PAYMENT_SUCCESS_EMAIL_API} = studentEndpoints;
 
@@ -75,6 +76,12 @@ export const buyCourse = async (token, courses, userDetails, navigate, dispatch,
         })
 
         console.log("payment successful");
+
+        const userData = JSON.parse(localStorage.getItem("user"));
+        userData.courses = [...userData.courses , ...courses];
+        localStorage.setItem("user", JSON.stringify(userData));
+        dispatch(setUser(userData));
+
     } catch (error) {
         console.log("PAYMENT API ERROR.....", error);
         toast.error("Could not make Payment");

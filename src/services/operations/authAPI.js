@@ -121,7 +121,7 @@ export function login(email,password,navigate){
       if(!response.data.success){
         throw new Error(response.data.message)
       }
-      console.log("response : => ",response.data.user.additionalDetails)
+      console.log("response : => ",response.data.user)
       console.log("data ",JSON.stringify(response.data.user));
       toast.success("login successfully");
       localStorage.setItem("token", JSON.stringify(response.data.token))
@@ -129,10 +129,10 @@ export function login(email,password,navigate){
       dispatch(setToken(JSON.stringify(response.data.token)))
       dispatch(setUser( response.data.user))
       dispatch(setProfile( (response.data.user.additionalDetails)))
-      if(response.data.user.additionalDetails === "Instructor"){ 
-        navigate("/dashboard/enrolled-courses")
+      if(response.data.user.accountType === "Instructor"){ 
+        navigate("/dashboard/my-courses")
       }else{
-        navigate("dashboard/my-profile")
+        navigate("/dashboard/enrolled-courses")
       }
       dispatch(setLoading(false));
       

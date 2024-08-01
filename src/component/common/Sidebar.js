@@ -91,7 +91,7 @@ function Sidebar({ setShowSidebar, showSidebar }) {
                         </div>
                     </NavLink>
 
-                    {   user &&
+                    {   user?.accountType ==="Student" &&
                         <NavLink to={"/dashboard/enrolled-courses"} onClick={() => setShow(false)}>
                         <div className={`flex rounded-md flex-row gap-4 items-center py-2 pl-3 ${!show && matchRoute("/enrolled-courses") ? "bg-yellow-25 text-richblue-900 text-[17px]" : "text-[17px] text-richblack-25"}`}>
                             <BsBook  className="text-2xl font-bold" />

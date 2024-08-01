@@ -96,7 +96,7 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
             </button>
             
         {
-            (!course?.studentsEnrolled?.includes(user?._id)) && (
+            (!course?.studentEnrolled?.includes(user?._id)) && (
                     isCourseAddded() ? (                      
                         <button onClick={handleRemoveToCart} className='blackButton'>
                             Remove From Cart

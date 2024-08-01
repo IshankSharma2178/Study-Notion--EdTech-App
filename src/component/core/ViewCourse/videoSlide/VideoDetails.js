@@ -31,8 +31,12 @@ function VideoDetails() {
       if (!courseId && !sectionId && !subSectionId) navigate("/dashboard/enrolled-courses");
       else {
         const filteredData = courseSectionData.filter((course) => course._id === sectionId);
-        const filteredVideo = filteredData?.[0].subSection.filter((data) => data._id === subSectionId);
-        setPreviewSource(courseEntireData.thumbnail);
+        console.log("courseSectionData   :   ",courseSectionData)
+        console.log("filteredData 1   : ",filteredData)
+
+        const filteredVideo = filteredData[0]?.subSection.filter((data) => data._id === subSectionId);
+        console.log("filteredVideo 1 : ",filteredVideo)
+        setPreviewSource(courseEntireData?.thumbnail);
         setVideoData(filteredVideo[0]);
         setVideoEnded(false);
       }
@@ -115,7 +119,7 @@ function VideoDetails() {
           : (
             <div className='flex flex-col gap-6 my-4 mt-6'>
               <div className='flex flex-row justify-between items-center border-b border-richblack-600'>
-                <h1 className=" text-3xl text-richblack-5 font-semibold">
+                <h1 className=" text-lg  md:text-3xl truncate text-richblack-5 font-semibold">
                   {videoData?.title}
                 </h1>
                 {

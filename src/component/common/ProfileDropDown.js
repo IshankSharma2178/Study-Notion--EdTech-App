@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function ProfileDropDown() {
     const storedUser = localStorage.getItem('user');
-    const user = storedUser ? JSON.parse(storedUser) : null;
     const [isVisible, setIsVisible] = useState(false);
+    const {user} = useSelector((state)=>state.auth)
     const divRef = useRef(null);  
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -53,12 +53,15 @@ function ProfileDropDown() {
                             </p>
                         </div>
                     )}
+                    {
+                        user.accountType === "Student" &&
                     <NavLink to="/dashboard/cart" onClick={(e) => e.stopPropagation()} className="relative cart-icon">
                         <IoCartOutline className='text-3xl font-bold text-richblack-200' />
                         <p className={`absolute -top-1 text-sm text-center right-0 rounded-full size-4 ${cart.length !==0 ? "bg-[rgb(8,255,65)]" : ""} text-black font-semibold cart-length`}>
                             {cart.length || null}
                         </p>
                     </NavLink>
+                    }
                 </div>
             )}
         </div>

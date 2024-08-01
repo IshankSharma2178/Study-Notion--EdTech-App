@@ -12,6 +12,7 @@ import IconBtn from '../../common/IconBtn';
 function VideoDetailsSidebar({ setReviewModal }) {
   const [activeStatus, setActiveStatus] = useState([]);
   const [videoBarActive, setVideoBarActive] = useState("");
+  const [loading ,setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,10 +23,12 @@ function VideoDetailsSidebar({ setReviewModal }) {
   console.log("activeState : ", activeStatus);
 
   useEffect(() => {
+
       const setActiveFlags = () => {
+        setLoading(true);
           if (!courseSectionData.length) return;
           const currentSectionIndex = courseSectionData.findIndex((sec) => sec._id === sectionId);
-          const currentSubSectionIndex = courseSectionData?.[currentSectionIndex].subSection.findIndex((subSec) => subSec._id === subSectionId);
+          const currentSubSectionIndex = courseSectionData?.[currentSectionIndex]?.subSection.findIndex((subSec) => subSec._id === subSectionId);
 
           setActiveStatus(prevStatus => {
               if (!prevStatus.includes(courseSectionData?.[currentSectionIndex]?._id)) {
@@ -33,10 +36,12 @@ function VideoDetailsSidebar({ setReviewModal }) {
               }
               return prevStatus;
           });
-          setVideoBarActive(courseSectionData?.[currentSectionIndex].subSection?.[currentSubSectionIndex]?._id);
+          setVideoBarActive(courseSectionData?.[currentSectionIndex]?.subSection?.[currentSubSectionIndex]?._id);
+          setLoading(false);
       };
-
+      
       setActiveFlags();
+     
   }, [courseSectionData, location.pathname, sectionId, subSectionId]);
 
 
@@ -54,7 +59,10 @@ function VideoDetailsSidebar({ setReviewModal }) {
   };
 
   return (
-    <div className="md:flex h-[calc(100vh-3.5rem)] w-[230px] max-w-[300px] hidden  flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800">
+    <>
+    {
+      loading ? (<div className='spinner'></div>) :
+    (<div className="md:flex h-[calc(100vh-3.5rem)] w-[230px] max-w-[300px] hidden  flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800">
       {/* for buttons and headings */}
       <div className="mx-5 flex flex-col items-start justify-between gap-2 gap-y-4 border-b border-richblack-600 py-5 text-lg font-bold text-richblack-25">
         {/* for buttons */}
@@ -116,10 +124,10 @@ function VideoDetailsSidebar({ setReviewModal }) {
                 <div>
                   {course?.subSection?.map((topic, index) => (
                     <div
-                      className={`flex gap-3 px-5 py-2 flex-row justify-between items-center ${
+                      className={`flex gap-3 px-5 py-2 flex-row h-fit justify-between items-center ${
                         videoBarActive === topic._id
                           ? "bg-yellow-200 font-semibold text-richblack-800"
-                          : "hover:bg-richblack-900"
+                          : " hover:bg-richblack-900"
                       }`}
                       key={index}
                       onClick={() => {
@@ -129,12 +137,14 @@ function VideoDetailsSidebar({ setReviewModal }) {
                         setVideoBarActive(topic?._id);
                       }}
                     >
-                      <span>
+                      <span className='flex-wrap text-wrap break-words truncate'>
                         {topic.title}
                       </span>
                       {
                         completedLectures.includes(topic._id) &&
-                          <SlCheck className='text-[rgb(6,214,160)] font-bold '/>
+                        <p className=' font-extrabold '>
+                          <SlCheck className='text-[rgb(26,255,85)] text-lg'/>
+                        </p>
                         }
                     </div>
                   ))}
@@ -144,7 +154,9 @@ function VideoDetailsSidebar({ setReviewModal }) {
           </div>
         ))}
       </div>
-    </div>
+    </div>)
+    }
+    </>
   );
 }
 

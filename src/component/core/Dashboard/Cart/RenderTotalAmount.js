@@ -18,8 +18,9 @@ function RenderTotalAmount() {
 }
 
   const handleBuyCourse = () =>{
-    // const course =cart.map((course)=> course._id)
-    // console.log("bought these course",course)
+    
+    const course =cart.map((course)=> course._id)
+    console.log("bought these course",course)
   }
 
   return (

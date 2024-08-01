@@ -75,7 +75,7 @@ export default function ChangeProfilePicture() {
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 className="hidden"
-                accept="image/png, image/gif, image/jpeg"
+                accept="image/png,  image/jpeg"
               />
               <button
                 onClick={handleClick}

@@ -23,6 +23,8 @@ function CourseConfirmationForm() {
     const [courseCategories, setCourseCategories] = useState();
 
 
+
+
     useEffect(() => {
         const getCategories = async () => {
             setLoading(true);
@@ -48,18 +50,37 @@ function CourseConfirmationForm() {
 
     const isFormUpdated = () => {
         const currentValues = getValues();
-        return (
-            currentValues.courseTitle !== course?.courseName ||
-            currentValues.courseShortDescription !== course?.courseDescription ||
-            currentValues.coursePrice !== course?.price ||
-            currentValues.courseBenefits !== course?.whatWillYouLearn ||
-            currentValues.courseCategory !== course?.Category._id ||
-            currentValues.courseRequirements !== course.instructor
-        );
+        console.log("course :: " , course);
+        console.log("currentValues :: " , currentValues);
+        
+        const isTagsUpdated = arraysEqual(currentValues.tag, course.tag)
+        console.log("tags :: " , isTagsUpdated);
+        if(isTagsUpdated) return true;
+            if(currentValues.courseTitle !== course?.courseName ||
+                currentValues.courseShortDescription !== course?.courseDescription ||
+                currentValues.coursePrice !== course?.price ||
+                currentValues.courseBenefits !== course?.whatYouWillLearn ||  
+                currentValues.courseCategory !== course?.Category.name ||
+                arraysEqual(currentValues.tag, course.tag) ||
+                arraysEqual(currentValues.courseRequirements !== course.instructions)
+            ) {
+                    return true;
+                       
+                }
+                return false;
     };
+
+    const arraysEqual = (a, b) => {
+        for (var i = 0; i < a.length; ++i) {
+            console.log(a[i] , "0000" , b[i]);
+            if (a[i] !== b[i]) return true;
+        }
+        return false;
+    }
 
     const onSubmit = async (data) => {
         console.log(isFormUpdated())
+        console.log("updated true")
         if (editCourse) {
             if (isFormUpdated()) {
                 const currentValues = getValues();
@@ -99,6 +120,7 @@ function CourseConfirmationForm() {
                 }
             } else {
                 toast.error("No changes made to the form");
+                dispatch(setStep(2));
             }
             return;
         }
@@ -235,9 +257,9 @@ function CourseConfirmationForm() {
             />
             
         {/* Buttons */}
-            <div  className='text-end flex flex-col md:flex-row justify-between items-center'>
+            <div  className='text-end md:flex gap-3 flex-col-reverse flex md:flex-row flex-col md:flex-row justify-between items-center'>
                 {editCourse && (
-                    <button onClick={() => dispatch(setStep(2))} className='flex text-richblack-800 items-center gap-x-2 px-2 py-2 font-semi rounded-lg bg-richblack-200'>
+                    <button onClick={() => dispatch(setStep(2))} className='flex text-richblack-800 items-center gap-x-2 px-2 py-2 font-semibold hover:scale-95 transition-all duration-200  rounded-lg bg-richblack-200'>
                         Continue Without Saving
                     </button>
                 )}

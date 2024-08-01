@@ -222,7 +222,14 @@ exports.editCourse = async(req,res)=>{
         if(price) updateData.price = price;
         if(instructions) updateData.instructions = instructions;
 
-        const response = await Course.findByIdAndUpdate(courseId,{$set:updateData},{new:true}).populate("Category").exec();
+        const response = await Course.findByIdAndUpdate(courseId,{$set:updateData},{new:true})
+                                                                        .populate({
+                                                                            path:"courseContent",
+                                                                            populate:{
+                                                                                path:"subSection"
+                                                                            }
+                                                                        })
+                                                                        .populate("Category").exec();
         
         if(thumbnailImage) {
             try{

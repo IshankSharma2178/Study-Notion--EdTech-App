@@ -174,14 +174,14 @@ function CourseBar() {
                                 <div>
                                     {course?.subSection?.map((topic, index) => (
                                         <div
-                                            className={`flex gap-3 px-5 py-2 flex-row justify-between items-center ${videoBarActive === topic._id ? "bg-yellow-200 font-semibold text-richblack-800" : "hover:bg-richblack-900"}`}
+                                            className={`flex  mx-5 py-2 px-2 flex-row justify-between rounded-lg  items-center ${videoBarActive === topic._id ? "bg-yellow-200 font-semibold text-richblack-800" : " hover:bg-richblack-500"}`}
                                             key={index}
                                             onClick={() => {
                                                 navigate(`/view-course/${courseEntireData?._id}/section/${course?._id}/sub-section/${topic?._id}`);
                                                 setVideoBarActive(topic?._id);
                                             }}
                                         >
-                                            <span>
+                                            <span className='truncate'>
                                                 {topic.title}
                                             </span>
                                             {completedLectures.includes(topic._id) && <SlCheck className='text-[rgb(6,214,160)] font-bold' />}

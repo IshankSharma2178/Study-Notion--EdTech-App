@@ -11,28 +11,16 @@ function ViewCourse() {
 
     const [reviewModal , setReviewModal] = useState(false)
     const {courseId} =useParams(); 
+    const [loading ,setLoading] =useState(false)
     const {token} =useSelector((state)=>state.auth);
     const dispatch = useDispatch();
 
-    useEffect(()=>{
-        const setCourseSpecififcDetails = async()=>{
-            const courseData = await getFullDetailsOfCourse(courseId, token);
-            console.log("-----",courseData);
-            dispatch(setCourseSectionData(courseData.courseDetails.courseContent));
-            dispatch(setEntireCourseData(courseData.courseDetails));
-            dispatch(setCompletedLectures(courseData.courseProgress));
-            let lectures =0;
-            courseData?.courseDetails.courseContent?.forEach((sec)=>{
-                lectures += sec.subSection.length;
-            })
-            dispatch(setTotalNoOfLectures(lectures));
-        }
-        setCourseSpecififcDetails()
-    },[])
+   
     
   return (
-    <>
-         <div className="relative flex min-h-[calc(100vh-3.5rem)]">
+    <>  {
+        loading ?( <div className='spinner'></div>):
+         (<div className="relative flex min-h-[calc(100vh-3.5rem)]">
             <VideoDetailsSidebar setReviewModal={setReviewModal} />
             <div className="h-[calc(100vh-3.5rem)] flex-1 m-auto overflow-auto">
                 <div className=" m-auto mx-auto w-11/12 max-w-[1000px] ">
@@ -40,8 +28,9 @@ function ViewCourse() {
                 </div>
             </div>
             {reviewModal && (<CourseReviewModal setReviewModal={setReviewModal} />)}
-        </div>
+        </div>)
         
+    }
     </>
   )
 }

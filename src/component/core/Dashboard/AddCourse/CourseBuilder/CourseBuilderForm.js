@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
-import { BiRightArrow } from 'react-icons/bi';
+import { BiRightArrow  ,BiLeftArrow } from 'react-icons/bi';
 import { setEditCourse , setStep ,setCourse} from '../../../../../slices/courseSlice';
 import toast from 'react-hot-toast';
 import {updateSection ,createSection} from "../../../../../services/operations/courseDetailAPI"
@@ -127,20 +127,23 @@ function CourseBuilderForm() {
         )}
 
         {/* next and back buttons */}
-        <div>
+        <div className='flex flex-col gap-3'>
         {editCourse && (
-                    <button onClick={() => dispatch(setStep(3))} className='flex items-center gap-x-2 bg-richblack-300'>
+                    <button onClick={() => dispatch(setStep(3))} className='flex w-fit text-richblack-800 items-center gap-x-2 px-2 py-2 font-semibold hover:scale-95 transition-all duration-200  rounded-lg bg-richblack-200'>
                         Continue Without Saving
                     </button>
                 )}
-          <button 
-            onClick={goBack}
-            className='rounded-md cursor-pointer flex items-center'> 
-              Back
-          </button>
-          <IconBtn text="Next" onClick={goToNext}>
-              <BiRightArrow />
-          </IconBtn>
+          <div className='flex flex-row justify-between'>
+                <button text="Back" 
+                  className='flex flex-row-reverse items-center w-fit ransition-all hover:scale-95 hover:shadow-none duration-200 shadow-custom justify-center gap-1 py-2 px-4 bg-yellow-50 rounded-lg text-black'
+                  onClick={goBack}>
+                    <p className="font-semibold ">Back</p>
+                    <BiLeftArrow className="font-bold "/>
+                </button>
+              <IconBtn text="Next" onClick={goToNext}>
+                  <BiRightArrow />
+              </IconBtn>
+          </div>
 
         </div>
     </div>

@@ -39,7 +39,9 @@ function NestedView({handleChnagedSectionName}) {
         // console.log(data.subSection)
     })
 
-    useEffect(()=>{},[course])
+    useEffect(()=>{
+        console.log("0000121111",course)
+    },[course])
 
     const handleDeleteSubSection= async(subSectionId,sectionId) =>{ 
         const result =await deleteSubSection({subSectionId,sectionId,},token)
@@ -57,7 +59,7 @@ function NestedView({handleChnagedSectionName}) {
             {course?.courseContent?.map((section) =>(
                 <details key={section._id} open >
                     <summary  className="flex cursor-pointer items-center  justify-between border-b-2 border-b-richblack-400 py-2">
-                        <div className="flex items-center gap-x-3 ">
+                        <div className="flex items-center gap-x-3   ">
                             <IoOptionsOutline  className="text-xl "/>
                             <p  className="font-semibold text-richblack-50">{section.sectionName}</p>
                         </div>

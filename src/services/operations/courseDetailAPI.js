@@ -248,7 +248,11 @@ export const deleteCourse = async (courseId,token) =>{
     if(!response.data.success){
       throw new Error("could not delete course")
     }
+    
     else{
+          const  userData = JSON.parse(localStorage.getItem("user"))
+          userData.courses = userData.courses.filter(course => course._id !== courseId);
+          localStorage.setItem("user", JSON.stringify(userData));
       return true;
     }
 } catch(error){

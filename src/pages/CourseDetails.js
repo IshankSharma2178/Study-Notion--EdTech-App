@@ -64,6 +64,7 @@ const CourseDetails = () => {
     //Will store sectionIds for enabling the dropdown
     const [isActive, setIsActive] = useState([]);
     const handleActive = (id)=> {
+        console.log("iiiddd",id)
         setIsActive(
             !isActive.includes(id) ? isActive.concat(id) : isActive.filter((e)=> e != id)
         )
@@ -89,6 +90,10 @@ const CourseDetails = () => {
     }
 
     const handleBuyCourse = () => {
+        if(user.accountType === "Instructor"){
+            toast.error("Instructor Cannot Buy Course")
+            return ;
+        }
         if (token) {
             buyCourse(token, [courseId], userProfile, navigate,dispatch);
             return;
@@ -138,7 +143,7 @@ const CourseDetails = () => {
     }
 
     const isAlreadyBuy = ()=>{
-        if(user === null){
+        if(user === null || user.accountType === "Instructor"){
             return false;
         } 
         const coursesEnrolled = user?.courses;
@@ -311,7 +316,7 @@ const CourseDetails = () => {
                                     </div>
 
                                     {/* SubSections */}
-                                    <div className={` ${isActive.includes(section._id) ? 'h-[88px]' : ''} relative h-0 overflow-hidden bg-richblack-900 transition-[height] duration-[0.35s] ease-[ease]`}>
+                                    <div className={` ${isActive.includes(section._id) ? 'h-fit' : ''} relative h-0 overflow-hidden bg-richblack-900 transition-[height] duration-[0.35s] ease-[ease]`}>
                                         {section.subSection.map((subSection)=> (
                                                 <div key={subSection._id} className='text-textHead flex flex-col gap-2 px-7 py-6 font-semibold'>
                                                     <div className='py-2 flex justify-start items-center gap-2'>

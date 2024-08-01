@@ -49,6 +49,7 @@ function Catalog() {
                 setLoading(true); 
                 const res = await getCatalogPageData(categoryId);
                 setCatalogPageData(res);
+                console.log("000000",res);
             } catch (error) {
                 console.error("Error fetching catalog page data:", error);
             } finally {
@@ -69,8 +70,8 @@ function Catalog() {
                 <div className='text-center text-xl text-richblack-300 my-8'> No Courses for the category </div>
             ) : (
                 <>
-                    <div className="box-content bg-richblack-800 px-4">
-                        <div className="mx-auto flex min-h-[260px] max-w-maxContentTab flex-col justify-center gap-4 lg:max-w-maxContent">
+                    <div className="box-content bg-richblack-800 px-4 ">
+                        <div className="mx-auto flex min-h-[260px] flex-col justify-center gap-4 max-w-maxContent w-11/12 ">
                             <p className="text-sm text-richblack-300">{`Home / Catalog / `}
                                 <span className="text-yellow-25">
                                     {catalogPageData?.selectedCategory?.name}
@@ -83,7 +84,7 @@ function Catalog() {
 
                     <div>
                         {/* section1 */}
-                        <div className="mx-auto box-content w-full max-w-maxContentTab py-12 lg:max-w-maxContent">
+                        <div className="mx-auto box-content  max-w-maxContent w-11/12 py-12 ">
                             <div className="section_heading">Courses to get you started</div>
                             <div className="my-4 flex border-b border-b-richblack-600 text-sm">
                                 <p
@@ -113,7 +114,7 @@ function Catalog() {
                         </div>
 
                         {/* section3 */}
-                        <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
+                        {/* <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
                             <div className="section_heading">Most Selling Courses</div>
                             <div className='py-8'>
                                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -129,7 +130,7 @@ function Catalog() {
                                     }
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className='w-full'>
                         <Footer />

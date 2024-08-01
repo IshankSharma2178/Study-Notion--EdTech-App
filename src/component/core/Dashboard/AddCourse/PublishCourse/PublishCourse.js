@@ -6,6 +6,7 @@ import {COURSE_STATUS} from "../../../../../utils/constants"
 import { updateCourseStatus } from '../../../../../services/operations/courseDetailAPI'
 import {setStep , resetCourseState} from "../../../../../slices/courseSlice"
 import { useNavigate } from 'react-router'
+import { BiLeftArrow } from 'react-icons/bi'
 
 function PublishCourse() {
   
@@ -57,27 +58,27 @@ function PublishCourse() {
 
     return (
     <div className='rounded-lg border bg-richblack-800 p-6 border-richblack-700'>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className='md:flex-none flex flex-col gap-4'>
             <div>
                 <label htmlFor='public'>
                 <input 
                     type='checkbox'
                     id='public'
                     {...register("public")}
-                    className='rounded h-4 w-4'
+                    className='rounded h-4 w-4 '
                 />
-                <span className='ml-3' >Make this Course as Public</span>
+                <span className='ml-3 text-richblack-25 text-lg ' >Make this Course as Public</span>
                 </label>
             </div>
             <div className='flex justify-end gap-x-3 '> 
-                <button 
-                    disabled={loading} 
-                    type='button' 
-                    onClick={goBack}
-                    className='flex items-center bg-richblack-300  rounded-md'
-                >
-                    Back
+
+                <button text="Back" 
+                  className='flex flex-row-reverse items-center w-fit ransition-all hover:scale-95 hover:shadow-none duration-200 shadow-custom justify-center gap-1 py-2 px-4 bg-yellow-50 rounded-lg text-black'
+                  onClick={goBack}>
+                    <p className="font-semibold ">Back</p>
+                    <BiLeftArrow className="font-bold "/>
                 </button>
+
                 <IconBtn disabled={loading} text="Save Changes"/>
             </div>
         </form>
