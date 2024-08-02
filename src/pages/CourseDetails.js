@@ -90,7 +90,27 @@ const CourseDetails = () => {
     }
 
     const handleBuyCourse = () => {
-        if(user.accountType === "Instructor"){
+        if(user === null){
+            toast('Login First To buy Course',
+                {
+                  icon: '👏',
+                  style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                  },
+                }
+              );
+              setConfirmationModal({
+                  text1:"you are not Logged in",
+                  text2:"Please login to purchase the course",
+                  btn1Text:"Login",
+                  btn2Text:"Cancel",
+                  btn1Handler:() => navigate("/login"),
+                  btn2Handler:()=>setConfirmationModal(null),
+              })
+            }
+        if(user?.accountType === "Instructor"){
             toast.error("Instructor Cannot Buy Course")
             return ;
         }
@@ -98,14 +118,6 @@ const CourseDetails = () => {
             buyCourse(token, [courseId], userProfile, navigate,dispatch);
             return;
         }
-        setConfirmationModal({
-            text1:"you are not Logged in",
-            text2:"Please login to purchase the course",
-            btn1Text:"Login",
-            btn2Text:"Cancel",
-            btn1Handler:() => navigate("/login"),
-            btn2Handler:()=>setConfirmationModal(null),
-        })
     }
     const handleAddToCart = () => {
         if (user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
@@ -357,4 +369,4 @@ const CourseDetails = () => {
   )
 }
 
-export default CourseDetails
+export default CourseDetails;

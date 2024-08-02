@@ -60,10 +60,12 @@ function CourseConfirmationForm() {
                 currentValues.courseShortDescription !== course?.courseDescription ||
                 currentValues.coursePrice !== course?.price ||
                 currentValues.courseBenefits !== course?.whatYouWillLearn ||  
-                currentValues.courseCategory !== course?.Category.name ||
-                arraysEqual(currentValues.tag, course.tag) ||
-                arraysEqual(currentValues.courseRequirements !== course.instructions)
-            ) {
+                currentValues.courseCategory !== course?.Category.name 
+                // arraysEqual(currentValues.tag, course.tag) ||
+                // arraysEqual(currentValues.courseRequirements !== course.instructions
+
+                )
+             {
                     return true;
                        
                 }
@@ -79,9 +81,9 @@ function CourseConfirmationForm() {
     }
 
     const onSubmit = async (data) => {
-        console.log(isFormUpdated())
-        console.log("updated true")
+
         if (editCourse) {
+            console.log("updated true")
             if (isFormUpdated()) {
                 const currentValues = getValues();
                 const formData = new FormData();

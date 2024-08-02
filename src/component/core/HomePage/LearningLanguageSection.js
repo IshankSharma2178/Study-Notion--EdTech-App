@@ -9,7 +9,7 @@ import CTAButton from "./Button"
 function LearningLanguageSection() {
   return (
     <div className='pb-14'>
-      <div className='flex flex-col mt-[100px] gap-5 '>
+      <div className='flex flex-col mt-[30px] md:mt-[100px] gap-5 '>
         <div className='text-4xl m-auto font-semibold text-center'>
         Your Swiss Knife for {" "} <HighlightText text={"learning any language"}/>
         </div>

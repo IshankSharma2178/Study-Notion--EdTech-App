@@ -78,8 +78,10 @@ export const buyCourse = async (token, courses, userDetails, navigate, dispatch,
         console.log("payment successful");
 
         const userData = JSON.parse(localStorage.getItem("user"));
-        userData.courses = [...userData.courses , ...courses];
+        const courseIds = courses.map(course => course._id);
+        userData.courses = [...userData.courses, ...courseIds]; 
         localStorage.setItem("user", JSON.stringify(userData));
+        
         dispatch(setUser(userData));
 
     } catch (error) {

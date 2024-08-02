@@ -20,6 +20,7 @@ const {GET_ALL_INSTRUCTOR_COURSES_API,
     CREATE_SECTION_API,
     COURSE_DETAILS_API,
     CREATE_RATING_API,
+    GET_ALL_RATINGS,
     CREATE_COURSE_API
 } =courseEndpoints
 
@@ -339,12 +340,24 @@ export const createRating = async (data,token) =>{
   } catch (error) {
     success = false
     console.log("CREATE RATING API ERROR............", error)
+    toast.error("You Already Review Course")
   }
-  toast.error("You Already Review Course")
   toast.dismiss(toastId)
   return success
 }
 
+export const getAllRating = async () =>{
+  let ratingsArray = []
+  try{
+    const response = await apiConnector("GET",GET_ALL_RATINGS)
+    console.log("GET_RATINGS_API_RESPONSE",response)
+    ratingsArray =response?.data?.data
+  }catch(error){
+    console.log("GET_ALL_TAINGS_API_ERROR",error)
+    
+  }
+  return ratingsArray;
+}
 
 export const markLectureAsComplete = async (data, token) => {
   let result = []
@@ -397,7 +410,7 @@ export const unMarkLectureProgress = async (data, token) => {
 
 export const fetchMarkedAsCompleted = async(data, token) => {
   let result = []
-  const toastId = toast.loading("Loading...")
+  
   try {
     const response = await apiConnector("POST", GET_COMPLETION_API, data, {
       Authorization: `Bearer ${token}`,
@@ -415,7 +428,6 @@ export const fetchMarkedAsCompleted = async(data, token) => {
     console.log("MARK_LECTURE_AS_COMPLETE_API API ERROR............", error)
     toast.error(error.message)
   }
-  toast.dismiss(toastId)
   return result
 }
 export const fetchComments = async(token,subSectionId,courseId) => {

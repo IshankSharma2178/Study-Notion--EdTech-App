@@ -12,6 +12,7 @@ import LearningLanguageSection from "../component/core/HomePage/LearningLanguage
 import InstructorSection from "../component/core/HomePage/InstructorSection"
 import ExploreMore from '../component/core/HomePage/ExploreMore';
 import Footer from '../component/common/Footer'
+import ReviewSlider from '../component/common/ReviewSlider';
 
 function Home() {
   return (
@@ -142,7 +143,7 @@ function Home() {
             </div>
 
             <div className='w-11/12 max-w-maxContent mx-auto flex flex-row items-center justify-between mb-10 gap-7'>
-                <div className='flex m-auto justify-evenly mb-10 mt-[95px] flex-col lg:flex-row gap-12 lg:gap-5'>
+                <div className='flex m-auto justify-evenly mb-10 mt-[10px] md:mt-[95px] flex-col lg:flex-row gap-12 lg:gap-5'>
                     
                     <div className='text-4xl font-semibold w-[100%]  lg:w-[45%]'>
                         Get the Skills you nedd for a {" "}
@@ -164,12 +165,15 @@ function Home() {
         
         {/* section 3  */}
 
-        <div className='flex flex-col max-w-maxContent m-auto items-center justify-between gap-8 bg-richblack-900 text-white'>
-                            
-              <InstructorSection/>
-              <h2 className='text-center text-4xl font-semibold mt-10'>Review From Other Learners</h2>               
-                
+        <div className='w-11/12 mx-auto max-w-maxContent m-auto flex-col items-center justify-between gap-8 first-letter bg-richblack-900 text-white'>
+            <InstructorSection/>
+            <div className='mt-16'>
+                <h2 className='text-center text-4xl font-semobold mt-10'>Review From Our Learners</h2>    
+                <ReviewSlider />           
+            </div>
         </div>
+    
+
 
         {/* Section 4 */}
 

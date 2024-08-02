@@ -45,6 +45,7 @@ export const profileEndpoints = {
     UNMARK_COURSE_PROGRESS: BASE_URL + "/course/unMarkProgress",
     CREATE_RATING_API: BASE_URL + "/course/createRating",
     UPDATE_COURSE_STATUS_API: BASE_URL + "/course/updatecourseStatus",
+    GET_ALL_RATINGS : BASE_URL + "/course/getReviews"
   }
 
   export const catalogData={

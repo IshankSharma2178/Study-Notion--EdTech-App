@@ -152,7 +152,6 @@ function VideoDetails() {
                       playsInline="true"
                       onEnded={() => setVideoEnded(true)}
                       src={videoData?.videoUrl}
-                      autoPlay="true"
                       ></Player>
                         
                 </div>

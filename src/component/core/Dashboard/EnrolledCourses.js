@@ -6,6 +6,7 @@ import ProgressBar from '@ramonak/react-progress-bar'
 import { setTotalNoOfLectures, setCompletedLectures, setEntireCourseData, setCourseSectionData } from '../../../slices/viewCourseSlice';
 import { useNavigate } from 'react-router'
 import IconBtn from '../../common/IconBtn'
+import toast from 'react-hot-toast'
 
 function EnrolledCourses() {
   const { token } = useSelector((state) => state.auth)
@@ -18,9 +19,9 @@ function EnrolledCourses() {
   const getEnrolledCourses = async () => {
     try {
       setLoading(true)
+      console.log("one")
       const response = await getUserEnrolledCourses(token)
       setEnrolledCourses(response)
-      console.log("bcd", response)
       const progress = {}
 
       for (const course of response) {
@@ -28,12 +29,10 @@ function EnrolledCourses() {
           const completedLectures = await fetchMarkedAsCompleted({ courseId: course._id }, token)
           let count = 0
           for (const section of course.courseContent) {
-            console.log(section)
             count += section.subSection.length
           }
 
           const percentage = ((completedLectures.length / count) * 100).toFixed(0)
-          console.log("peerCount = ", percentage)
           progress[course._id] = percentage
 
           localStorage.setItem("courseProgress", JSON.stringify(progress))
@@ -45,7 +44,7 @@ function EnrolledCourses() {
     } catch (error) {
       console.log("Unable to Fetch Enrolled Courses", error)
     } finally {
-      setLoading(false)
+        setLoading(false)
     }
   }
 
@@ -54,7 +53,6 @@ function EnrolledCourses() {
 
     setLoading(true);
     const courseData = await getFullDetailsOfCourse(course._id, token);
-    console.log("-----", course);
     dispatch(setCourseSectionData(courseData.courseDetails.courseContent));
     dispatch(setEntireCourseData(courseData.courseDetails));
     dispatch(setCompletedLectures(courseData.courseProgress));
@@ -70,13 +68,15 @@ function EnrolledCourses() {
   }
 
   useEffect(() => {
+    const toastId = toast.loading("Loading...")
     getEnrolledCourses()
+    toast.dismiss(toastId)
   }, [token])
 
   return (
     <>
       {loading ? (
-        <div className='spinner'></div>
+        <div className='spinner w-full h-[calc(100vh-3.5rem)] m-auto'></div>
       ) : (
         <>
           <div className="text-3xl text-richblack-50">Enrolled Courses</div>

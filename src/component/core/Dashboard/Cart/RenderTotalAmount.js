@@ -1,10 +1,16 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import IconBtn from "../../../common/IconBtn"
+import {buyCourse} from  "../../../../services/operations/StudentFeaturesAPI"
+import { useNavigate } from 'react-router'
 
 function RenderTotalAmount() {
 
-  const {total} = useSelector((state)=>state.cart)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const {token,user : userDetails} = useSelector((state)=>state.auth);
+  const {total , cart:courses} = useSelector((state)=>state.cart)
+
 
 
   const handlePrice=(price)=>{
@@ -17,10 +23,10 @@ function RenderTotalAmount() {
         }).format(price);
 }
 
-  const handleBuyCourse = () =>{
-    
-    const course =cart.map((course)=> course._id)
-    console.log("bought these course",course)
+  const handleBuyCourse = async() =>{
+    const result= await buyCourse(token, courses, userDetails, navigate, dispatch)
+    // const course =cart.map((course)=> course._id)
+    console.log("bought these course",courses)
   }
 
   return (

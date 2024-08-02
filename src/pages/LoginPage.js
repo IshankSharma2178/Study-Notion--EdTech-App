@@ -6,7 +6,7 @@ import logo from "../assets/Logo/graphic2.svg"
 
 function LoginPage() {
   return (
-    <div className='h-[90vh]'>
+    <div className='max-h-[cal(100vh-3.5rem)]'>
     <Template 
       img1={logo}
       

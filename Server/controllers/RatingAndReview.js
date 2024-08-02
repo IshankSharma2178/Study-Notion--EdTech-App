@@ -92,10 +92,6 @@ exports.getAllRating = async(req,res)=>{
                                                             path:"user",
                                                             select:"firstName lastName email image"
                                                         }) 
-                                                        .populate({
-                                                            path:"course",
-                                                            select:"courseName "
-                                                        })
                                                         .exec();
                                                         
     return res.status(200).json({

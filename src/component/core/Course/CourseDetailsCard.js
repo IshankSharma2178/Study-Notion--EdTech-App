@@ -21,7 +21,20 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
     } = course;
     
     const handleAddToCart = () => {
-        if (user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
+        if(!user ){
+            toast('Login First To buy Course',
+                {
+                  icon: '👏',
+                  style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                  },
+                }
+              );
+            navigate("/login")
+        }
+        if (user && user?.accountType === ACCOUNT_TYPE?.INSTRUCTOR) {
             toast.error("Instructor cannot buy the course")
             return
         }
@@ -39,7 +52,10 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
         })
     }
     const isAlreadyBuy = ()=>{
-        if(user === null) return false;
+        if(user === null){
+            return false;
+        } 
+            
         const coursesEnrolled = user.courses;
         for(const userCourse of coursesEnrolled ){
             if(userCourse === course._id)
@@ -54,6 +70,7 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
     }
 
     function isCourseAddded(){
+        
         if(localStorage.getItem("cart")){
             const cartItems=JSON.parse(localStorage.getItem("cart"));
             for (const cartCourse of cartItems) {

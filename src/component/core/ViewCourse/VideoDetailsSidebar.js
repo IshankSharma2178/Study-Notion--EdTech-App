@@ -143,7 +143,7 @@ function VideoDetailsSidebar({ setReviewModal }) {
                       {
                         completedLectures.includes(topic._id) &&
                         <p className=' font-extrabold '>
-                          <SlCheck className='text-[rgb(26,255,85)] text-lg'/>
+                          <SlCheck className='text-[rgb(8,117,221)] text-lg'/>
                         </p>
                         }
                     </div>
