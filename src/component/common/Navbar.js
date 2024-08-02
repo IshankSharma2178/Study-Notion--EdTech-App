@@ -92,11 +92,11 @@ function Navbar() {
                                 opacity-0 transition-all duration-200 group-hover:visible
                                 group-hover:opacity-100 w-[250px] lg:w-[300px]`}>
 
-                                <div className='absolute left-[50%] top-0
+                                <div className={`absolute left-[50%] top-0
                                 translate-x-[80%]
-                                translate-y-[-45%] h-6 w-6 rotate-45 rounded bg-richblack-5'>
+                                translate-y-[-45%] h-6 w-6 rotate-45 rounded bg-richblack-5`}>
                                 </div>
-                                {
+                                { 
                                   subLinks?.length ? (
                                         subLinks.map(( sublink , index)=>{
                                           return (
@@ -106,7 +106,7 @@ function Navbar() {
                                         )
                                         })
                                   ):(
-                                      <div></div>
+                                      <div className='spinner2'></div>
                                   )
                                 }
                         </div>

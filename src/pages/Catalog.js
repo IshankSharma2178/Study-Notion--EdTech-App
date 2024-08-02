@@ -106,31 +106,31 @@ function Catalog() {
                         </div>
 
                         {/* section2 */}
-                        <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
+                        {/* <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
                             <div className="section_heading">Checkout {catalogPageData?.differentCourses?.name} Courses Also</div>
                             <div className="py-8">
                                 <CourseSlider Courses={catalogPageData?.differentCourses?.course} />
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* section3 */}
-                        {/* <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
+                        <div className="mx-auto box-content  max-w-maxContent w-11/12 px-4 py-12 lg:max-w-maxContent">
                             <div className="section_heading">Most Selling Courses</div>
                             <div className='py-8'>
-                                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                     {
                                         catalogPageData?.mostSellingCourse?.length === 0 ? (
                                             <p className='text-xl text-white'>No Most selling courses</p>
                                         ) : (
                                             catalogPageData?.mostSellingCourse?.slice(0, 4)
                                                 .map((course, index) => (
-                                                    <CourseCard course={course} key={index} Height={"h-[200px]"} />
+                                                    <CourseCard course={course} key={index} Height={"h-[300px]"} />
                                                 ))
                                         )
                                     }
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
                     </div>
                     <div className='w-full'>
                         <Footer />
