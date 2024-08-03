@@ -78,7 +78,7 @@ export default function Upload({
         <div>
           {file || editData ? (
             <div className="w-full rounded-[0.5rem] min-h-[200px] flex justify-center items-center flex-col outline-none shadow-custom2 placeholder-richblack-300 placeholder:text-base bg-richblack-700 focus:shadow-none p-[12px] text-richblack-25">
-              {image && <img src={previewFile} className="h-[130px] aspect-auto" alt="preview" />}
+              {image && <img loading="lazy" src={previewFile} className="h-[130px] aspect-auto" alt="preview" />}
               {video && (
                 <>
                   <video src={previewFile || editData} className="h-[230px] sm:h-[330px] aspect-auto" controls />

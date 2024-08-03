@@ -54,7 +54,7 @@ function Sidebar({ setShowSidebar, showSidebar }) {
         <div className={`fixed top-0 left-0 h-screen Sidebar-bg z-50 transition-transform duration-300  ease-in ${showSidebar ? "translate-x-0" : "-translate-x-full"} w-[65vw] bg-white text-black`}>
             <div className="flex flex-col h-full p-4">
                 <div className="flex flex-row justify-between  items-center">
-                    <img src={threeDot} alt="Logo" />
+                    <img src={threeDot} loading="lazy" alt="Logo" />
 
                     <button onClick={() => setShowSidebar(false)} className="text-lg">
                         <LuChevronFirst className={`text-white text-3xl ${showSidebar?"rotate-0 ":" rotate-180"} transition-all duration-100  `} />
@@ -64,7 +64,7 @@ function Sidebar({ setShowSidebar, showSidebar }) {
                 { 
                     token !==null ?
                     (<div className='mt-6 flex flex-row justify-between gap-3  relative min-h-[100px]'>
-                    <img src={user.image} alt="User" className="outline outline-richblack-600  p-1 w-14 h-14 rounded-full" />
+                    <img src={user.image} loading="lazy" alt="User" className="outline outline-richblack-600  p-1 w-14 h-14 rounded-full" />
                     <div className='size-[3px]  border-[6px] rounded-full absolute left-8 -top-2 translate-y-[50%] translate-x-[80%] border-[rgb(24,233,50)]'></div>
                     <div className='flex flex-col overflow-hidden'>
                         <p className='text-richblack-50 truncate'>{user.firstName}</p>
@@ -74,7 +74,7 @@ function Sidebar({ setShowSidebar, showSidebar }) {
                 ):
                 (
                     <div className='mt-2 flex flex-row justify-between gap-3 items-center relative min-h-[100px]'>
-                        <img src={LogoFullLight} alt="Logo" className="w-fit h-fit " />
+                        <img src={LogoFullLight} loading="lazy" alt="Logo" className="w-fit h-fit " />
 
                     </div>
                 )

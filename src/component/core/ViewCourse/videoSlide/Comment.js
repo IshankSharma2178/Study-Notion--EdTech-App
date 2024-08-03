@@ -69,7 +69,7 @@ function Comment({ subSectionId }) {
                 {commentsArray?.map((comment, index) => (
                     <div key={index} className='h-fit flex flex-row justify-start items-start gap-6'>
                         <div className='h-full'>
-                            <img src={comment.UserImageOfComment} className='size-14 rounded-full' alt='User' />
+                            <img src={comment.UserImageOfComment} loading="lazy" className='size-14 rounded-full' alt='User' />
                         </div>
                         <div className='flex flex-col'>
                             <div className='flex flex-row gap-4 items-center'>

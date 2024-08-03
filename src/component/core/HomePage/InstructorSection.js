@@ -9,7 +9,7 @@ function InstructorSection() {
     <div className='mt-14  w-11/12'>
         <div className='flex flex-col  lg:flex-row gap-20 items-center'>
             <div className='w-[100%]  ml-2 md:m-auto shadow-[-13px_-13px_0px_0px_rgb(255,255,255)] lg:w-[50%] '>
-                <img src={Instructor} className=''/>
+                <img src={Instructor} loading="lazy" className=''/>
             </div>
 
             <div className='lg:w-[50%] flex flex-col gap-8'>

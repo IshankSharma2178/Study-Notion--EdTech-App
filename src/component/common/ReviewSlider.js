@@ -56,6 +56,7 @@ function ReviewSlider() {
               <div className=" flex flex-col gap-3 rounded-md bg-richblack-800 h-[177px] p-3 text-[14px] text-richblack-25">
                 <div className="flex items-center gap-4">
                   <img
+                    loading="lazy"
                     src={
                       review?.user?.image
                         ? review?.user?.image

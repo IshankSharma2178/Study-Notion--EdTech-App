@@ -17,7 +17,7 @@ function CourseCard({ course, Height }) {
             <Link to={`/courses/${course._id}`}> 
                 <div>
                     <div>
-                        <img src={course?.thumbnail} alt="Course image" className={`${Height} w-full  rounded-3xl object-cover  p-2`} />
+                        <img src={course?.thumbnail} loading="lazy" alt="Course image" className={`${Height} w-full  rounded-3xl object-cover  p-2`} />
                     </div>
                     <div className="flex flex-col gap-2 px-4 py-5">
                         <p  className="text-xl text-richblack-5">{course?.courseName}</p>

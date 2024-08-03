@@ -51,7 +51,7 @@ function Navbar() {
             <IoReorderThree className='text-richblack-200 text-3xl'/>
           </button>
           <Link to="/">
-            <img src={logo} width={160} height={42} loading='lazy' alt="Logo" className='ml-5' />
+            <img loading="lazy" src={logo} width={160} height={42}  alt="Logo" className='ml-5' />
           </Link>
           {     
                 token === null && (<Link to="/signup">
@@ -72,7 +72,7 @@ function Navbar() {
 
       <div className='md:flex w-11/12 max-w-maxContent items-center justify-between hidden'>
         <Link to="/">
-          <img src={logo} width={160} height={42} loading='lazy' alt="Logo" />
+          <img loading="lazy" src={logo} width={160} height={42} alt="Logo" />
         </Link>
 
         <nav>

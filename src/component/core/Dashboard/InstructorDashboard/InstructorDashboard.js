@@ -132,6 +132,7 @@ function InstructorDashboard() {
                   <div key={course._id} className=" w-full md:w-1/3">
                     <img
                       src={course.thumbnail}
+                      loading="lazy"
                       alt={course.courseName}
                       className="h-[201px] w-full rounded-md  object-contain  "
                     />

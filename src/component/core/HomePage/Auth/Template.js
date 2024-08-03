@@ -47,6 +47,7 @@ const {loading} =useSelector((state)=>state.auth)
             <img  
               alt='logo-image'
               width={800}
+              loading="lazy"
               height={504}
               src={img1}
             />

@@ -113,6 +113,7 @@ function VideoDetails() {
       {
         !videoData ? (<img
           src={previewSource}
+          loading="lazy"
           alt="Preview"
           className="h-[56.25vw] w-full rounded-md object-cover"
         />)

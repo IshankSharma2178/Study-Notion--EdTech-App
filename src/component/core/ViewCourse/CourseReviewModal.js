@@ -48,6 +48,7 @@ function CourseReviewModal({setReviewModal}) {
         <div className="flex items-center justify-center gap-x-4">
           <img
             src={user?.image}
+            loading="lazy"
             alt={user?.firstName + "profile"}
             className="aspect-square w-[50px] rounded-full object-cover"
           />

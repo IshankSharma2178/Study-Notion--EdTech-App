@@ -205,7 +205,7 @@ const CourseDetails = () => {
                    <div className='relative block max-h-[30rem] lg:hidden w-full'>
                         <div className='absolute bottom-0 left-0 h-full  w-full rounded-md '>
                         </div>
-                        <img src={thumbnail} className='aspect-auto w-full'/>
+                        <img src={thumbnail} loading="lazy" className='aspect-auto w-full'/>
                    </div>
 
                    <div className='z-30 my-5 flex flex-col justify-center gap-4 py-5 text-lg w-full text-richblack-5'>
@@ -351,7 +351,7 @@ const CourseDetails = () => {
                     <div className='mb-12 py-4'>
                         <p className="text-[28px] font-semibold">Author</p>
                         <div className=' flex items-center gap-4 py-4'>
-                            <img className='h-14 w-14 rounded-full object-cover' src={instructor.image}/>
+                            <img className='h-14 w-14 rounded-full object-cover' loading="lazy" src={instructor.image}/>
                             <p className='text-lg'>{instructor.firstName} {instructor.lastName}  </p>
                         </div>
                         <p className='text-lg'>

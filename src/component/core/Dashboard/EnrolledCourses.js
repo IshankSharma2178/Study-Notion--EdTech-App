@@ -111,6 +111,7 @@ function EnrolledCourses() {
                     <img
                       src={course.thumbnail}
                       alt="course_img"
+                      loading="lazy"
                       className="h-14 w-14 rounded-lg object-cover"
                     />
                     <div className="flex max-w-xs flex-col gap-2">
@@ -135,6 +136,7 @@ function EnrolledCourses() {
                     <img
                       src={course.thumbnail}
                       alt="course_img"
+                      loading="lazy"
                       className="h-14 w-14 rounded-lg object-cover"
                     />
                     <div className="flex max-w-xs flex-col gap-2">

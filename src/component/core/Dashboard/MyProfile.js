@@ -22,6 +22,7 @@ function MyProfile() {
             <div className='flex-col md:flex-row flex gap-3 md:gap-6 justify-center items-center'>
                 <img 
                 src={user?.image}
+                loading="lazy"
                 alt={`profile-${user?.firstName}`}
                 className='aspect-square w-[68px] rounded-full object-cover'
                 />

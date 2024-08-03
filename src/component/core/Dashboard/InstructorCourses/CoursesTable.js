@@ -125,7 +125,7 @@ function CoursesTable() {
                   <div  onClick={()=>navigate("/courses/"+element._id)}
                   className='md:flex-row flex-col flex md:w-[65%] w-[291px] cursor-pointer rounded-lg group md:m-0 md:bg-none px-4 md:p-0 py-4 md:bg-richblack-900 md:border-none   bg-richblack-600 bg-opacity-40 border border-richblack-500 m-auto gap-3'>
                     <div className=' rounded-lg '>
-                      <img src={element.thumbnail} className= 'md:border-none border border-richblack-200 group-[]: w-[260px] object-cover  h-[260px] md:w-[130px] md:h-[130px] lg:w-[180px] lg:h-[130px] rounded-lg'/>
+                      <img src={element.thumbnail} loading="lazy" className= 'md:border-none border border-richblack-200 group-[]: w-[260px] object-cover  h-[260px] md:w-[130px] md:h-[130px] lg:w-[180px] lg:h-[130px] rounded-lg'/>
                     </div>
                     <div className='flex flex-col md:m-0 m-auto justify-center w-full md:w-[60%]'>
                       <p className='text-richblack-25 text-xl '>{element.courseName}</p>
