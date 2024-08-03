@@ -13,7 +13,7 @@ const {createCourse,
     updateCourseStatus
 } = require("../controllers/Course")
 
-const {updateCourseProgress , fetchCompletedVideos , unMarkLectureProgress } = require("../controllers/courseProgress");
+const {updateCourseProgress , fetchCompletedVideos , unMarkLectureProgress } = require("../controllers/CourseProgress");
 
 // Categories Controllers Import
 const {showAllCategorys,createCategory,categoryPageDetails} = require("../controllers/Category")
