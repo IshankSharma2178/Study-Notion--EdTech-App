@@ -101,10 +101,13 @@ function LoginForm() {
         </div>
         <div>
           {passwordField("Password", "Enter Password", "password")}
-          <div className='text-[rgb(71,165,197)] text-right mt-1 cursor-pointer text-[15px]'>
+          <div className='text-[rgb(71,140,197)] text-right mt-1 cursor-pointer text-[15px]'>
             <Link to="/forgot-password">
               Forgot Password
             </Link>
+          </div>
+          <div className='text-richblack-25'>
+            Don't have an account? <u className='text-[rgb(31,153,192)] cursor-pointer hover:text-yellow-25' onClick={()=>navigate("/signup")}>Register</u>
           </div>
         </div>
         <button

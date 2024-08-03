@@ -125,6 +125,9 @@ function SignupForm() {
               {passwordfield("Confirm Password","Confirm Password","confirmPassword")}
             </div>
           </div>
+          <div className='text-richblack-25'>
+            Already have an account? <u className='text-[rgb(31,153,192)] cursor-pointer hover:text-yellow-25' onClick={()=>navigate("/login")}>Login</u>
+          </div>
           <div className='mt-6'>
           <button
           type="submit"
