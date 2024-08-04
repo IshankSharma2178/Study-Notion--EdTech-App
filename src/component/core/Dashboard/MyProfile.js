@@ -10,7 +10,7 @@ function MyProfile() {
     const navigate=useNavigate();
 
     return (
-    <div className='text-white w-[90%] content-start gap-4 m-auto flex flex-col '>
+    <div className='text-white w-full md:w-[90%] content-start gap-4 m-auto flex flex-col '>
         <h1 className='text-3xl font-semibold text-richblack-5 '>
             My Profile
         </h1>
