@@ -19,7 +19,6 @@ function EnrolledCourses() {
   const getEnrolledCourses = async () => {
     try {
       setLoading(true)
-      console.log("one")
       const response = await getUserEnrolledCourses(token)
       setEnrolledCourses(response)
       const progress = {}

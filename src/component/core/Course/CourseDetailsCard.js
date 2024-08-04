@@ -78,7 +78,6 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
                 return true;
             }
         }
-        console.log("Course true",localStorage.getItem("cart")._id,course._id)
         return false;
     }
 }

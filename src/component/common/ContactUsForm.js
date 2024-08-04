@@ -16,11 +16,11 @@ function ContactUsForm() {
     },[reset,isSubmitSuccessful])
 
     const submitContactForm = async(data) =>{
-        console.log("==>",data)
+        
         try{
             setLoading(true);
             // const response = await apiConnector("POST",contactusEndpoint.CONTACT_US_APU,data)
-            // console.log("response",response)
+         
             setLoading(false)
         }catch(err){
             console.log("error",err.message)

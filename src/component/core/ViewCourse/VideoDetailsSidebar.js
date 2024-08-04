@@ -20,8 +20,6 @@ function VideoDetailsSidebar({ setReviewModal }) {
   const { sectionId, subSectionId } = useParams();
   const { courseSectionData, courseEntireData, totalNoOfLectures, completedLectures } = useSelector((state) => state.viewCourse);
 
-  console.log("activeState : ", activeStatus);
-
   useEffect(() => {
 
       const setActiveFlags = () => {

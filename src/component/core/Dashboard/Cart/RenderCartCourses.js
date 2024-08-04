@@ -13,11 +13,8 @@ function RenderCartCourses() {
     const [loadng,setLoading] =useState(false);
     const [averageRatings, setAverageRatings] = useState({});
 
-    console.log("course details : ",cart);
-    
-    cart.map((course)=>{
-        console.log("course  : ",course);
-    })
+
+
 
     const handlePrice=(price)=>{
         if(price.length<=3){
@@ -52,8 +49,6 @@ function RenderCartCourses() {
         setTimeout(() =>{
             setLoading(false);
         },10)
-
-        console.log("Average Ratings:", avgRatings);
       }, []);
 
   return (

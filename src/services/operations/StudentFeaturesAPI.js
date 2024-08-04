@@ -46,7 +46,6 @@ export const buyCourse = async (token, courses, userDetails, navigate, dispatch,
             throw new Error(orderResponse.data.message)
         }
 
-        console.log("Order Initialized, printing order response", orderResponse);
 
         const options = {
             key: process.env.RAZORPAY_KEY,
@@ -72,10 +71,9 @@ export const buyCourse = async (token, courses, userDetails, navigate, dispatch,
         paymentObject.open();
         paymentObject.on("payment.failed", (response)=> {
             toast.error("oops, payment failed");
-            console.log(response.error);
+
         })
 
-        console.log("payment successful");
 
         const userData = JSON.parse(localStorage.getItem("user"));
         const courseIds = courses.map(course => course._id);

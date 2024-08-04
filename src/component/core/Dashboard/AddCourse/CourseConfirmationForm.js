@@ -29,7 +29,6 @@ function CourseConfirmationForm() {
         const getCategories = async () => {
             setLoading(true);
             const categories = await fetchCourseCategories();
-            console.log("==> ", editCourse);
             if (categories.length > 0) {
                 setCourseCategories(categories);
             }
@@ -50,11 +49,9 @@ function CourseConfirmationForm() {
 
     const isFormUpdated = () => {
         const currentValues = getValues();
-        console.log("course :: " , course);
-        console.log("currentValues :: " , currentValues);
         
         const isTagsUpdated = arraysEqual(currentValues.tag, course.tag)
-        console.log("tags :: " , isTagsUpdated);
+
         if(isTagsUpdated) return true;
             if(currentValues.courseTitle !== course?.courseName ||
                 currentValues.courseShortDescription !== course?.courseDescription ||
@@ -74,7 +71,6 @@ function CourseConfirmationForm() {
 
     const arraysEqual = (a, b) => {
         for (var i = 0; i < a.length; ++i) {
-            console.log(a[i] , "0000" , b[i]);
             if (a[i] !== b[i]) return true;
         }
         return false;
@@ -83,7 +79,6 @@ function CourseConfirmationForm() {
     const onSubmit = async (data) => {
 
         if (editCourse) {
-            console.log("updated true")
             if (isFormUpdated()) {
                 const currentValues = getValues();
                 const formData = new FormData();
@@ -114,7 +109,6 @@ function CourseConfirmationForm() {
                 }
                 setLoading(true);
                 const result = await editCourseDetails(formData, token);
-                console.log("resu : ",result);
                 setLoading(false);
                 if (result) {
                     dispatch(setStep(2));
@@ -141,11 +135,8 @@ function CourseConfirmationForm() {
         }
         setLoading(true);
         const result = await addCourseDetails(formData, token);
-        console.log("result",result);
-        console.log("two");
         setLoading(false);
         if (result) {
-            console.log("three");
             dispatch(setStep(2));
             dispatch(setCourse(result));
         }

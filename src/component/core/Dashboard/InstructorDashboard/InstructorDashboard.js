@@ -20,7 +20,6 @@ function InstructorDashboard() {
             const result =await fetchInstructorCourses(token)
 
             if (instructorData.length) {
-                console.log("hiiiiiiiii",instructorData)
                 setInstructorData(instructorData)
               }
               if (result) {
@@ -36,13 +35,11 @@ function InstructorDashboard() {
         (acc, curr) => acc + curr.totalAmount,
         0
       )
-      console.log("total amount: " + totalAmount)
     
       const totalStudents = instructorData?.reduce(
         (acc, curr) => acc + curr.totalStudentEnrolled,
         0
       )
-      console.log("total students: " + totalStudents)
 
     return (
         <div>

@@ -5,11 +5,9 @@ import IconBtn from '../../common/IconBtn';
 
 function MyProfile() {
     const {userProfile} =useSelector((state)=>state.profile)
-    console.log("+++ ",userProfile)
     const [showMore,setShowMore] = useState(false)  
     const {user} = useSelector((state)=>state.auth)
     const navigate=useNavigate();
-    console.log("userProfile => ",userProfile)
 
     return (
     <div className='text-white w-[90%] content-start gap-4 m-auto flex flex-col '>

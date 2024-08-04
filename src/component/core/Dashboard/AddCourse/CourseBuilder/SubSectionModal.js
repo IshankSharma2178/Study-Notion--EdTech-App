@@ -15,11 +15,10 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
     const [loading,setLoading]=useState(false);
     const {token} = useSelector((state)=>state.auth)
     const {course} = useSelector((state)=>state.course)
-    console.log(";;;;;;;;;;;;`",modalData)
+
     
     useEffect(()=>{
         if(view || edit){
-            console.log(" dsd")
             setValue("lectureTitle",modalData.title);
             setValue("lectureDescription",modalData.description);
             setValue("lectureVideo",modalData.videoUrl);            
@@ -39,7 +38,6 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
 
         const handleEditSubSection = async()=>{
             const currentValues = getValues();
-            console.log("Current values , ",currentValues);
             const formData =new FormData();
             formData.append("sectionId",modalData.sectionId);
             formData.append("subSectionId",modalData._id);
@@ -57,7 +55,6 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
             setLoading(true);
             const result = await updateSubSection(formData,token);
             if(result){
-                console.log("llan",result);
                 const updatedCourseContent = course.courseContent.map((section) =>section._id === modalData.sectionId ? result : section)
                 const updatedCourse = { ...course, courseContent: updatedCourseContent }
                 dispatch(setCourse(updatedCourse))
@@ -88,9 +85,7 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
             formData.append("timeDuration",data.timeDuration);
             setLoading(true);
             const result = await createSubSection(formData,token);
-            console.log("two ");
             if(result){
-                console.log("three ");
                 dispatch(setCourse(result));
             }
             setModalData(null)

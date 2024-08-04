@@ -16,7 +16,6 @@ function Comment({ subSectionId }) {
             setLoading(true);
             try {
                 const comments = await fetchComments(token, subSectionId,courseId);
-                console.log("comments: ", comments);
                 setCommentsArray(comments);
             } catch (error) {
                 console.error("Error fetching comments: ", error);
@@ -31,7 +30,6 @@ function Comment({ subSectionId }) {
     const onSubmit = async (data) => {
         try {
             const result = await addComment({ comment: data.comment, subSectionId  ,courseId}, token);
-            console.log(result);
          
             
             const updatedComments = await fetchComments(token, subSectionId);

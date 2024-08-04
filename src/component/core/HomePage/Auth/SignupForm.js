@@ -33,9 +33,9 @@ function SignupForm() {
       ...formData,
       accountType,
     }
-    console.log("signupData : ",signupData);
+
     dispatch(setUser(signupData))
-    console.log("send otp")
+
     dispatch(sendOtp(formData.email, navigate))
 
   }

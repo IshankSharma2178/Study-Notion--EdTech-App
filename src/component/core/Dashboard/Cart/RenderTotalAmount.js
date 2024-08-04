@@ -25,8 +25,7 @@ function RenderTotalAmount() {
 
   const handleBuyCourse = async() =>{
     const result= await buyCourse(token, courses, userDetails, navigate, dispatch)
-    // const course =cart.map((course)=> course._id)
-    console.log("bought these course",courses)
+
   }
 
   return (

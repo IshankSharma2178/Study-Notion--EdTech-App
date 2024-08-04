@@ -39,7 +39,6 @@ function CourseBuilderForm() {
           courseId : course._id,
         },token
       )
-      console.log("resp  ",result)
       const updatedCoursContent = course.courseContent.map((section)=>section._id === editSectionName ? result : section)
       const updatedCourse = {...course, courseContent:updatedCoursContent} 
       dispatch(setCourse(updatedCourse))
@@ -70,7 +69,6 @@ function CourseBuilderForm() {
   
 
   const goToNext = () => {
-    console.log("course " , course)
     if(course.courseContent.length === 0) {
       toast.error("Please add atleast one course");
       return 
@@ -79,7 +77,6 @@ function CourseBuilderForm() {
       toast.error("Please add atleast one sub-section");
       return
     }
-    console.log("first")
     dispatch(setStep(3))
   }
 

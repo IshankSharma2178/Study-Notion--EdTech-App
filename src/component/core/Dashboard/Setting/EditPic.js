@@ -17,7 +17,6 @@ export default function ChangeProfilePicture() {
   const fileInputRef = useRef(null)
 
   const handleClick = () => {
-    console.log('handleClick',fileInputRef.current.click)
     fileInputRef.current.click()
   }
 
@@ -40,11 +39,11 @@ export default function ChangeProfilePicture() {
 
   const handleFileUpload = () => {
     try {
-      console.log("uploading...")
+
       setLoading(true)
       const formData = new FormData()
       formData.append("imageFile", imageFile)
-      console.log("formdata", formData)
+
       dispatch(updateDisplayPicture(token, formData))
       setLoading(false)
       

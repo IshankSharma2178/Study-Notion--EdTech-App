@@ -23,16 +23,11 @@ export function updateDisplayPicture(token, formData) {
           Authorization: `Bearer ${token}`,
         }
       )
-      console.log(
-        "UPDATE_DISPLAY_PICTURE_API API RESPONSE............",
-        response
-      )
 
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
       toast.success("Display Picture Updated Successfully")
-      console.log("Display Picture Updated Successfully",response)
       dispatch(setUser(response.data.data))
     } catch (error) {
       console.log("UPDATE_DISPLAY_PICTURE_API API ERROR............", error)
@@ -45,18 +40,15 @@ export function updateDisplayPicture(token, formData) {
 export function updateProfileInfo(token,contactNumber,dateOfBirth,firstName,lastName,gender,about){
   return async (dispatch) =>{
     try{
-      console.log(contactNumber,dateOfBirth,firstName,lastName,gender,about)
       const response = await apiConnector("PUT",UPDATE_PROFILE_API,{contactNumber,dateOfBirth,firstName,lastName,gender,about} ,{
          Authorization: `Bearer ${token}`
       })
       
-      console.log("response + =",response);
       dispatch(setUser(response.data.userData))
       dispatch(setProfile(response.data.profileData))
       toast.success("Changed Successfully")
 
     }catch(e){
-      console.log("hii")
         console.log(e)
     }
   }

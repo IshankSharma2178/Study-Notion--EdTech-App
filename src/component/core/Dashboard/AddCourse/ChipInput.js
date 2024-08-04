@@ -10,7 +10,6 @@ function ChipInput({ name, placeholder, label, errors, register, setValue }) {
         if (editCourse && course?.tag) {
             try {
                 setAllTag((course.tag));
-                console.log('setAllTag',allTag);
               } catch (error) {
                 console.error("Failed to parse tags:", error);
             }

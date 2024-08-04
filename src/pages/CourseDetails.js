@@ -36,7 +36,7 @@ const CourseDetails = () => {
       const getCourseFullDetails = async() => {
         try {
             const result = await getCourseDetails(courseId);
-            console.log("Printing CourseData-> " , result);
+
                 setCourseData(result);
         } catch (error) {
             toast.error("Could not get course")
@@ -64,7 +64,7 @@ const CourseDetails = () => {
     //Will store sectionIds for enabling the dropdown
     const [isActive, setIsActive] = useState([]);
     const handleActive = (id)=> {
-        console.log("iiiddd",id)
+
         setIsActive(
             !isActive.includes(id) ? isActive.concat(id) : isActive.filter((e)=> e != id)
         )
@@ -145,7 +145,6 @@ const CourseDetails = () => {
                 return true;
             }
         }
-        console.log("Course true",localStorage.getItem("cart")._id,courseData.data?.courseDetails._id)
         return false;
     }
 }

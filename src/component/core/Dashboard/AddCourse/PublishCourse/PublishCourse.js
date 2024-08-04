@@ -39,7 +39,6 @@ function PublishCourse() {
         formData.append("courseId", course._id);
         const courseStatus = getValues("public") ? COURSE_STATUS.PUBLISHED : COURSE_STATUS.DRAFT; 
         formData.append("status", courseStatus);
-        console.log(courseStatus);
         setLoading(true)
         const result = await updateCourseStatus(formData, token);
         

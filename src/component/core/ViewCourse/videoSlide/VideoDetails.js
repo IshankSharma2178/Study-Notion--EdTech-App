@@ -31,11 +31,7 @@ function VideoDetails() {
       if (!courseId && !sectionId && !subSectionId) navigate("/dashboard/enrolled-courses");
       else {
         const filteredData = courseSectionData.filter((course) => course._id === sectionId);
-        console.log("courseSectionData   :   ",courseSectionData)
-        console.log("filteredData 1   : ",filteredData)
-
         const filteredVideo = filteredData[0]?.subSection.filter((data) => data._id === subSectionId);
-        console.log("filteredVideo 1 : ",filteredVideo)
         setPreviewSource(courseEntireData?.thumbnail);
         setVideoData(filteredVideo[0]);
         setVideoEnded(false);
@@ -91,18 +87,17 @@ function VideoDetails() {
   
 
   const handleLectureCompletion = async () => {
-    console.log("handle changes")
+
     setLoading(true);
-    console.log('1')
+
     if(!completedLectures?.includes(subSectionId)){
       const res = await markLectureAsComplete({ courseId: courseId, subSectionId: subSectionId }, token);
       dispatch(updateCompletedLectures(subSectionId));
-      console.log("updateCompletedLectures : ",completedLectures)
-      console.log("res....",res);
+
     }else{
       const res = await unMarkLectureProgress({courseId: courseId, subSectionId: subSectionId }, token);
       dispatch(unCompleteLectureProgress(subSectionId))
-      console.log("unCompleteLectureProgress : ",completedLectures)
+
 
     }
     setLoading(false);

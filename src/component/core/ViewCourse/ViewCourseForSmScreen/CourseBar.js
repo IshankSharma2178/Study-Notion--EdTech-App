@@ -30,7 +30,6 @@ function CourseBar() {
     useEffect(()=>{
         const setCourseSpecififcDetails = async()=>{
             const courseData = await getFullDetailsOfCourse(courseId, token);
-            console.log("-----",courseData);
             dispatch(setCourseSectionData(courseData.courseDetails.courseContent));
             dispatch(setEntireCourseData(courseData.courseDetails));
             dispatch(setCompletedLectures(courseData.courseProgress));
@@ -43,7 +42,6 @@ function CourseBar() {
                 const storedProgress = JSON.parse(localStorage.getItem('courseProgress'));
                 if (storedProgress && storedProgress[courseId]) {
                     setProgress(storedProgress[courseId]);
-                    console.log('courseProgress', storedProgress[courseId]);
                 } else {
                     console.log('No progress data found for courseId:', courseId);
                 }

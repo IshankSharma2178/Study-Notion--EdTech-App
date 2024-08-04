@@ -16,7 +16,6 @@ function SidebarLink({ link, iconName }) {
     };
 
     const setDataZero = ()=>{
-        console.log('keelong');
         const addCoursePath= (link.path).split('/')[2];
         if(addCoursePath !=="add-course")
         dispatch(resetCourseState());

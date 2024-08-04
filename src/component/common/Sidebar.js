@@ -46,7 +46,6 @@ function Sidebar({ setShowSidebar, showSidebar }) {
 
     const matchRoute = (route) => {
         const matchRouteLink =  location.pathname;
-        console.log("123",matchRouteLink ,route);
         return matchPath({ path: route }, matchRouteLink);
     };
 

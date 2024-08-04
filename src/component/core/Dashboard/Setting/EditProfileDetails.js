@@ -9,7 +9,7 @@ function PersonalInformationUpload() {
   const {userProfile} = useSelector((state)=>state.profile);
   const dispatch = useDispatch();
   const {token} = useSelector((state)=>state.auth);
-  console.log("user ",user)
+
   const submitHandler = async(data)=>{
     const {contactNumber,dateOfBirth,firstName,lastName,gender,about} = data;
     dispatch(updateProfileInfo(token,contactNumber,dateOfBirth,firstName,lastName,gender,about));

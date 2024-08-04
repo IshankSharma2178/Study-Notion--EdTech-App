@@ -27,7 +27,6 @@ function Catalog() {
                 );
                 if (category) {
                     setCategoryId(category._id);
-                    console.log("id  :", category._id);
                 } else {
                     console.error("Category not found");
                 }
@@ -49,7 +48,6 @@ function Catalog() {
                 setLoading(true); 
                 const res = await getCatalogPageData(categoryId);
                 setCatalogPageData(res);
-                console.log("000000",res);
             } catch (error) {
                 console.error("Error fetching catalog page data:", error);
             } finally {

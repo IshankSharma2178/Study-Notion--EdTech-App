@@ -10,7 +10,6 @@ function DeleteAccount() {
     const dispatch = useDispatch();
     const [modalData , setMOdalData] = useState(null);
     const {token} = useSelector((state)=>state.auth)
-    console.log(token)
 
     return (
     <div className='w-[90%] m-auto'>

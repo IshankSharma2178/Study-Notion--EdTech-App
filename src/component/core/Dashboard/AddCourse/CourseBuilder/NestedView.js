@@ -36,16 +36,14 @@ function NestedView({handleChnagedSectionName}) {
         setConfirmation(null)
     }
     course?.courseContent?.map((data)=>{
-        // console.log(data.subSection)
     })
 
     useEffect(()=>{
-        console.log("0000121111",course)
     },[course])
 
     const handleDeleteSubSection= async(subSectionId,sectionId) =>{ 
         const result =await deleteSubSection({subSectionId,sectionId,},token)
-        console.log("vid",result)
+  
         if(result){
             const updatedCourseContent = course?.courseContent?.map((section)=>section._id===sectionId ? result : section)
             const updatedCourse = {...course, courseContent: updatedCourseContent}

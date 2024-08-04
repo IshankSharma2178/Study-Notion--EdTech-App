@@ -16,12 +16,9 @@ export function signUp(accountType,firstName,lastName,email,password,confirmPass
      dispatch(setLoading(true));
 
      try {
-      console.log("Loading")
       const response = await apiConnector("POST", SIGNUP_API, {firstName,lastName,email,password,confirmPassword,accountType,otp})
 
-      console.log("SIGNUP_API RESPONSE............", response)
 
-      console.log(response.data.success)
 
       // if(!response.data.success){
       //   throw new Error(response.data.message)
@@ -42,7 +39,7 @@ export  function getPasswordResetToken(email, setEmailSent) {
     dispatch(setLoading(true));  
     try {
       const response = await apiConnector("POST", RESETPASSTOKEN_API, { email });
-      console.log("reset password response : ", response);
+
 
       if (!response.data.success) {
         throw new Error(response.data.message);
@@ -61,10 +58,10 @@ export function resetPassword(password , confirmPassword  , token ){
     return async (dispatch) => {
         dispatch(setLoading(true));  
         try{
-            console.log(RESETPASSWORD_API)
+  
             const response = await apiConnector("POST" , RESETPASSWORD_API ,{password,confirmPassword,token});
 
-            console.log(response);
+
 
             if(!response.data.success) {
                 throw new Error(response.data.message);
@@ -90,16 +87,12 @@ export function sendOtp(email, navigate) {
         checkUserPresent: true,
       })
 
-      console.log("SENDOTP API RESPONSE............", response)
-
-      console.log(response.data.success)
 
       if(!response.data.success){
         throw new Error(response.data.message)
       }
 
       toast.success("OTP Sent Successfully")
-      console.log("navigate")
       navigate("/verify-email")
      } catch (error) {
       console.log("SENDOTP API ERROR............", error)
@@ -121,8 +114,6 @@ export function login(email,password,navigate){
       if(!response.data.success){
         throw new Error(response.data.message)
       }
-      console.log("response : => ",response.data.user)
-      console.log("data ",JSON.stringify(response.data.user));
       toast.success("login successfully");
       localStorage.setItem("token", JSON.stringify(response.data.token))
       localStorage.setItem("user", JSON.stringify(response.data.user))
@@ -147,7 +138,6 @@ export function login(email,password,navigate){
 
 export function logout(navigate){
   return async (dispatch) => {
-    console.log("upi")
     dispatch(setLoading(true));
     dispatch(setToken(null));
     dispatch(setUser(null));
