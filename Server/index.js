@@ -19,7 +19,7 @@ app.use(cookieParser());
 
 
 app.use(cors({
-    origin: 'https://study-notion-version1.netlify.app', 
+    origin: 'https://study-notion-app-v1.netlify.app', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   }));
