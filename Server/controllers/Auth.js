@@ -65,6 +65,8 @@ exports.signup = async(req,res)=>{
     try{
         const {firstName,lastName,email,password,confirmPassword,accountType,contactNumber,otp}=req.body;
 
+        console.log("firstName  ",email);
+
         //validate entrys
         if(!firstName || !lastName || !email || !password || !confirmPassword || !otp) {
             return res.status(403).json({
@@ -83,6 +85,7 @@ exports.signup = async(req,res)=>{
 
         //if email validate
         const checkUserPreseent=await User.findOne({email:email});
+        console.log("CheckUserPreseent   :  ",checkUserPreseent)
         if(checkUserPreseent){
             return res.status(400).json({ 
                 success: false,

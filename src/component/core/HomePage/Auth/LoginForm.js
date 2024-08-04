@@ -91,7 +91,7 @@ function LoginForm() {
   return (
     (
       loading ?
-        <div className="spinner"></div>:
+        <div className="spinner h-screen w-screen flex m-auto items-center justify-center"></div>:
     <div>
     <form onSubmit={handleOnSubmit} className=''>
       <div className='md:mt-6 mt-0 flex w-full flex-col gap-y-4'>

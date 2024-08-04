@@ -7,6 +7,7 @@ import { useState , useEffect } from 'react';
 import {signUp} from "../services/operations/authAPI"
 import { Link } from 'react-router-dom';
 import { BiArrowBack } from "react-icons/bi";
+import {setUser} from "../slices/authSlice"
 import { RxCountdownTimer } from "react-icons/rx";
 
 function VerifyEmail() {
@@ -29,13 +30,13 @@ function VerifyEmail() {
     }
 
     return (
-        <div>
-            {
+        <div className='min-h-[calc(100vh-5rem)] grid place-items-center '>
+            {                    
+
                 loading ?
-               ( <div className="spinner"></div>)
+               ( <div className="spinner "></div>)
                 :
                 (
-                    <div className='min-h-[calc(100vh-3.5rem)] grid place-items-center '>
                         <div className='lg:max-w-[500px] max-w-[25rem] md:max-w-[400px] p-4 lg:p-8'>
 
                         <h1 className="text-richblack-5 font-semibold text-[1.875rem] leading-[2.375rem]">
@@ -70,10 +71,10 @@ function VerifyEmail() {
                         </form>
                         <div className='flex flex-row justify-between mt-6 '>
                             <div className='flex items-center justify-between'>
-                                <Link to="/login">
-                                    <p  className="text-richblack-5 flex items-center gap-x-2">
-                                        <BiArrowBack /> Back To Login
-                                    </p>
+                                <Link to="/signup">
+                                    <button onClick={()=>dispatch(setUser(null))}  className="text-richblack-5 flex items-center gap-x-2">
+                                        <BiArrowBack /> Back To Signup
+                                    </button>
                                 </Link>
                             </div>
 
@@ -83,7 +84,6 @@ function VerifyEmail() {
                                 <RxCountdownTimer /> Resend it
                             </button>
                             </div>
-                        </div>
                         </div>
                         </div>
                 )

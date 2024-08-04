@@ -95,15 +95,15 @@ function CoursesTable() {
       <>
 
         { loading ===true ? 
-        (<div className='spinner'></div>)
+        (<div className= ' w-full h-full spinner'></div>)
         :( 
             <>
-            <div className='md:hidden flex text-white text-2xl font-semibold m-auto w-full mb-5 '>
+            <div className='md:hidden flex text-richblack-50 text-3xl md:text-2xl font-semibold m-auto w-full mb-5 '>
               My Courses
             </div>
           <div className='text-white border border-richblack-700 rounded-lg'>
         {
-          courseEntireData.length >0 ? ( 
+          courseEntireData.length >0 && loading===true ? ( 
           <div className={`flex flex-col md:grid md:grid-rows-${courseEntireData.length+3} `}>
             {/* headings */}
             <div className='hidden md:flex  flex-row justify-between border-b border-richblack-600  text-richblack-200 text-[14px] '>

@@ -15,7 +15,7 @@ function EditPassword() {
     }
 
   return (
-    <form className='flex flex-col w-[90%] m-auto gap-2' onSubmit={handleSubmit(submitHandler)} >
+    <form className='flex flex-col w-full md:w-[90%] m-auto gap-2' onSubmit={handleSubmit(submitHandler)} >
         <div className='flex flex-col  gap-6 text-white m-auto w-[100%]  bg-richblack-800 rounded-xl border border-richblack-600 p-6 '>
             <h1 className='text-2xl font-semibold '>
                 Change Password

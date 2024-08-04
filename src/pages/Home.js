@@ -37,7 +37,7 @@ function Home() {
                 <HighlightText text={"Coding Skills"} /> 
             </div>
 
-            <div className=' max-w-[80%] text-center text-lg font-bold text-richblack-300 mt-4 ' >
+            <div className=' w-[95%] md:max-w-[80%] text-center text-lg font-bold text-richblack-300 mt-4 ' >
                 With our online coding courses, you can learn at your own pace, from anywhere in the world, and get access to a wealth of resources, including hands-on projects, quizzes, and personalized feedback from instructors.
             </div>
 

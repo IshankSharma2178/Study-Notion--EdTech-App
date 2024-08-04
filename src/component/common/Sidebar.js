@@ -50,7 +50,7 @@ function Sidebar({ setShowSidebar, showSidebar }) {
     };
 
     return (
-        <div className={`fixed top-0 left-0 h-screen Sidebar-bg z-50 transition-transform duration-300  ease-in ${showSidebar ? "translate-x-0" : "-translate-x-full"} w-[65vw] bg-white text-black`}>
+        <div className={`fixed top-0 left-0 h-screen Sidebar-bg z-50 transition-transform duration-300  ease-in ${showSidebar ? "translate-x-0" : "-translate-x-full"} w-[75vw] bg-white text-black`}>
             <div className="flex flex-col h-full p-4">
                 <div className="flex flex-row justify-between  items-center">
                     <img src={threeDot} loading="lazy" alt="Logo" />
@@ -170,7 +170,7 @@ function Sidebar({ setShowSidebar, showSidebar }) {
                     </NavLink>
                 )
               }
-              {   user &&
+              {   token &&
                         <button onClick={()=>dispatch(logout(navigate))}>
                         <div className={`flex rounded-md flex-row gap-4 items-center py-2 pl-3 ${!show && matchRoute("/enrolled-courses") ? "bg-yellow-25 text-richblue-900 text-[17px]" : "text-[17px] text-richblack-25"}`}>
                             <RiLogoutBoxLine   className="text-2xl font-bold" />

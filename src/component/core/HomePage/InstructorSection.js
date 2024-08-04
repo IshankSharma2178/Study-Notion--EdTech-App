@@ -14,7 +14,7 @@ function InstructorSection() {
 
             <div className='lg:w-[50%] flex flex-col gap-8'>
                 <div className='text-4xl font-semibold'>Become an <HighlightText text={"Instructor"} /></div>
-                <div className='font-medium text-[16px] w-[90%] text-lg tracking-wide text-richblack-300 '>Instructors from around the world teach millions of students on StudyNotion. We provide the tools and skills to teach what you love.</div>
+                <div className='font-medium text-[16px] w-[100%] text-lg tracking-wide text-richblack-300 '>Instructors from around the world teach millions of students on StudyNotion. We provide the tools and skills to teach what you love.</div>
                 <div className='w-fit'>
                     <CTAButton active={true} linkto={"/signup"}>
                         <div className='flex flex-row text-base font-semibold gap-2 items-center'>

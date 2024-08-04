@@ -84,7 +84,7 @@ function EnrolledCourses() {
               <div className="spinner"></div>
             </div>
           ) : !enrolledCourses.length ? (
-            <p className=" h-[30vh] w-full place-content-center text-2xl flex flex-col items-center text-richblack-50 gap-5">
+            <p className=" h-[30vh] w-full place-content-center text-lg md:text-2xl flex flex-col items-center text-richblack-100 gap-5">
               You have not enrolled in any course yet.
               <IconBtn text={"Buy Course"} onClick={() => navigate("/catalog/web-dev")} />
               {/* TODO: Modify this Empty State */}

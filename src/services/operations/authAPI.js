@@ -16,8 +16,10 @@ export function signUp(accountType,firstName,lastName,email,password,confirmPass
      dispatch(setLoading(true));
 
      try {
+      console.log("emial : ",email)
       const response = await apiConnector("POST", SIGNUP_API, {firstName,lastName,email,password,confirmPassword,accountType,otp})
 
+      console.log("SIGNUP_API RESPONSE............", response)
 
 
       // if(!response.data.success){
@@ -28,6 +30,7 @@ export function signUp(accountType,firstName,lastName,email,password,confirmPass
      } catch (error) {
       console.log("SIGNUP_API ERROR............", error)
       toast.error("Could Not Sign up user")
+      dispatch(setUser(null))
      }
      dispatch(setLoading(false));
      toast.dismiss(toastId);
@@ -86,8 +89,9 @@ export function sendOtp(email, navigate) {
         email,
         checkUserPresent: true,
       })
+      
 
-
+      console.log(response)
       if(!response.data.success){
         throw new Error(response.data.message)
       }
@@ -96,10 +100,11 @@ export function sendOtp(email, navigate) {
       navigate("/verify-email")
      } catch (error) {
       console.log("SENDOTP API ERROR............", error)
-      toast.error("Could Not Send OTP")
-     }
-     dispatch(setLoading(false));
-     toast.dismiss(toastId);
+      toast.error("Email Already Exists")
+    }
+    dispatch(setLoading(false));
+    toast.dismiss(toastId);
+    return false
   }
 }
 

@@ -50,7 +50,7 @@ function ReviewSlider() {
         modules={[FreeMode, Pagination, Autoplay]}
         className="w-full "
       >
-        {ratings.map((review, i) => {
+        {ratings?.map((review, i) => {
           return (
             <SwiperSlide key={i}>
               <div className=" flex flex-col gap-3 rounded-md bg-richblack-800 h-[177px] p-3 text-[14px] text-richblack-25">

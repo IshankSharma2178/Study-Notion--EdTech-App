@@ -33,7 +33,7 @@ function SignupForm() {
       ...formData,
       accountType,
     }
-
+    console.log("signupData : ",signupData);
     dispatch(setUser(signupData))
 
     dispatch(sendOtp(formData.email, navigate))
