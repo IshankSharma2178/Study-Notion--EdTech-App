@@ -11,7 +11,7 @@ function MyProfile() {
 
     return (
     <div className='text-white w-full md:w-[90%] content-start gap-4 m-auto flex flex-col '>
-        <h1 className='text-3xl font-semibold text-richblack-5 '>
+        <h1 className='text-3xl font-semibold text-richblack-50 '>
             My Profile
         </h1>
         

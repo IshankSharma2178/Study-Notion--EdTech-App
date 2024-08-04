@@ -115,7 +115,7 @@ function Catalog() {
                         <div className="mx-auto box-content  max-w-maxContent w-11/12 px-4 py-12 lg:max-w-maxContent">
                             <div className="section_heading">Most Selling Courses</div>
                             <div className='py-8'>
-                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                                     {
                                         catalogPageData?.mostSellingCourse?.length === 0 ? (
                                             <p className='text-xl text-white'>No Most selling courses</p>

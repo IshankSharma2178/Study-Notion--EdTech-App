@@ -169,10 +169,10 @@ function CourseBar() {
                         {/* subSections */}
                         <div>
                             {activeStatus.includes(course?._id) && (
-                                <div>
+                                <div className='mt-1 md:mt-0'>
                                     {course?.subSection?.map((topic, index) => (
                                         <div
-                                            className={`flex  mx-5 py-2 px-2 flex-row justify-between rounded-lg  items-center ${videoBarActive === topic._id ? "bg-yellow-200 font-semibold text-richblack-800" : " hover:bg-richblack-500"}`}
+                                            className={`flex  mx-5 py-3 px-2 flex-row justify-between rounded-lg  items-center ${videoBarActive === topic._id ? "bg-yellow-200 font-semibold text-richblack-800" : " hover:bg-richblack-700 hover:border hover:border-richblack-500 text-yellow-25"}`}
                                             key={index}
                                             onClick={() => {
                                                 navigate(`/view-course/${courseEntireData?._id}/section/${course?._id}/sub-section/${topic?._id}`);

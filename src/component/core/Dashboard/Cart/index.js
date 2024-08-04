@@ -11,7 +11,7 @@ function Cart() {
 
   return (
     <div className='text-white'>
-        <h1  className="mb-4 text-4xl  font-semibold text-richblack-5">Your Cart</h1>
+        <h1  className="mb-4 text-3xl md:text-4xl  font-semibold text-richblack-50">Your Cart</h1>
         <p className="border-b border-b-richblack-400 pb-2 font-semibold text-richblack-400">{totalItems} Courses in Cart</p>
 
         {total >0 ?
