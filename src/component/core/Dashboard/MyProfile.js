@@ -45,11 +45,11 @@ function MyProfile() {
                 <IconBtn text="Edit" icon="FiEdit" onClick={(()=>{navigate("/dashboard/settings")})}/>
                 
             </div>
-            <div className='overflow-auto w-[90%] text-wrap text-richblack-200'>
+            <div className='overflow- w-[90%] text-wrap text-richblack-200'>
                 {
                     userProfile?.about ===null ? 
                     <div>
-                        Write Something About Yourself
+                        Write Something About 
                     </div>
                     :
                     <div>

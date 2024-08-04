@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, matchPath, NavLink, useNavigate } from 'react-router-dom';
 import threeDot from "../../assets/Logo/threeDot.svg";
@@ -28,6 +28,7 @@ function Sidebar({ setShowSidebar, showSidebar }) {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const sidebarRef = useRef(null);
 
     const fetchSubLinks = async () => {
         try {
@@ -44,19 +45,32 @@ function Sidebar({ setShowSidebar, showSidebar }) {
         setLoading(false);
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+                setShowSidebar(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [sidebarRef]);
+
     const matchRoute = (route) => {
         const matchRouteLink =  location.pathname;
         return matchPath({ path: route }, matchRouteLink);
     };
 
     return (
-        <div className={`fixed top-0 left-0 h-screen Sidebar-bg z-50 transition-transform duration-300  ease-in ${showSidebar ? "translate-x-0" : "-translate-x-full"} w-[75vw] bg-white text-black`}>
+        <div className={`fixed top-0 left-0 h-screen Sidebar-bg z-50 transition-transform duration-300  ease-in ${showSidebar ? "translate-x-0" : "-translate-x-full"} w-[75vw] bg-white text-black`} ref={sidebarRef}>
             <div className="flex flex-col h-full p-4">
                 <div className="flex flex-row justify-between  items-center">
                     <img src={threeDot} loading="lazy" alt="Logo" />
 
                     <button onClick={() => setShowSidebar(false)} className="text-lg">
-                        <LuChevronFirst className={`text-white text-3xl ${showSidebar?"rotate-0 ":" rotate-180"} transition-all duration-100  `} />
+                        <LuChevronFirst className={`text-white text-3xl ${showSidebar ? "rotate-0 " : " rotate-180"} transition-all duration-100  `} />
                     </button>
                 </div>
 
@@ -116,7 +130,7 @@ function Sidebar({ setShowSidebar, showSidebar }) {
                                                 onClick={()=>matchRoute("/catalog/"+sublink.name.split(" ").join("-").toLowerCase())}
                                                 key={index}
                                             to={`catalog/${sublink.name.split(" ").join("-").toLowerCase()}`}
-                                            className={`block rounded-lg py-4 pl-4 hover:bg-richblack-50 `}
+                                            className={`block rounded-lg py-4 pl-4 hover:text-yellow-25`}
                                          >
                                                 <p className={`text-richblack-100 text-xl font-semibold pl-4 ${matchRoute("/catalog/"+sublink.name.split(" ").join("-").toLowerCase())?"text-yellow-5 bg-none":""} `}>{sublink.name}</p>
                                             </NavLink>
