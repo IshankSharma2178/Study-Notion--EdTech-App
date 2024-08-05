@@ -10,7 +10,7 @@ function LearningLanguageSection() {
     <div className='pb-14'>
       <div className='flex flex-col mt-[30px] md:mt-[100px] gap-5'>
         <div className='text-4xl font-semibold text-center mx-[1.5rem]'>
-          Your Swiss Knife for <HighlightText text={"learning any language"} />
+          Your Swiss Knife for <HighlightText text={"learning"} />
         </div>
 
         <div className='text-center max-w-[65%] font-medium tracking-wide text-richblack-500 mx-auto text-base'>

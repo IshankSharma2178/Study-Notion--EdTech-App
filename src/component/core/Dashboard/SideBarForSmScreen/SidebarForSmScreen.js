@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import {sidebarLinks} from "../../../data/dashboard-links"
-import {logout} from "../../../services/operations/authAPI"
+import {sidebarLinks} from "../../../../data/dashboard-links"
+import {logout} from "../../../../services/operations/authAPI"
 import { useDispatch, useSelector } from 'react-redux'
-import SidebarLink from "./SidebarLink"
+import SidebarLink from "../SidebarLink"
 import { useNavigate } from 'react-router'
 import { VscSignOut } from 'react-icons/vsc'
-import ConfirmationModal from '../../common/ConfirmationModal'
+import ConfirmationModal from '../../../common/ConfirmationModal'
 
 function Sidebar() {
     
@@ -24,7 +24,8 @@ function Sidebar() {
     }
     return (
         <>
-        <div className=' h-[calc(100vh-3.5rem)] w-full flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10'>
+        <div className=' h-[calc(100vh-3.5rem)] w-full flex-col border-r-[1px]  bg-richblack-900 py-10'>
+        <div className='text-3xl text-richblack-25 px-8 md:mx-0 mx-2 py-2 mb-4'>Dashboard</div>
             <div className='flex flex-col w-full focus:bg-richblack-300'>
                 {sidebarLinks.map((link)=>{
                         if (link.type && user?.accountType !== link.type) return null;

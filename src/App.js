@@ -28,13 +28,13 @@ import ViewCourse from './pages/ViewCourse';
 import VideoDetails from './component/core/ViewCourse/videoSlide/VideoDetails';
 import InstructorDashboard from './component/core/Dashboard/InstructorDashboard/InstructorDashboard';
 import CourseBar from './component/core/ViewCourse/ViewCourseForSmScreen/CourseBar';
-import SidebarForSmScreen from './component/core/Dashboard/SidebarForSmScreen';
+import SidebarForSmScreen from './component/core/Dashboard/SideBarForSmScreen/SidebarForSmScreen';
 
 function App() {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <div className='w-screen min-h-screen bg-richblack-900 flex flex-col font-inter overflow-auto'>
+    <div className='w-screen min-h-screen bg-[#000814] flex flex-col font-inter overflow-auto'>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
