@@ -34,7 +34,7 @@ function App() {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <div className='w-screen min-h-screen bg-richblack-900 flex flex-col font-inter overflow-hidden'>
+    <div className='w-screen min-h-screen bg-richblack-900 flex flex-col font-inter overflow-auto'>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
