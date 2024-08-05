@@ -13,11 +13,10 @@ function CoursesTable() {
     const dispatch =useDispatch()
     const navigate = useNavigate() 
     const {courseEntireData} = useSelector((state)=>state.viewCourse)
-    const [loading , setLoading] =useState(false);
+    const [loading , setLoading] =useState(true);
     const [dltModal , setDltModal] = useState(null);
-    const handleOnSubmit = ()=>{
-        dispatch(getInstructorCourses(token))
-    }
+
+
     
     const formatDateTime = (dateTimeString) => {
       const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
@@ -86,6 +85,11 @@ function CoursesTable() {
     }
 
     useEffect(()=>{
+
+      const handleOnSubmit = async()=>{
+        await dispatch(getInstructorCourses(token))
+        console.log("entire course data  : ",courseEntireData)
+      }
       setLoading(true);
       handleOnSubmit()
       setLoading(false);
@@ -103,7 +107,7 @@ function CoursesTable() {
             </div>
           <div className='text-white border border-richblack-700 rounded-lg'>
         {
-          courseEntireData.length >0 && loading===true ? ( 
+          courseEntireData.length >0 && loading===false ? ( 
           <div className={`flex flex-col md:grid md:grid-rows-${courseEntireData.length+3} `}>
             {/* headings */}
             <div className='hidden md:flex  flex-row justify-between border-b border-richblack-600  text-richblack-200 text-[14px] '>
@@ -121,10 +125,10 @@ function CoursesTable() {
             {/* courses cards */}
             {
               courseEntireData.map((element,index)=>(
-                <div key={index} className='flex md:flex-row flex-col md:m-0 m-auto   p-3'>
+                <div key={index} className='flex md:flex-row flex-col md:m-0 m-auto w-full  p-3'>
                   <div  onClick={()=>navigate("/courses/"+element._id)}
-                  className='md:flex-row flex-col flex md:w-[65%] w-[291px] cursor-pointer rounded-lg group md:m-0 md:bg-none px-4 md:p-0 py-4 md:bg-richblack-900 md:border-none   bg-richblack-600 bg-opacity-40 border border-richblack-500 m-auto gap-3'>
-                    <div className=' rounded-lg '>
+                  className='md:flex-row flex-col flex md:w-[65%] w-full cursor-pointer rounded-lg group md:m-0 md:bg-none px-4 md:p-0 py-4 md:bg-richblack-900 md:border-none   bg-richblack-600 bg-opacity-40 border border-richblack-500 m-auto gap-3'>
+                    <div className=' rounded-lg md:m-0 m-auto'>
                       <img src={element.thumbnail} loading="lazy" className= 'md:border-none border border-richblack-200 group-[]: w-[260px] object-cover  h-[260px] md:w-[130px] md:h-[130px] lg:w-[180px] lg:h-[130px] rounded-lg'/>
                     </div>
                     <div className='flex flex-col md:m-0 m-auto justify-center w-full md:w-[60%]'>
@@ -193,7 +197,7 @@ function CoursesTable() {
               </div>
           </div>
           
-          <div className='flex justify-center items-center  text-richblack-100 text-4xl my-10 '>No Course Added Yet</div>
+          <div className='flex justify-center items-center  text-richblack-100 text-lg md:text-4xl my-10 '>No Course Added Yet</div>
           </>
         )
         }

@@ -281,6 +281,7 @@ exports.getInstructorCourses = async(req,res)=>{
         });
 
         const result=data.courses
+        console.log(result);
         return res.status(200).json({
             data:result
         })
