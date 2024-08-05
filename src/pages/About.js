@@ -27,7 +27,7 @@ function About() {
                         future by offering cutting-edge courses, leveraging emerging technologies, and nurturing a vibrant learning community.
                     </p>
                 </header>
-                <div  className='grid absolute m-auto bottom-1 translate-y-[30%] max-w-maxContent w-11/12 grid-w-[90%] grid-cols-2 lg:grid-cols-3  grid-rows-1 gap-3 lg:gap-4'>
+                <div  className='grid absolute m-auto bottom-1 md:mt-0 mt-4 translate-y-[30%] max-w-maxContent w-11/12 grid-w-[90%] grid-cols-2 lg:grid-cols-3  grid-rows-1 gap-3 lg:gap-4'>
                     <img src={BannerImage1} loading="lazy" />
                     <img src={BannerImage2} loading="lazy"/>
                     <img src={BannerImage3} loading="lazy" className='lg:flex hidden'/>

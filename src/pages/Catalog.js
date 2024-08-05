@@ -93,25 +93,20 @@ function Catalog() {
                                 >
                                     Most Popular
                                 </p>
-                                {/* <p
+                                <p
                                     className={`px-4 py-2 ${active === 2 ? "border-b border-b-yellow-25 text-yellow-25" : "text-richblack-50"} cursor-pointer`}
                                     onClick={() => setActive(2)}
                                 >
                                     New
-                                </p> */}
+                                </p>
                             </div>
-                            <div className='px-4'>
+                            <div className={`px-4 ${active !==1?"hidden":""}`}>
                                 <CourseSlider Courses={catalogPageData?.selectedCourses?.course} />
                             </div>
-                        </div>
-
-                        {/* section2 */}
-                        {/* <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-                            <div className="section_heading">Checkout {catalogPageData?.differentCourses?.name} Courses Also</div>
-                            <div className="py-8">
-                                <CourseSlider Courses={catalogPageData?.differentCourses?.course} />
+                            <div className={`px-4 ${active !==2?"hidden":""}`}>
+                                <CourseSlider Courses={catalogPageData?.latestCourses} />
                             </div>
-                        </div> */}
+                        </div>
 
                         {/* section3 */}
                         <div className="mx-auto box-content  max-w-maxContent w-11/12 px-4 py-12 lg:max-w-maxContent">

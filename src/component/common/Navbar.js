@@ -44,7 +44,7 @@ function Navbar() {
  
 
   return (
-    <div className='flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 '>
+    <div className='flex h-14 items-center justify-normal md:justify-center border-b-[1px] border-b-richblack-700 '>
       <div className=' md:hidden flex w-full'>
         <div className='flex flex-row justify-evenly  w-full items-center'>
           <button className='text-white' onClick={() => setShowSidebar(true)}>

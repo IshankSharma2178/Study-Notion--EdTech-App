@@ -57,7 +57,7 @@ exports.categoryPageDetails = async (req, res) => {
         const selectedCourses = await Category.findById(categoryId)
         .populate({
             path: 'course',
-            select:"courseName ratingAndReviews status thumbnail price",
+            select:"courseName ratingAndReviews status createdAt thumbnail price",
             match: { status: 'Published' },
             populate: [
                 {
@@ -70,7 +70,11 @@ exports.categoryPageDetails = async (req, res) => {
             })
             .exec();
 
+            console.log("Loading : ",selectedCourses)
+
+            const latestCourses = selectedCourses.course.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5);
             
+            console.log("latest Courses: ", latestCourses)
         // Handle the case when the category is not found
         if (!selectedCourses) {
             console.log("Category not found.");
@@ -93,6 +97,7 @@ exports.categoryPageDetails = async (req, res) => {
         res.status(200).json({
             selectedCourses: selectedCourses,
             mostSellingCourses: mostSellingCourses,
+            latestCourses:latestCourses,
             name: selectedCourses.name,
             description: selectedCourses.description,
             success: true

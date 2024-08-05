@@ -82,18 +82,18 @@ function Comment({ subSectionId }) {
             </form>
             {
                 loading ? (<div className='spinner w-full m-auto'></div>) : 
-                (<div className='flex flex-col gap-10  mb-10'>
+                (<div className='flex flex-col gap-10 mb-10'>
                     {commentsArray.slice().reverse().map((comment, index) => (
                         <div key={index} className='h-fit flex flex-row justify-start items-start gap-6'>
                             <div className='h-full'>
-                                <img src={comment.UserImageOfComment} loading="lazy" className='size-10  md:size-14 rounded-full' alt='User' />
+                                <img src={comment.UserImageOfComment} loading="lazy" className='w-10 h-10 md:w-14 md:h-14 rounded-full' alt='User' />
                             </div>
                             <div className='flex flex-col'>
                                 <div className='flex flex-row gap-4 items-center'>
                                     <h1 className='text-sm truncate md:text-lg'>{comment.UserNameOfComment}</h1>
                                     <p className='text-xs text-richblack-200'>{formatDate(comment.createdAt)}</p>
                                 </div>
-                                <p className='text-base text-richblack-100 mt-1'>{comment.Comment}</p>
+                                <p className='text-base text-richblack-100 mt-1 break-words whitespace-pre-wrap'>{comment.Comment}</p>
                             </div>
                         </div>
                     ))}

@@ -82,14 +82,14 @@ function LearningGrid() {
                     </div>
                 ))
             }
-            <Carousel plugins={[Autoplay({delay: 2000,stopOnInteraction: false,stopOnMouseEnter: false}),]}className="w-full shadow-blue gliter-background m-auto lg:hidden ">
+            <Carousel plugins={[Autoplay({delay: 2000,stopOnInteraction: false,stopOnMouseEnter: false}),]}className="w-full m-auto lg:hidden ">
                 <CarouselContent className="gap-3 " >
                     {LearningGridArray.map((element, index) => (
                         (
                         index>0 &&
                             <CarouselItem key={index}  className="md:basis-1/2 ">
                                 <div className=''>
-                                    <div className={`gliter-background module min-h-[15rem] lg:hidden pt-5 p-4 block lg:pt-10 lg:p-6` } key={index}>
+                                    <div className={` min-h-[15rem] border border-richblack-400 lg:hidden pt-5 p-4 block lg:pt-10 lg:p-6` } key={index}>
                                         <div>
                                             <h1 className='text-2xl lg:text-xl tracking-wide text-richblack-5'>{element.heading}</h1>
                                         </div>

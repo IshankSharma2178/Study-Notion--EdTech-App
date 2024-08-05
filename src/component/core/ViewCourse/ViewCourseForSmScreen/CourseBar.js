@@ -18,7 +18,7 @@ function CourseBar() {
     const [videoBarActive, setVideoBarActive] = useState("");
     const dispatch = useDispatch();
     const {courseId} = useParams();
-    const [loading , setLoading] = useState(false);
+    const [loading , setLoading] = useState(true);
     const navigate = useNavigate();
     const [reviewModal,setReviewModal] = useState(false);
     const location = useLocation();
@@ -76,9 +76,7 @@ function CourseBar() {
         if (courseEntireData) {
             setActiveFlags();
         }
-        setTimeout(()=>{
             setLoading(false)
-        },)
     }, [courseSectionData, location.pathname, sectionId, subSectionId, courseEntireData, courseId]);
 
 

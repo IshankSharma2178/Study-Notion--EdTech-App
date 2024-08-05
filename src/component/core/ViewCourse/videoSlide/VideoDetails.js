@@ -190,12 +190,6 @@ function VideoDetails() {
           >
             Comment
           </button>
-          <button
-            onClick={()=>setOption("Rating")}
-            className={`${option==="Rating"?"text-yellow-5 border-b border-b-yellow-5":"text-richblack-100 "} `}
-          >
-            Rating
-          </button>
         </div>
         <div>
           {

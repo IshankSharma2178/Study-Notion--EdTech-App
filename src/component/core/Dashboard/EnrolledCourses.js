@@ -5,11 +5,12 @@ import { fetchMarkedAsCompleted, getFullDetailsOfCourse } from "../../../service
 import ProgressBar from '@ramonak/react-progress-bar'
 import { setTotalNoOfLectures, setCompletedLectures, setEntireCourseData, setCourseSectionData } from '../../../slices/viewCourseSlice';
 import { useNavigate } from 'react-router'
+import {setLoading as setAuthLoading} from "../../../slices/authSlice"
 import IconBtn from '../../common/IconBtn'
 import toast from 'react-hot-toast'
 
 function EnrolledCourses() {
-  const { token } = useSelector((state) => state.auth)
+  const { token ,loading:authLoading } = useSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
@@ -43,7 +44,9 @@ function EnrolledCourses() {
     } catch (error) {
       console.log("Unable to Fetch Enrolled Courses", error)
     } finally {
-        setLoading(false)
+
+        setLoading(false);
+  
     }
   }
 
@@ -72,11 +75,14 @@ function EnrolledCourses() {
     toast.dismiss(toastId)
   }, [token])
 
+
+  if(loading){
+    return (<div className=' w-full  h-[calc(100vh-3.5rem)] m-auto'>
+        <div className='spinner'></div>
+    </div>)
+  }
+  else
   return (
-    <>
-      {loading ? (
-        <div className='spinner w-full h-[calc(100vh-3.5rem)] m-auto'></div>
-      ) : (
         <>
           <div className=" font-semibold text-3xl md:text-4xl text-richblack-50">Enrolled Courses</div>
           {!enrolledCourses ? (
@@ -162,8 +168,8 @@ function EnrolledCourses() {
             </div>
           )}
         </>
-      )}
-    </>
+      
+
   )
 }
 
