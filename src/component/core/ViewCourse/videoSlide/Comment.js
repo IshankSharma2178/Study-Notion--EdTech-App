@@ -3,20 +3,21 @@ import { fetchComments, addComment } from "../../../../services/operations/cours
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
+import toast from 'react-hot-toast';
 
 function Comment({ subSectionId }) {
     const { token } = useSelector((state) => state.auth);
-    const { register, handleSubmit,setValue, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const [commentsArray, setCommentsArray] = useState([]);
-    const [loadng,setLoading] = useState(false);
-    const {courseId} = useParams();
+    const [loading, setLoading] = useState(false);
+    const { courseId } = useParams();
     
     useEffect(() => {
         const fetchComment = async () => {
             if (!subSectionId) return;  
             setLoading(true);
             try {
-                const comments = await fetchComments(token, subSectionId,courseId);
+                const comments = await fetchComments(token, subSectionId, courseId);
                 setCommentsArray(comments);
             } catch (error) {
                 console.error("Error fetching comments: ", error);
@@ -26,16 +27,16 @@ function Comment({ subSectionId }) {
         
         fetchComment();
         
-    }, [subSectionId, token]);
+    }, [subSectionId, token, courseId]);
 
     const onSubmit = async (data) => {
         try {
-            const result = await addComment({ comment: data.comment, subSectionId  ,courseId}, token);
-         
-            
+            const result = await addComment({ comment: data.comment, subSectionId, courseId }, token);
+            setValue("comment", "");
+            const toastId = toast.loading("Loading...");
             const updatedComments = await fetchComments(token, subSectionId);
             setCommentsArray(updatedComments);
-            setValue("comment","")
+            toast.dismiss(toastId);
         } catch (error) {
             console.error("Error adding comment: ", error);
         }
@@ -50,8 +51,6 @@ function Comment({ subSectionId }) {
     
         let hours = date.getHours();
         const minutes = date.getMinutes().toString().padStart(2, '0');
-        const seconds = date.getSeconds().toString().padStart(2, '0');
-    
         const ampm = hours >= 12 ? 'pm' : 'am';
         hours = hours % 12;
         hours = hours ? hours : 12; // the hour '0' should be '12'
@@ -82,33 +81,24 @@ function Comment({ subSectionId }) {
                 </div>
             </form>
             {
-                loadng ? (<div className='spinner w-full m-auto'></div>) : 
-
-                ( <div className='flex flex-col gap-10  mb-10'>
-                {commentsArray?.map((comment, index) => (
-                    <div key={index} className='h-fit flex flex-row justify-start items-start gap-6'>
-                        <div className='h-full'>
-                            <img src={comment.UserImageOfComment} loading="lazy" className='size-10  md:size-14 rounded-full' alt='User' />
-                        </div>
-                        <div className='flex flex-col'>
-                            <div className='flex flex-row gap-4 items-center'>
-                                <h1 className='text-sm truncate md:text-lg'>{comment.UserNameOfComment}</h1>
-                                <p className='text-xs text-richblack-200'>{formatDate(comment.createdAt)}</p>
+                loading ? (<div className='spinner w-full m-auto'></div>) : 
+                (<div className='flex flex-col gap-10  mb-10'>
+                    {commentsArray.slice().reverse().map((comment, index) => (
+                        <div key={index} className='h-fit flex flex-row justify-start items-start gap-6'>
+                            <div className='h-full'>
+                                <img src={comment.UserImageOfComment} loading="lazy" className='size-10  md:size-14 rounded-full' alt='User' />
                             </div>
-                            <p className='text-base text-richblack-100 mt-1'>{comment.Comment}</p>
-                            {/* Uncomment and complete the like/dislike feature as needed */}
-                            {/* <div className='flex-row mt-2 gap-6'>
-                                <button onClick={() => handleLike(comment)}>
-                                    <GrLike />
-                                    <p className='text-richblack-200'>{comment.Likes}</p>
-                                </button>
-                            </div> */}
+                            <div className='flex flex-col'>
+                                <div className='flex flex-row gap-4 items-center'>
+                                    <h1 className='text-sm truncate md:text-lg'>{comment.UserNameOfComment}</h1>
+                                    <p className='text-xs text-richblack-200'>{formatDate(comment.createdAt)}</p>
+                                </div>
+                                <p className='text-base text-richblack-100 mt-1'>{comment.Comment}</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>)
+                    ))}
+                </div>)
             }
-           
         </div>
     );
 }

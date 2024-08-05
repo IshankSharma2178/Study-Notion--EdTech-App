@@ -16,7 +16,6 @@ exports.createCategory=async(req,res,next) => {
             name: name, 
             description: description
         })
-        console.log(CategoryDetails);
 
         return res.status(200).json({
             success:true,
@@ -49,75 +48,61 @@ exports.showAllCategorys = async (req,res) => {
     }
 }
 
+
 exports.categoryPageDetails = async (req, res) => {
     try {
         const { categoryId } = req.body;
-
-        // Get the selected category and populate the 'course' field
-        const selectedCategory = await Category.findById(categoryId)
-            .populate('course')
+        
+        // Get courses for the specified category
+        const selectedCourses = await Category.findById(categoryId)
+        .populate({
+            path: 'course',
+            select:"courseName ratingAndReviews status thumbnail price",
+            match: { status: 'Published' },
+            populate: [
+                {
+                        path: 'ratingAndReviews',
+                    },
+                    {
+                        path: 'studentEnrolled',
+                    }
+                ]
+            })
             .exec();
 
-        console.log("Selected Category:", selectedCategory);
-
+            
         // Handle the case when the category is not found
-        if (!selectedCategory) {
-            console.log("Category not found");
-            return res.status(404).json({
-                success: false,
-                message: "Category not found"
-            });
+        if (!selectedCourses) {
+            console.log("Category not found.");
+            return res.status(404).json({ success: false, message: "Category not found" });
         }
 
         // Handle the case when there are no courses
-        if (!selectedCategory.course || selectedCategory.course.length === 0) {
-            console.log("No courses found for this category");
-            return res.status(404).json({
-                success: false,
-                message: "No courses found for this category"
-            });
+        if (!selectedCourses.course || selectedCourses.course.length === 0) {
+            console.log("No courses found for the selected category.");
+            return res.status(404).json({ success: false, message: "No courses found for the selected category." });
         }
 
-        const selectedCourse = selectedCategory.course;
+        const allCourses = selectedCourses.course;
 
-        // Get courses for other categories
-        const categoriesExceptSelected = await Category.find({ _id: { $ne: categoryId } })
-            .populate('course')
-            .exec();
+        const mostSellingCourses = allCourses
+            .sort((a, b) => b.studentEnrolled.length - a.studentEnrolled.length)
+            .slice(0, 10); 
 
-        console.log("Categories Except Selected:", categoriesExceptSelected);
 
-        let differentCourse = [];
-        for (const category of categoriesExceptSelected) {
-            if (category.course && category.course.length > 0) {
-                differentCourse.push(...category.course);
-            }
-        }
-
-        // Get top-selling courses across all categories
-        const allCategories = await Category.find().populate({
-                                                        path:"course",
-                                                        match:{status:"Published"},
-                                                        populate:{
-                                                            path:"instructor"
-                                                        }
+        res.status(200).json({
+            selectedCourses: selectedCourses,
+            mostSellingCourses: mostSellingCourses,
+            name: selectedCourses.name,
+            description: selectedCourses.description,
+            success: true
         });
-        const allCourse = allCategories.flatMap((category) => category.course || []);
-        const mostSellingCourse = allCourse
-            .sort((a, b) => b.sold - a.sold)
-            .slice(0, 10);
-
-        return res.status(200).json({
-            selectedCategory: selectedCategory,
-            selectedCourse: selectedCourse,
-            differentCourse: differentCourse,
-            mostSellingCourse: mostSellingCourse,
-        });
-    } catch (err) {
-        console.error("Error:", err.message);
-        return res.status(500).json({
+    } catch (error) {
+        console.error("Error:", error.message);
+        res.status(500).json({
             success: false,
-            message: err.message,
+            message: "Internal server error",
+            error: error.message
         });
     }
 };

@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import GetAvgRating from '../../../../utils/avgRating';
+import { FaStar } from "react-icons/fa";
+
+import ReactStars from "react-rating-stars-component";
 
 function CourseCard({ course, Height }) {
-    const [avgReviewCount, setAvgReviewCount] = useState(0);
-        
-    useEffect(() => {
-        const count = GetAvgRating(course.ratingAndReviews);
-        setAvgReviewCount(count);
-    }, [course]);
+
+
+    function CalculateStars(avgReviewCount){
+        const totalratings = avgReviewCount.map((rating) =>rating.rating)
+        return totalratings/avgReviewCount.length
+    }
+    
+
 
     return (
         <div className='bg-richblack-800 border border-richblack-500  rounded-xl'>
@@ -20,8 +24,16 @@ function CourseCard({ course, Height }) {
                     <div className="flex flex-col gap-2 px-4 py-5">
                         <p  className="text-xl text-richblack-5">{course?.courseName}</p>
                         <p className="text-sm text-richblack-50">{course?.instructor?.firstName} {course?.instructor?.lastName}</p>
-                        <div className="flex items-center gap-2">
-                            <span  className="text-yellow-5">{avgReviewCount || 0}</span>
+                        <div className="flex items-center gap-2 ">
+                            <p className="text-yellow-5 pt-[4px] text-lg" >{CalculateStars(course?.ratingAndReviews)}</p>
+                            <span  className="">{<ReactStars size= {30}    
+                                                    emptyIcon={<far fa-star /> }
+                                                    halfIcon={<i className="fa fa-star-half-alt"></i>}
+                                                    filledIcon={<FaStar />}
+                                                    value={CalculateStars(course?.ratingAndReviews)} 
+                                                    activeColor="#ffd700"
+                                                    edit={false}/> || 0}
+                            </span>
                             {/* <span>{course?.reviews?.length} Reviews</span> */}
                             <span  className="text-richblack-400">{course?.ratingAndReviews?.length} reviews</span>
                         </div>

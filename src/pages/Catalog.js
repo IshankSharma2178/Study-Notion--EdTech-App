@@ -17,6 +17,7 @@ function Catalog() {
     const [active, setActive] = useState(1);
     const [loading, setLoading] = useState(false);
     let variable = false;
+
     useEffect(() => {
         const getCategories = async () => {
             try {
@@ -47,6 +48,7 @@ function Catalog() {
             try {
                 setLoading(true); 
                 const res = await getCatalogPageData(categoryId);
+                console.log("result :  ",res)
                 setCatalogPageData(res);
             } catch (error) {
                 console.error("Error fetching catalog page data:", error);
@@ -72,11 +74,11 @@ function Catalog() {
                         <div className="mx-auto flex min-h-[260px] flex-col justify-center gap-4 max-w-maxContent w-11/12 ">
                             <p className="text-sm text-richblack-300">{`Home / Catalog / `}
                                 <span className="text-yellow-25">
-                                    {catalogPageData?.selectedCategory?.name}
+                                    {catalogPageData?.name}
                                 </span>
                             </p>
-                            <p className="text-3xl text-richblack-5"> {catalogPageData?.selectedCategory?.name} </p>
-                            <p className="max-w-[870px] text-richblack-200"> {catalogPageData?.selectedCategory?.description}</p>
+                            <p className="text-3xl text-richblack-5"> {catalogPageData?.name} </p>
+                            <p className="max-w-[870px] text-richblack-200"> {catalogPageData?.description}</p>
                         </div>
                     </div>
 
@@ -99,7 +101,7 @@ function Catalog() {
                                 </p> */}
                             </div>
                             <div className='px-4'>
-                                <CourseSlider Courses={catalogPageData?.selectedCategory?.course} />
+                                <CourseSlider Courses={catalogPageData?.selectedCourses?.course} />
                             </div>
                         </div>
 
@@ -120,7 +122,7 @@ function Catalog() {
                                         catalogPageData?.mostSellingCourse?.length === 0 ? (
                                             <p className='text-xl text-white'>No Most selling courses</p>
                                         ) : (
-                                            catalogPageData?.mostSellingCourse?.slice(0, 4)
+                                            catalogPageData?.mostSellingCourses?.slice(0, 4)
                                                 .map((course, index) => (
                                                     <CourseCard course={course} key={index} Height={"h-[300px]"} />
                                                 ))

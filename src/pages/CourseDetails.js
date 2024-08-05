@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { buyCourse } from '../services/operations/StudentFeaturesAPI';
+import ReactStars from "react-rating-stars-component";
 import { getCourseDetails } from '../services/operations/courseDetailAPI';
 import { setCourse } from '../slices/courseSlice';
 import GetAvgRating from '../utils/avgRating';
@@ -46,11 +47,7 @@ const CourseDetails = () => {
 
       getCourseFullDetails();
     }, [courseId])
-    
-    // useEffect(() => {
-    //   const count = GetAvgRating(courseData?.data?.courseDetails.ratingAndReviews);
-    //   setAvgReviewCount(count);
-    // }, [courseData])
+
     
     const [totalNoOfLectures, setTotalNoOfLectures] = useState(0);
     useEffect(() => {
@@ -63,6 +60,7 @@ const CourseDetails = () => {
     
     //Will store sectionIds for enabling the dropdown
     const [isActive, setIsActive] = useState([]);
+
     const handleActive = (id)=> {
 
         setIsActive(
@@ -181,6 +179,11 @@ const CourseDetails = () => {
         )
     }
 
+    const getRatings=(ratings)=>{
+        const totalRatings = ratings.map((ratings)=>(ratings.rating))
+        return totalRatings/ratings.length; 
+    }
+
     const {
         _id: course_id,
         courseName,
@@ -191,7 +194,7 @@ const CourseDetails = () => {
         courseContent,
         ratingAndReviews,
         instructor,
-        studentsEnrolled,
+        studentEnrolled,
         createdAt,
     } = courseData.data?.courseDetails;
   return (
@@ -201,10 +204,8 @@ const CourseDetails = () => {
             <div className='mx-auto box-content px-4 lg:w-[1100px]  2xl:relative '>
                 <div className='mx-auto grid min-h-[450px] max-w-maxContentTab justify-items-center py-8 lg:mx-0 lg:justify-items-start lg:py-0 xl:max-w-[810px]'>
                    
-                   <div className='relative block max-h-[30rem] lg:hidden w-full'>
-                        <div className='absolute bottom-0 left-0 h-full  w-full rounded-md '>
-                        </div>
-                        <img src={thumbnail} loading="lazy" className='aspect-auto w-full'/>
+                   <div className='relative block max-h-[30rem] flex items-center justify-center m-auto lg:hidden w-full'>
+                       <img src={thumbnail} loading="lazy" className='aspect-auto h-fit w-fit'/>
                    </div>
 
                    <div className='z-30 my-5 flex flex-col justify-center gap-4 py-5 text-lg w-full text-richblack-5'>
@@ -212,10 +213,10 @@ const CourseDetails = () => {
                         <p className='text-richblack-200 xl:w-[80%]'>{courseDescription}</p>
                         
                         <div className='text-md flex flex-wrap items-center gap-2'>
-                            <span className='text-yellow-25'>{avgReviewCount}</span>
-                            {/* <RatingStars Review_Count={avgReviewCount} Star_Size={24} /> */}
+                            <span className='text-yellow-25'>{getRatings(ratingAndReviews)}</span>
+                            <ReactStars  edit={false} value={getRatings(ratingAndReviews)} size= {30} />
                             <span>{`(${ratingAndReviews?.length} reviews) `}</span>
-                            <span>{`(${studentsEnrolled?.length} students enrolled)`}</span>
+                            <span>{`(${studentEnrolled?.length} students )`}</span>
                         </div>
 
                         <div>
@@ -244,7 +245,7 @@ const CourseDetails = () => {
                         }
 
                         {
-                        (!courseData.data?.courseDetails?.studentsEnrolled?.includes(user?._id)) && (
+                        (!studentEnrolled?.includes(user?._id)) && (
                                 isCourseAddded() ? (                      
                                     <button onClick={handleRemoveToCart} className='lg:blackButton bg-richblack-400 font-bold rounded-md  px-[20px] py-[8px]'>
                                         Remove From Cart
