@@ -272,13 +272,8 @@ exports.getInstructorCourses = async(req,res)=>{
 
         const data = await User.findById(userId).populate({
                                                 path:"courses",
-                                                populate:{
-                                                    path:"courseContent",
-                                                    populate:{
-                                                        path:"subSection"
-                                                    }
-                                                }
-        });
+                                                select:"courseName courseDescription status createdAt thumbnail price"    
+                                            });
 
         const result=data.courses
         console.log(result);

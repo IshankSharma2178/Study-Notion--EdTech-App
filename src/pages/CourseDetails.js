@@ -213,7 +213,7 @@ const CourseDetails = () => {
                         <p className='text-richblack-200 xl:w-[80%]'>{courseDescription}</p>
                         
                         <div className='text-md flex flex-wrap items-center gap-2'>
-                            <span className='text-yellow-25'>{getRatings(ratingAndReviews)}</span>
+                            <span className='text-yellow-25'>{getRatings(ratingAndReviews) || 0}</span>
                             <ReactStars  edit={false} value={getRatings(ratingAndReviews)} size= {30} />
                             <span>{`(${ratingAndReviews?.length} reviews) `}</span>
                             <span>{`(${studentEnrolled?.length} students )`}</span>

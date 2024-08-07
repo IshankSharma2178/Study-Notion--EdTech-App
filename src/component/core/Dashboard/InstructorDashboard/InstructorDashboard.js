@@ -19,7 +19,7 @@ function InstructorDashboard() {
             const instructorData = await getInstructorData(token);
             const result =await fetchInstructorCourses(token)
 
-            if (instructorData.length) {
+            if (instructorData?.length) {
                 setInstructorData(instructorData)
               }
               if (result) {
@@ -54,7 +54,7 @@ function InstructorDashboard() {
         {
           loading ? (
           <div className="spinner"></div>
-        ) : courses.length > 0 ? (
+        ) : courses?.length > 0 ? (
           <div>
             <div className="my-4 flex h-[450px] space-x-4">
               {/* Render chart / graph */}
@@ -75,7 +75,7 @@ function InstructorDashboard() {
                   <div>
                     <p className="text-lg text-richblack-200">Total Courses</p>
                     <p className="text-3xl font-semibold text-richblack-50">
-                      {courses.length}
+                      {courses?.length}
                     </p>
                   </div>
                   <div>
@@ -99,7 +99,7 @@ function InstructorDashboard() {
                   <div className='text-center '>
                     <p className="text-lg text-richblack-200">Total Courses</p>
                     <p className="text-xl font-semibold text-richblack-50">
-                      {courses.length}
+                      {courses?.length}
                     </p>
                   </div>
                   <div className='text-center '>
@@ -139,7 +139,7 @@ function InstructorDashboard() {
                       </p>
                       <div className="mt-1 flex items-center space-x-2">
                         <p className="text-xs font-medium text-richblack-300">
-                          {course.studentEnrolled.length} students
+                          {course?.studentEnrolled?.length} students
                         </p>
                         <p className="text-xs font-medium text-richblack-300">
                           |

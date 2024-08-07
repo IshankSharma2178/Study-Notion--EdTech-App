@@ -23,47 +23,6 @@ function CoursesTable() {
       return new Date(dateTimeString).toLocaleDateString(undefined, options);
     };
 
-    function calculateTotalDuration(data) {
-      let totalDurationSeconds = 0;
-      let hours = null;
-      let minutes = null;
-      let seconds = null;
-      let time = null;
-  
-      data.forEach((ele) => {
-          if (ele.subSection) {
-              ele.subSection.forEach((e) => {
-                  if (e.timeDuration) {
-                      const timelength = e.timeDuration.split(':');
-                      if (timelength.length === 2) {
-                          [minutes, seconds] = timelength.map(Number);
-                          totalDurationSeconds += minutes * 60 + seconds;
-                      } else if (timelength.length === 1) {
-                          [seconds] = timelength;
-                          totalDurationSeconds += seconds;
-                      } else {
-                          [hours, minutes, seconds] = timelength.map(Number);
-                          totalDurationSeconds += hours * 3600 + minutes * 60 + seconds;
-                      }
-                  }
-              });
-          }
-      });
-      if (hours !== null) {
-          hours = Math.floor(totalDurationSeconds / 3600);
-          minutes = Math.floor((totalDurationSeconds % 3600) / 60);
-          seconds = totalDurationSeconds % 60;
-          time = `${hours}h ${minutes}m ${seconds}s`;
-      } else if (minutes !== null) {
-          minutes = Math.floor((totalDurationSeconds % 3600) / 60);
-          seconds = totalDurationSeconds % 60;
-          time = `${minutes}m ${seconds}s`;
-      } else {
-          seconds = totalDurationSeconds % 60;
-          time = `${seconds}s`;
-      }
-      return time;
-  }
   
   const deleteHandler = (data) => {
     const result= deleteCourse(data._id,token)
@@ -86,12 +45,12 @@ function CoursesTable() {
 
     useEffect(()=>{
 
-      const handleOnSubmit = async()=>{
+      const getInstructorAllCourses = async()=>{
         await dispatch(getInstructorCourses(token))
         console.log("entire course data  : ",courseEntireData)
       }
       setLoading(true);
-      handleOnSubmit()
+      getInstructorAllCourses()
       setLoading(false);
     },[])
 
@@ -115,9 +74,9 @@ function CoursesTable() {
                 <p>COURSES </p>
               </div>
               <div className='flex flex-row justify-end mr-4 gap-7 tracking-wider p-3 w-[35%]'>
-                <p>DURATION</p>
                 <p>PRICE</p>
-                <p>ACTION</p>
+                <p>EDIT</p>
+                <p>DELETE</p>
               </div>
           </div>
 
@@ -140,12 +99,12 @@ function CoursesTable() {
                       </div>
                     </div>
                     <div className='w-[100%] m-auto flex md:hidden flex-row items-center gap-10 md:mr-5 justify-center md:justify-end text-richblack-200'>
-                    <p>
-                      {calculateTotalDuration(element.courseContent) || "-"}
-                    </p>
                     <p>₹{element.price}</p>
+                    <p>
+                    <p  onClick={(e)=>{e.stopPropagation(); navigate(`/dashboard/edit-course/${element._id}`)}} ><MdModeEdit /></p>
+                    </p>
                     <div className='flex flex-row gap-3 text-[20px]'>
-                      <p  onClick={(e)=>{e.stopPropagation(); navigate(`/dashboard/edit-course/${element._id}`)}} ><MdModeEdit /></p>
+                      
                       <p 
                         onClick={(e)=>{e.stopPropagation();
                                         setDltModal({
@@ -161,13 +120,13 @@ function CoursesTable() {
                   </div>
                   </div>
   
-                  <div className='w-[35%] m-auto hidden md:flex flex-row items-center gap-10 md:mr-5 justify-center md:justify-end text-richblack-200'>
-                    <p>
-                      {calculateTotalDuration(element.courseContent) || "-"}
-                    </p>
+                  <div className='w-[35%] m-auto hidden md:flex flex-row items-center gap-10 md:mr-10 justify-center md:justify-end text-richblack-200'>
                     <p>₹{element.price}</p>
+                    <p>
+                    <p><MdModeEdit className='cursor-pointer ' onClick={()=>{ navigate(`/dashboard/edit-course/${element._id}`)}}/></p>
+                    </p>
                     <div className='flex flex-row gap-2 text-[20px]'>
-                      <p><MdModeEdit className='cursor-pointer ' onClick={()=>{ navigate(`/dashboard/edit-course/${element._id}`)}}/></p>
+                      
                       <p onClick={(e)=>{e.stopPropagation();
                                         setDltModal({
                                             text1:"Are you sure?",
@@ -191,9 +150,9 @@ function CoursesTable() {
                 <p>COURSES </p>
               </div>
               <div className='flex flex-row justify-end mr-4 gap-7 tracking-wider p-3 w-[35%]'>
-                <p>DURATION</p>
                 <p>PRICE</p>
-                <p>ACTION</p>
+                <p>EDIT</p>
+                <p>DELETE</p>
               </div>
           </div>
           
