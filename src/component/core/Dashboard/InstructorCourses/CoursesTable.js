@@ -46,9 +46,9 @@ function CoursesTable() {
     useEffect(()=>{
 
       const getInstructorAllCourses = async()=>{
-         dispatch(getInstructorCourses(token))
-        console.log("entire course data  : ",courseEntireData)
-      }
+        dispatch(getInstructorCourses(token))
+       console.log("entire course data  : ",courseEntireData)
+     }
       setLoading(true);
       getInstructorAllCourses()
       setLoading(false);

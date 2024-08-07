@@ -27,20 +27,22 @@ const {GET_ALL_INSTRUCTOR_COURSES_API,
 const {FETCH_COMMENTS,ADD_COMMENT} =commentEndpoint
 
 export function getInstructorCourses(token){
-    return async (dispatch) => {
-        try{
-            const resposnse =await apiConnector("GET",GET_ALL_INSTRUCTOR_COURSES_API,null,{
-                Authorization: `Bearer ${token}`, 
-            })
-              console.log("response ",resposnse.data.data)
-              const result=resposnse.data.data
-             dispatch(setEntireCourseData(result))
+  return async (dispatch) => {
+      try{
+          const resposnse =await apiConnector("GET",GET_ALL_INSTRUCTOR_COURSES_API,null,{
+              Authorization: `Bearer ${token}`, 
+          })
+            console.log("response ",resposnse.data.data)
+            const result=resposnse.data.data
+          await dispatch(setEntireCourseData(result))
 
-        }catch(err){
-            console.log(err)
-        }
-    }
+      }catch(err){
+          console.log(err)
+      }
+  }
 }
+
+
 
 export async function fetchCourseCategories(){
     let result= [];

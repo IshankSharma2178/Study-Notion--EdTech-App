@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   courseSectionData: [],
-  courseEntireData: {},
+  courseEntireData: [],
   completedLectures: [],
   totalNoOfLectures: 0,
 };

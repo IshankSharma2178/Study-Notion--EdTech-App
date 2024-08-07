@@ -29,23 +29,23 @@ function ProfileDropDown() {
     }, []);
 
     return (
-        <div className='w-auto md:min-w-[180px]'>
+        <div className='w-auto md:min-w-[180px] '>
             {user && (
-                <div className='text-richblack-100 flex-row-reverse justify-start relative flex gap-3 flex-row items-center'>
+                <div className='text-richblack-100 flex-row-reverse justify-start relative flex gap-3 flex-row items-center '>
                     <div onClick={() => setIsVisible(true)} className='flex flex-row gap-2 items-center justify-end'>
-                        <img src={user.image} loading="lazy" alt="User Profile" className='aspect-square w-[30px] rounded-full object-cover' />
+                        <img src={user.image} loading="lazy" alt="User Profile" className='aspect-square w-[30px] cursor-pointer  rounded-full object-cover' />
                         <AiOutlineCaretDown className={`md:block hidden ${isVisible ? "transform rotate-180 transition-transform duration-500" : "transform rotate-0 transition-transform duration-500"}`} />
                     </div>
                     {isVisible && (
-                        <div ref={divRef} className='border-[1px] z-40 rounded-md flex flex-col border-richblack-700 bg-richblack-800 duration-300 translate-y-[10%] top-8 right-0 w-fit h-fit absolute'>
-                            <NavLink to="/dashboard/my-profile" className='md:flex w-fit px-3 hidden h-10 hover:cursor-pointer flex-row items-center justify-center text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25'>
+                        <div ref={divRef} className='border-[1px] z-40 rounded-md cursor-pointer flex flex-col border-richblack-700 bg-richblack-800 duration-300 translate-y-[10%] top-8 right-0 w-fit h-fit absolute'>
+                            <NavLink to="/dashboard/my-profile" className='md:flex w-fit px-3 hidden h-10 cursor-pointer flex-row items-center justify-center text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25'>
                                 <VscDashboard className='mr-1' /> Dashboard
                             </NavLink>
-                            <NavLink to="/dashboard" className='flex w-fit px-3 md:hidden h-10 hover:cursor-pointer flex-row items-center justify-center text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25'>
+                            <NavLink to="/dashboard" className='flex w-fit px-3 md:hidden h-10 cursor-pointer flex-row items-center justify-center text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25'>
                                 <VscDashboard className='mr-1' /> Dashboard
                             </NavLink>
                             <hr className='border-1 border-richblack-700' />
-                            <p className='flex px-3 w-full h-10 hover:cursor-pointer flex-row items-center justify-start text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25' onClick={() => {
+                            <p className='flex px-3 w-full h-10 cursor-pointer flex-row items-center justify-start text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25' onClick={() => {
                                 dispatch(logout(navigate));
                                 setIsVisible(false);
                             }}>
@@ -55,8 +55,8 @@ function ProfileDropDown() {
                     )}
                     {
                         user.accountType === "Student" &&
-                    <NavLink to="/dashboard/cart" onClick={(e) => e.stopPropagation()} className="relative cart-icon">
-                        <IoCartOutline className='text-3xl font-bold text-richblack-200' />
+                    <NavLink to="/dashboard/cart" onClick={(e) => e.stopPropagation()} className="relative cart-icon cursor-pointer">
+                        <IoCartOutline className='text-3xl font-bold text-richblack-200 cursor-pointer' />
                         <p className={`absolute -top-1 text-sm text-center right-0 rounded-full size-4 ${cart.length !==0 ? "bg-[rgb(8,255,65)]" : ""} text-black font-semibold cart-length`}>
                             {cart.length || null}
                         </p>
