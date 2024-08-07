@@ -34,7 +34,7 @@ export function getInstructorCourses(token){
             })
               console.log("response ",resposnse.data.data)
               const result=resposnse.data.data
-            await dispatch(setEntireCourseData(result))
+             dispatch(setEntireCourseData(result))
 
         }catch(err){
             console.log(err)
