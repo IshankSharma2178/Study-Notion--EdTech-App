@@ -293,7 +293,8 @@ exports.deleteCourse = async (req, res) => {
     try {
         const { courseId } = req.body;
         const userId = req.user.id;
-
+        
+        
         if (!courseId) {
             return res.status(400).json({
                 success: false,
@@ -306,7 +307,16 @@ exports.deleteCourse = async (req, res) => {
             populate: {
                 path: "subSection"
             }
-        }).populate("Category");
+        }).populate("Category").populate("studentEnrolled").populate("instructor").exec();
+        
+        const userData = await User.findById(userId).populate({
+                                                        path:"courses",
+                                                        select:"courseName"
+                                                    });
+
+        userData.courses = userData.courses.filter((course) => course !== courseId);
+
+        await userData.save();
         
         const categoryId = course.Category._id;
 
@@ -314,11 +324,9 @@ exports.deleteCourse = async (req, res) => {
 
         
         category.course = category.course.filter(cour => cour._id.toString() !== courseId.toString());
-        console.log("Updated category course array:", category.course);
 
         // Save the updated category
         const savedCategory = await category.save();
-        console.log("Saved category:", savedCategory);
 
         // Find the user and remove the course from their list of courses
         if (!course) {
@@ -329,18 +337,13 @@ exports.deleteCourse = async (req, res) => {
         }
 
 
-        // Find the user and remove the course from their list of courses
-        const user = await User.findById(userId);
-
-        if (!user) {
-            return res.status(400).json({
-                success: false,
-                message: "User not found"
-            });
+        // Unenroll students from the course
+        const studentsEnrolled = course.studentEnrolled
+        for (const studentId of studentsEnrolled) {
+            await User.findByIdAndUpdate(studentId, {
+            $pull: { courses: courseId },
+            })
         }
-
-        user.courses = user.courses.filter((course) => course.toString() !== courseId);
-        await user.save();
 
         // Delete course content and subsections
         const deleteSubSectionsPromises = course.courseContent.map(section => {
@@ -365,7 +368,8 @@ exports.deleteCourse = async (req, res) => {
         const courseProgress = await CourseProgress.deleteMany({courseID:courseId });
 
         // Delete the course itself
-        const courseResponse = await Course.findByIdAndDelete({course:courseId});
+        const courseResponse = await Course.findByIdAndDelete(courseId);
+
 
         return res.status(200).json({
             success: true,

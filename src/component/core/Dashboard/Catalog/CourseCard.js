@@ -10,7 +10,7 @@ function CourseCard({ course, Height }) {
 
     function CalculateStars(avgReviewCount){
         const totalratings = avgReviewCount.map((rating) =>rating.rating)
-        return totalratings/avgReviewCount.length
+        return totalratings/avgReviewCount.length 
     }
     
 
@@ -26,7 +26,7 @@ function CourseCard({ course, Height }) {
                         <p  className="text-xl text-richblack-5">{course?.courseName}</p>
                         <p className="text-sm text-richblack-50">{course?.instructor?.firstName} {course?.instructor?.lastName}</p>
                         <div className="flex items-center gap-2 ">
-                            <p className="text-yellow-5 pt-[4px] text-lg" >{CalculateStars(course?.ratingAndReviews)}</p>
+                            <p className="text-yellow-5 pt-[4px] text-lg" >{(CalculateStars(course?.ratingAndReviews) )|| 0}</p>
                             <span  className="">{<ReactStars size= {20}    
                                                     emptyIcon={<FaRegStar />}
                                                     halfIcon={<FaStarHalfStroke />}
