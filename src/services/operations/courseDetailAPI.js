@@ -33,7 +33,8 @@ export function getInstructorCourses(token){
                 Authorization: `Bearer ${token}`, 
             })
               console.log("response ",resposnse.data.data)
-            await dispatch(setEntireCourseData(resposnse.data.data))
+              const result=resposnse.data.data
+            await dispatch(setEntireCourseData(result))
 
         }catch(err){
             console.log(err)
