@@ -32,8 +32,8 @@ export function getInstructorCourses(token){
             const resposnse =await apiConnector("GET",GET_ALL_INSTRUCTOR_COURSES_API,null,{
                 Authorization: `Bearer ${token}`, 
             })
-              console.log(resposnse.data.data)
-            dispatch(setEntireCourseData(resposnse.data.data))
+              console.log("response ",resposnse.data.data)
+            await dispatch(setEntireCourseData(resposnse.data.data))
 
         }catch(err){
             console.log(err)
