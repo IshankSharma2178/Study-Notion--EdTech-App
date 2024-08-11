@@ -83,7 +83,7 @@ function CoursesTable() {
             
             {/* courses cards */}
             {
-              courseEntireData.map((element,index)=>(
+              courseEntireData?.map((element,index)=>(
                 <div key={index} className='flex md:flex-row flex-col md:m-0 m-auto w-full  p-3'>
                   <div  onClick={()=>navigate("/courses/"+element._id)}
                   className='md:flex-row flex-col flex md:w-[65%] w-full cursor-pointer rounded-lg group md:m-0 md:bg-none px-4 md:p-0 py-4 md:bg-richblack-900 md:border-none   bg-richblack-600 bg-opacity-40 border border-richblack-500 m-auto gap-3'>

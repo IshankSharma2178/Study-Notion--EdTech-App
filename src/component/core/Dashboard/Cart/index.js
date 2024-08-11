@@ -23,7 +23,7 @@ function Cart() {
             (
               <div className='flex items-center justify-center m-auto flex-col gap-5'> 
                 <div className="mt-14 text-center text-3xl text-richblack-100">Your Cart is Empty </div>
-                <IconBtn text={"Buy Courses"} active={true} onClick={()=>navigate("/catalog/javascript")}/>
+                <IconBtn text={"Buy Courses"} active={true} onClick={()=>navigate("/catalog/web-devlopment")}/>
               </div>
                 )
         }

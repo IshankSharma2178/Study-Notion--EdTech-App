@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsChevronDown } from "react-icons/bs";
 import { IoIosArrowBack } from "react-icons/io";
-import { FaCheckCircle } from "react-icons/fa";
 import { SlCheck } from "react-icons/sl";
-import {markLectureAsComplete ,fetchMarkedAsCompleted} from "../../../services/operations/courseDetailAPI"
-import { setCompletedLectures, setCourseSectionData, setEntireCourseData, setTotalNoOfLectures } from '../../../slices/viewCourseSlice';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import IconBtn from '../../common/IconBtn';
 

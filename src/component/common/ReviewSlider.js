@@ -53,7 +53,7 @@ function ReviewSlider() {
         {ratings?.map((review, i) => {
           return (
             <SwiperSlide key={i}>
-              <div className=" flex flex-col gap-3 rounded-md bg-richblack-800 h-[177px] p-3 text-[14px] text-richblack-25">
+              <div className=" flex flex-col gap-3 rounded-md bg-richblack-800 h-[200px] p-3 text-[14px] text-richblack-25">
                 <div className="flex items-center gap-4">
                   <img
                     loading="lazy"
@@ -72,11 +72,11 @@ function ReviewSlider() {
                     </h2>
                   </div>
                 </div>
-                <p className="font-medium text-richblack-25">
+                <p className="font-medium text-richblack-25 ">
                   {review?.review.split(" ").length > 15
                     ? `${review?.review
                         .split(" ")
-                        .slice(0, 15)
+                        .slice(0, 14)
                         .join(" ")} ...`
                     : `${review?.review}`}
                 </p>

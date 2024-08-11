@@ -52,7 +52,7 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
         })
     }
     const isAlreadyBuy = ()=>{
-        if(user === null){
+        if(user === null || user.accountType === "Instructor"){
             return false;
         } 
             
