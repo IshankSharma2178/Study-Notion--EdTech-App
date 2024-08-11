@@ -70,7 +70,7 @@ function Catalog() {
                 <div className='text-center text-xl text-richblack-300 my-8'> No Courses for the category </div>
             ) : (
                 <>
-                    <div className="box-content bg-richblack-800 px-4 ">
+                    <div className="box-content bg-richblack-800 md:px-4 md:py-0 py-6 px-1">
                         <div className="mx-auto flex min-h-[260px] flex-col justify-center gap-4 max-w-maxContent w-11/12 ">
                             <p className="text-sm text-richblack-300">{`Home / Catalog / `}
                                 <span className="text-yellow-25">
@@ -86,7 +86,7 @@ function Catalog() {
                         {/* section1 */}
                         <div className="mx-auto box-content  max-w-maxContent w-11/12 py-12 ">
                             <div className="section_heading">Courses to get you started</div>
-                            <div className="my-4 flex border-b border-b-richblack-600 text-sm">
+                            <div className="my-4 flex border-b border-b-richblack-600  text-sm">
                                 <p
                                     className={`px-4 py-2 ${active === 1 ? "border-b border-b-yellow-25 text-yellow-25" : "text-richblack-50"} cursor-pointer`}
                                     onClick={() => setActive(1)}
@@ -100,10 +100,10 @@ function Catalog() {
                                     New
                                 </p>
                             </div>
-                            <div className={`px-4 ${active !==1?"hidden":""}`}>
+                            <div className={`px-1 md:px-4 ${active !==1?"hidden":""}`}>
                                 <CourseSlider Courses={catalogPageData?.selectedCourses?.course} />
                             </div>
-                            <div className={`px-4 ${active !==2?"hidden":""}`}>
+                            <div className={`px-1 md:px-4 ${active !==2?"hidden":""}`}>
                                 <CourseSlider Courses={catalogPageData?.latestCourses} />
                             </div>
                         </div>
