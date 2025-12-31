@@ -7,6 +7,8 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@ramonak/react-progress-bar": "^5.2.0",
     "@reduxjs/toolkit": "^2.2.6",
+    "@shared/schemas": "file:./packages/shared",
+    "@tanstack/react-query": "^5.90.16",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -42,11 +44,13 @@
     "react-toastify": "^10.0.5",
     "react-type-animation": "^3.2.0",
     "redux-toolkit": "^1.1.2",
+    "superjson": "^2.2.6",
     "swiper": "^11.1.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "video-react": "^0.16.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zod": "^4.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

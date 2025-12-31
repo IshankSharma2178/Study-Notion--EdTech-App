@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsChevronDown } from "react-icons/bs";
 import { IoIosArrowBack } from "react-icons/io";
-import { FaCheckCircle } from "react-icons/fa";
 import { setTotalNoOfLectures ,setCompletedLectures ,setEntireCourseData ,setCourseSectionData} from '../../../../slices/viewCourseSlice';
 import { SlCheck } from "react-icons/sl";
-import {getFullDetailsOfCourse} from "../../../../services/operations/courseDetailAPI"
-import { markLectureAsComplete, fetchMarkedAsCompleted } from "../../../../services/operations/courseDetailAPI";
+import { useFullCourseDetails } from "../../../../hooks/useCourses"
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import IconBtn from '../../../common/IconBtn';
 import CourseReviewModal from '../CourseReviewModal';
@@ -18,21 +16,19 @@ function CourseBar() {
     const [videoBarActive, setVideoBarActive] = useState("");
     const dispatch = useDispatch();
     const {courseId} = useParams();
-    const [loading , setLoading] = useState(true);
     const navigate = useNavigate();
     const [reviewModal,setReviewModal] = useState(false);
     const location = useLocation();
     const [progress,setProgress] = useState(null);
-    const { token } = useSelector((state) => state.auth);
     const { sectionId, subSectionId } = useParams();
     const { courseSectionData, courseEntireData, totalNoOfLectures, completedLectures } = useSelector((state) => state.viewCourse);
+    const { data: courseData, isLoading } = useFullCourseDetails(courseId);
 
     useEffect(()=>{
-        const setCourseSpecififcDetails = async()=>{
-            const courseData = await getFullDetailsOfCourse(courseId, token);
+        if (courseData && courseData.courseDetails) {
             dispatch(setCourseSectionData(courseData.courseDetails.courseContent));
             dispatch(setEntireCourseData(courseData.courseDetails));
-            dispatch(setCompletedLectures(courseData.courseProgress));
+            dispatch(setCompletedLectures(courseData.courseProgress || []));
             let lectures =0;
             courseData?.courseDetails.courseContent?.forEach((sec)=>{
                 lectures += sec.subSection.length;
@@ -49,9 +45,7 @@ function CourseBar() {
                 console.error('Error parsing course progress from localStorage:', error);
             }
         }
-        setLoading(true);
-        setCourseSpecififcDetails()
-    },[])
+    },[courseData, courseId, dispatch])
 
     useEffect(() => {
         const setActiveFlags = () => {
@@ -76,7 +70,6 @@ function CourseBar() {
         if (courseEntireData) {
             setActiveFlags();
         }
-            setLoading(false)
     }, [courseSectionData, location.pathname, sectionId, subSectionId, courseEntireData, courseId]);
 
 
@@ -95,7 +88,7 @@ function CourseBar() {
     return (
         <>
             {
-                loading ? (<div className='spinner w-full h-full m-auto'></div>):
+                isLoading ? (<div className='spinner w-full h-full m-auto'></div>):
                 (<div className="md:hidden  max-w-maxContent w-full  flex flex-col border-r-[1px] rounded-md border-r-richblack-700 min-h-[80vh] bg-richblack-800">
             {/* for buttons and headings */}
             <div className="mx-5 flex flex-col items-start justify-between gap-2 gap-y-4 border-b border-richblack-600 py-5 text-lg font-bold text-richblack-25">

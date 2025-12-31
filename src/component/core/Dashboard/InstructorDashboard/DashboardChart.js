@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from "react"
 
 import { Pie } from "react-chartjs-2"
-import {ArcElement,registerables,Chart} from 'chart.js'
+import {registerables,Chart} from 'chart.js'
 
 Chart.register(...registerables)
 

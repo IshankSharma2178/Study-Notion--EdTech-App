@@ -2,8 +2,10 @@
     "compilerOptions": {
       "baseUrl": ".",
       "paths": {
-        "@/*": ["./*"]
+        "@/*": ["./*"],
+        "@shared/schemas/*": ["./packages/shared/schemas/*"]
       }
-    }
+    },
+    "include": ["src/**/*", "packages/**/*"]
   }
   

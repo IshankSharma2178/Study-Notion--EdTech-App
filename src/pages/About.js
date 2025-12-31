@@ -28,9 +28,9 @@ function About() {
                     </p>
                 </header>
                 <div  className='grid absolute m-auto bottom-1 md:mt-0 mt-4 translate-y-[30%] max-w-maxContent w-11/12 grid-w-[90%] grid-cols-2 lg:grid-cols-3  grid-rows-1 gap-3 lg:gap-4'>
-                    <img src={BannerImage1} loading="lazy" />
-                    <img src={BannerImage2} loading="lazy"/>
-                    <img src={BannerImage3} loading="lazy" className='lg:flex hidden'/>
+                    <img src={BannerImage1} alt="Banner" loading="lazy" />
+                    <img src={BannerImage2} alt="Banner" loading="lazy"/>
+                    <img src={BannerImage3} alt="Banner" loading="lazy" className='lg:flex hidden'/>
                 </div>
             </div>
         </section>
@@ -52,7 +52,7 @@ function About() {
                         <p2 className="text-richblack-300">As experienced educators ourselves, we witnessed firsthand the limitations and challenges of traditional education systems. We believed that education should not be confined to the walls of a classroom or restricted by geographical boundaries. We envisioned a platform that could bridge these gaps and empower individuals from all walks of life to unlock their full potential.</p2>
                     </div>
                     <div className=' w-[95%] md:w-[50%] lg:w-[40%] justify-center items-center m-auto flex'>
-                        <img src={FoundingStory} loading='lazy' className=' object-cover shadow-[0_0_20px_0] shadow-[#FC6767] aspect-auto w-[100%]  md:h-auto '/>
+                        <img src={FoundingStory} alt="Founding Story" loading='lazy' className=' object-cover shadow-[0_0_20px_0] shadow-[#FC6767] aspect-auto w-[100%]  md:h-auto '/>
                     </div>
                 </div>
                 {/* vision and mission  */}

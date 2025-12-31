@@ -1,21 +1,20 @@
-import React, { useState ,useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import IconBtn from "../../../../common/IconBtn"
 import {COURSE_STATUS} from "../../../../../utils/constants"
-import { updateCourseStatus } from '../../../../../services/operations/courseDetailAPI'
+import { useUpdateCourseStatus } from '../../../../../hooks/useCourses'
 import {setStep , resetCourseState} from "../../../../../slices/courseSlice"
 import { useNavigate } from 'react-router'
 import { BiLeftArrow } from 'react-icons/bi'
 
 function PublishCourse() {
   
-    const {register,formState:errors,getValues,setValue,handleSubmit} = useForm()
+    const {register,getValues,setValue,handleSubmit} = useForm()
     const {course } = useSelector((state)=>state.course);
-    const {token} = useSelector((state)=>state.auth);
     const dispatch =useDispatch();
-    const [loading , setLoading] = useState(false);
     const navigate =useNavigate()
+    const { updateCourseStatus, isLoading } = useUpdateCourseStatus();
 
     useEffect(() => {
         if (course?.status === COURSE_STATUS.PUBLISHED) {
@@ -30,22 +29,17 @@ function PublishCourse() {
         navigate("/dashboard/my-courses");
     }
 
-    const handleCoursePublish = async() =>{
-        if(course?.status === COURSE_STATUS.PUBLISHED && getValues("public")===true ||  course?.status === COURSE_STATUS.DRAFT && getValues("public")===false ){
+    const handleCoursePublish = () =>{
+        if((course?.status === COURSE_STATUS.PUBLISHED && getValues("public")===true) ||  (course?.status === COURSE_STATUS.DRAFT && getValues("public")===false)){
                 gotToCourses();
                 return;
         }
-        const formData = new FormData();
-        formData.append("courseId", course._id);
         const courseStatus = getValues("public") ? COURSE_STATUS.PUBLISHED : COURSE_STATUS.DRAFT; 
-        formData.append("status", courseStatus);
-        setLoading(true)
-        const result = await updateCourseStatus(formData, token);
-        
-        if(result){
-            gotToCourses();
-        }
-        setLoading(false)
+        updateCourseStatus({ courseId: course._id, status: courseStatus }, {
+            onSuccess: () => {
+                gotToCourses();
+            }
+        });
     }
 
     const onSubmit = () =>{
@@ -78,7 +72,7 @@ function PublishCourse() {
                     <BiLeftArrow className="font-bold "/>
                 </button>
 
-                <IconBtn disabled={loading} text="Save Changes"/>
+                <IconBtn disabled={isLoading} text="Save Changes"/>
             </div>
         </form>
     </div>

@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@shared/schemas": "file:../packages/shared",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.2.0",
@@ -26,6 +27,8 @@
     "nodemailer": "^6.9.14",
     "nodemon": "^3.1.4",
     "otp-generator": "^4.0.1",
-    "razorpay": "^2.9.4"
+    "razorpay": "^2.9.4",
+    "superjson": "^2.2.6",
+    "zod": "^4.2.1"
   }
 }

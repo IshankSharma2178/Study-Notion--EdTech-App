@@ -1,0 +1,25 @@
+{
+  "name": "@shared/schemas",
+  "version": "1.0.0",
+  "description": "Shared Zod validation schemas for frontend and backend",
+  "type": "module",
+  "main": "schemas/index.js",
+  "exports": {
+    ".": "./schemas/index.js",
+    "./auth": "./schemas/auth.js",
+    "./course": "./schemas/course.js",
+    "./profile": "./schemas/profile.js",
+    "./payment": "./schemas/payment.js"
+  },
+  "keywords": [
+    "zod",
+    "validation",
+    "schemas"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "zod": "^4.2.1"
+  }
+}
+

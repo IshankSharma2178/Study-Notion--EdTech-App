@@ -31,7 +31,7 @@ function CodeBlocks({position,heading,subheading,Ellipse ,ctabtn1,ctabtn2, codeb
 
      {/* right */}
         <div className=' md:w-[90%] w-[108%] h-fit py-3  lg:w-[31rem]  flex flex-row  code-border text-[0.7rem] md:text-[1rem] relative  border-[rgba(255, 255, 255, 0.22)]'>
-            <img src={Ellipse} loading="lazy" className='absolute   md:w-max md:h-max h-[303px] blur-xl  opacity-1  -left-10 -top-20'></img>
+            <img src={Ellipse} alt="" loading="lazy" className='absolute   md:w-max md:h-max h-[303px] blur-xl  opacity-1  -left-10 -top-20'></img>
             <div className='text-center    flex flex-col w-[10%] text-richblack-400 font-inter font-bold'>
                 <p>1</p>
                 <p>2</p>

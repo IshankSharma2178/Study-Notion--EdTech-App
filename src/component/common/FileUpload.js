@@ -17,8 +17,7 @@ export default function Upload({
   const [file, setFile] = useState(null);
   const [previewFile, setPreviewFile] = useState(null);
   const [videoDuration, setVideoDuration] = useState(null);
-  const [reupload, setReupload] = useState(false);
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     accept: image
       ? { "image/*": [".jpeg", ".jpg", ".png"] }
       : video
@@ -42,7 +41,9 @@ export default function Upload({
       videoElement.onloadedmetadata = () => {
         window.URL.revokeObjectURL(videoElement.src);
         setVideoDuration(videoElement.duration);
-        setValue("timeDuration", videoElement.duration.toFixed(2), { shouldValidate: true });
+        setValue("timeDuration", videoElement.duration.toFixed(2), {
+          shouldValidate: true,
+        });
       };
       videoElement.src = URL.createObjectURL(file);
     }
@@ -69,8 +70,14 @@ export default function Upload({
         <div>
           {video && (
             <>
-              <video src={previewFile || viewData} className="h-[230px] sm:h-[330px] aspect-auto" controls />
-              {videoDuration && <p>Video duration: {videoDuration.toFixed(2)} seconds</p>}
+              <video
+                src={previewFile || viewData}
+                className="h-[230px] sm:h-[330px] aspect-auto"
+                controls
+              />
+              {videoDuration && (
+                <p>Video duration: {videoDuration.toFixed(2)} seconds</p>
+              )}
             </>
           )}
         </div>
@@ -78,14 +85,33 @@ export default function Upload({
         <div>
           {file || editData ? (
             <div className="w-full rounded-[0.5rem] min-h-[200px] flex justify-center items-center flex-col outline-none shadow-custom2 placeholder-richblack-300 placeholder:text-base bg-richblack-700 focus:shadow-none p-[12px] text-richblack-25">
-              {image && <img loading="lazy" src={previewFile} className="h-[130px] aspect-auto" alt="preview" />}
+              {image && (
+                <img
+                  loading="lazy"
+                  src={previewFile}
+                  className="h-[130px] aspect-auto"
+                  alt="preview"
+                />
+              )}
               {video && (
                 <>
-                  <video src={previewFile || editData} className="h-[230px] sm:h-[330px] aspect-auto" controls />
-                  {videoDuration && <p>Video duration: {videoDuration.toFixed(2)} seconds</p>}
+                  <video
+                    src={previewFile || editData}
+                    className="h-[230px] sm:h-[330px] aspect-auto"
+                    controls
+                  />
+                  {videoDuration && (
+                    <p>Video duration: {videoDuration.toFixed(2)} seconds</p>
+                  )}
                 </>
               )}
-              {file && <ul className="my-3"><li key={file.path}>{file.path} - {(file.size / 1000000).toFixed(2)} Mb</li></ul>}
+              {file && (
+                <ul className="my-3">
+                  <li key={file.path}>
+                    {file.path} - {(file.size / 1000000).toFixed(2)} Mb
+                  </li>
+                </ul>
+              )}
               <div {...getRootProps()}>
                 <input {...getInputProps()} id="thumbnail" />
                 <div className="flex flex-row justify-center items-center cursor-pointer gap-2">
@@ -97,12 +123,26 @@ export default function Upload({
           ) : (
             <div>
               <div {...getRootProps()}>
-                {(editData || !reupload) && <input {...getInputProps()} id={video ? "lectureVideo" : "thumbnail"} />}
-                <label htmlFor="thumbnail" className="tracking-wider text-[14px] text-richblack-25">
+                {editData && (
+                  <input
+                    {...getInputProps()}
+                    id={video ? "lectureVideo" : "thumbnail"}
+                  />
+                )}
+                <label
+                  htmlFor="thumbnail"
+                  className="tracking-wider text-[14px] text-richblack-25"
+                >
                   {label} <sup className="text-pink-200">*</sup>
                 </label>
                 <div className="w-full rounded-[0.5rem] min-h-[200px] flex justify-center items-center flex-col outline-none shadow-custom2 placeholder-richblack-300 placeholder:text-base bg-richblack-700 focus:shadow-none p-[12px] text-richblack-25">
-                  {editData && <video src={editData} className="h-[230px] sm:h-[330px] aspect-auto" controls />}
+                  {editData && (
+                    <video
+                      src={editData}
+                      className="h-[230px] sm:h-[330px] aspect-auto"
+                      controls
+                    />
+                  )}
                   {!editData && (
                     <div className="rounded-full bg-[rgb(23,23,23)] text-center items-center flex justify-center size-12">
                       <IoCloudUploadOutline className="text-yellow-25 text-2xl" />

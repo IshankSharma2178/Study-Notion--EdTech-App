@@ -4,32 +4,35 @@ import  { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux'
 import ReactStars from "react-rating-stars-component";
-import {createRating} from "../../../services/operations/courseDetailAPI"
+import { useCreateRating } from "../../../hooks/useCourses"
 import IconBtn from "../../common/IconBtn"
 
 function CourseReviewModal({setReviewModal}) {
-  const {userProfile} = useSelector((state) => state.profile )
-  const {token,user} = useSelector((state)=> state.auth)
+  const {user} = useSelector((state)=> state.auth)
   const {courseEntireData} = useSelector((state)=> state.viewCourse);
+  const { createRating } = useCreateRating();
 
-  const {register, setValue,getValues,handleSubmit,formState:{errors}} = useForm()
+  const {register, setValue,handleSubmit,formState:{errors}} = useForm()
 
   useEffect(()=>{
       setValue("courseRating",0);
       setValue("courseExperience","")
-  },[])
+  },[setValue])
 
   const ratingChanged = (newRating) => {
       setValue("courseRating", newRating)
   }
 
-  const onSubmit = async (data)=>{
-      await createRating({
+  const onSubmit = (data)=>{
+      createRating({
           courseId: courseEntireData._id,
           rating: data.courseRating,
           review: data.courseExperience
-      }, token)
-      setReviewModal(false)
+      }, {
+        onSuccess: () => {
+          setReviewModal(false)
+        }
+      });
   }
 
 

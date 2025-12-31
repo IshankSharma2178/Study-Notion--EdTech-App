@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
 import { FiTrash2 } from "react-icons/fi"
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router'
 import ConfirmationModal from '../../../common/ConfirmationModal';
-import {deleteAccount} from "../../../../services/operations/SettingAPI"
+import { useDeleteAccount } from "../../../../hooks/useSettings"
 
 function DeleteAccount() {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [modalData , setMOdalData] = useState(null);
-    const {token} = useSelector((state)=>state.auth)
+    const { deleteAccount } = useDeleteAccount();
 
     return (
     <div className='w-full md:w-[90%] m-auto'>
@@ -36,7 +32,7 @@ function DeleteAccount() {
             btn2Text:"Cancel",
             btn2Handler:()=>setMOdalData(null),
             btn1Text:"Delete",
-            btn1Handler:()=>dispatch(deleteAccount(token,navigate)),
+            btn1Handler:()=>deleteAccount(),
           })}
         >
           I want to delete my account.

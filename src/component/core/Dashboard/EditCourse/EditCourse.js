@@ -1,31 +1,24 @@
-import React, { useState , useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router';
 import RenderSteps from "../AddCourse/RenderSteps"
 import {setEditCourse , setCourse} from "../../../../slices/courseSlice"
-import {getFullDetailsOfCourse} from "../../../../services/operations/courseDetailAPI"
+import { useFullCourseDetails } from "../../../../hooks/useCourses"
 
 function EditCourse() {
     const dispatch = useDispatch();
     const {courseId} = useParams();
     const {course} = useSelector((state)=>state.course);
-    const [loading, setLoading]  =useState();
-    const {token}= useSelector((state)=>state.auth); 
+    const { data: courseData, isLoading } = useFullCourseDetails(courseId);
 
     useEffect(() => {
-        const populateCourseDetails = async() =>{
-            setLoading(true)
-            const result = await getFullDetailsOfCourse(courseId, token)
-            if (result) {
-              dispatch(setEditCourse(true))
-              dispatch(setCourse(result.courseDetails))
-            }
-            setLoading(false)
+        if (courseData && courseData.courseDetails) {
+            dispatch(setEditCourse(true))
+            dispatch(setCourse(courseData.courseDetails))
         }
-        populateCourseDetails()
-      }, [])
+    }, [courseData, dispatch])
 
-    if(loading) {
+    if(isLoading) {
         return (
             <div className='spinner'></div>
         )

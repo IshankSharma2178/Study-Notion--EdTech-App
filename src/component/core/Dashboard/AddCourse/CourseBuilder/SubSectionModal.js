@@ -1,5 +1,5 @@
-import { createSubSection ,updateSubSection} from '../../../../../services/operations/courseDetailAPI';
-import React, { useState ,useEffect } from 'react'
+import { useCreateSubSection, useUpdateSubSection } from '../../../../../hooks/useCourses';
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch ,useSelector } from 'react-redux';
 import {setCourse} from "../../../../../slices/courseSlice"
@@ -12,9 +12,10 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
 
     const {register,setValue,getValues,formState:errors,handleSubmit} = useForm();
     const dispatch = useDispatch();
-    const [loading,setLoading]=useState(false);
-    const {token} = useSelector((state)=>state.auth)
     const {course} = useSelector((state)=>state.course)
+    const { createSubSection, isLoading: createLoading } = useCreateSubSection();
+    const { updateSubSection, isLoading: updateLoading } = useUpdateSubSection();
+    const loading = createLoading || updateLoading;
 
     
     useEffect(()=>{
@@ -23,7 +24,7 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
             setValue("lectureDescription",modalData.description);
             setValue("lectureVideo",modalData.videoUrl);            
         }
-    },[]);
+    },[edit, modalData.description, modalData.title, modalData.videoUrl, setValue, view]);
 
     const isFormUpdated=() =>{
         const currentValues=getValues();
@@ -36,11 +37,12 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
             }
         }
 
-        const handleEditSubSection = async()=>{
+        const handleEditSubSection = ()=>{
             const currentValues = getValues();
             const formData =new FormData();
             formData.append("sectionId",modalData.sectionId);
             formData.append("subSectionId",modalData._id);
+            formData.append("courseId", course._id);
              
             if(currentValues.lectureTitle !== modalData.title){
                 formData.append("title",currentValues.lectureTitle);
@@ -52,23 +54,22 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
                 formData.append("video",currentValues.lectureVideo); 
                 formData.append("timeDuration",currentValues.timeDuration);
             }
-            setLoading(true);
-            const result = await updateSubSection(formData,token);
-            if(result){
-                const updatedCourseContent = course.courseContent.map((section) =>section._id === modalData.sectionId ? result : section)
-                const updatedCourse = { ...course, courseContent: updatedCourseContent }
-                dispatch(setCourse(updatedCourse))
-            }
-            setModalData(null);
-            setLoading(false);
+            updateSubSection(formData, {
+                onSuccess: (result) => {
+                    const updatedCourseContent = course.courseContent.map((section) =>section._id === modalData.sectionId ? result : section)
+                    const updatedCourse = { ...course, courseContent: updatedCourseContent }
+                    dispatch(setCourse(updatedCourse))
+                    setModalData(null);
+                }
+            });
         }
 
-        const onSubmit = async(data) => {
+        const onSubmit = (data) => {
             if(view){
                 return
             }
             if(edit){
-                if(!isFormUpdated){
+                if(!isFormUpdated()){
                     toast.error("No changes made to the form");
                 }
                 else{
@@ -83,13 +84,12 @@ function SubSectionModal({modalData,setModalData,add=false,view=false,edit=false
             formData.append("description",data.lectureDescription);
             formData.append("video",data.lectureVideo);
             formData.append("timeDuration",data.timeDuration);
-            setLoading(true);
-            const result = await createSubSection(formData,token);
-            if(result){
-                dispatch(setCourse(result));
-            }
-            setModalData(null)
-                setLoading(false);
+            createSubSection(formData, {
+                onSuccess: (result) => {
+                    dispatch(setCourse(result));
+                    setModalData(null)
+                }
+            });
         }
 
   return (

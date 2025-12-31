@@ -1,6 +1,6 @@
-import React, { useEffect ,useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {deleteCourse, getInstructorCourses} from "../../../../services/operations/courseDetailAPI"
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useInstructorCourses, useDeleteCourse } from "../../../../hooks/useCourses"
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import {setEntireCourseData} from "../../../../slices/viewCourseSlice"
@@ -8,13 +8,18 @@ import { useNavigate } from 'react-router';
 import ConfirmationModal from "../../../common/ConfirmationModal"
 
 function CoursesTable() {
-    
-    const {token}= useSelector((state)=>state.auth)
-    const dispatch =useDispatch()
+    const dispatch = useDispatch()
     const navigate = useNavigate() 
-    const {courseEntireData} = useSelector((state)=>state.viewCourse)
-    const [loading , setLoading] =useState(true);
+    const { data: courseEntireData, isLoading } = useInstructorCourses();
+    const { deleteCourse } = useDeleteCourse();
     const [dltModal , setDltModal] = useState(null);
+    
+    // Update Redux store when data changes
+    useEffect(() => {
+        if (courseEntireData && courseEntireData.length > 0) {
+            dispatch(setEntireCourseData(courseEntireData));
+        }
+    }, [courseEntireData, dispatch]);
 
 
     
@@ -24,40 +29,26 @@ function CoursesTable() {
     };
 
   
-  const deleteHandler = (data) => {
-    const result= deleteCourse(data._id,token)
-    if(result){
-      const updatedCourse = courseEntireData.filter((course) => course._id !== data._id)
-      dispatch(setEntireCourseData(updatedCourse))
-
-      const storedData = localStorage.getItem("cart");
-
-      if (storedData) {
-        let data = JSON.parse(storedData);
-        if (Array.isArray(data)) {
-          data = data.filter(item => item._id !== data._id);
-          const updatedData = JSON.stringify(data); 
-          localStorage.setItem("cart", updatedData);
-        }
-      }}
-      setDltModal(null) 
+  const deleteHandler = (course) => {
+    deleteCourse(course._id);
+    
+    // Update localStorage cart
+    const storedData = localStorage.getItem("cart");
+    if (storedData) {
+      let cartData = JSON.parse(storedData);
+      if (Array.isArray(cartData)) {
+        cartData = cartData.filter(item => item._id !== course._id);
+        localStorage.setItem("cart", JSON.stringify(cartData));
+      }
     }
-
-    useEffect(()=>{
-
-      const getInstructorAllCourses = async()=>{
-        dispatch(getInstructorCourses(token))
-       console.log("entire course data  : ",courseEntireData)
-     }
-      setLoading(true);
-      getInstructorAllCourses()
-      setLoading(false);
-    },[])
+    
+    setDltModal(null);
+  }
 
     return (
       <>
 
-        { loading ===true ? 
+        { isLoading ? 
         (<div className= ' w-full h-full spinner'></div>)
         :( 
             <>
@@ -66,7 +57,7 @@ function CoursesTable() {
             </div>
           <div className='text-white border border-richblack-700 rounded-lg'>
         {
-          courseEntireData.length !==0 && loading===false ? ( 
+          courseEntireData && courseEntireData.length !==0 && !isLoading ? ( 
           <div className={`flex flex-col md:grid md:grid-rows-${courseEntireData.length+3} `}>
             {/* headings */}
             <div className='hidden md:flex  flex-row justify-between border-b border-richblack-600  text-richblack-200 text-[14px] '>
@@ -88,7 +79,7 @@ function CoursesTable() {
                   <div  onClick={()=>navigate("/courses/"+element._id)}
                   className='md:flex-row flex-col flex md:w-[65%] w-full cursor-pointer rounded-lg group md:m-0 md:bg-none px-4 md:p-0 py-4 md:bg-richblack-900 md:border-none   bg-richblack-600 bg-opacity-40 border border-richblack-500 m-auto gap-3'>
                     <div className=' rounded-lg md:m-0 m-auto'>
-                      <img src={element.thumbnail} loading="lazy" className= 'md:border-none border border-richblack-200 group-[]: w-[260px] object-cover  h-[260px] md:w-[130px] md:h-[130px] lg:w-[180px] lg:h-[130px] rounded-lg'/>
+                      <img src={element.thumbnail} alt={element.courseName || "Course"} loading="lazy" className= 'md:border-none border border-richblack-200 group-[]: w-[260px] object-cover  h-[260px] md:w-[130px] md:h-[130px] lg:w-[180px] lg:h-[130px] rounded-lg'/>
                     </div>
                     <div className='flex flex-col md:m-0 m-auto justify-center w-full md:w-[60%]'>
                       <p className='text-richblack-25 text-xl '>{element.courseName}</p>

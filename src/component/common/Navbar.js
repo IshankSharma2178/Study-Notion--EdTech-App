@@ -18,7 +18,6 @@ function Navbar() {
   const { totalItems } = useSelector((state) => state.cart);
   const [subLinks, setSubLinks] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   const fetchSubLinks = async () => {
     try {
@@ -26,8 +25,6 @@ function Navbar() {
       setSubLinks(result.data.Categorys || []);
     } catch (e) {
       console.log("could not fetch the category list");
-    } finally {
-      setLoading(false);
     }
   };
 
