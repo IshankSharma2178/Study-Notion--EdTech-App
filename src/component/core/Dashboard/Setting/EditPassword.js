@@ -1,17 +1,14 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux';
-import {updatePassword} from "../../../../services/operations/SettingAPI"
+import { useAuth } from "../../../../hooks/useAuth"
 
 function EditPassword() {
-    const {handleSubmit , register ,formState:{errors , isSubmitSuccessful}} =useForm()
-    const {token } =useSelector((state)=>state.auth)
-    const dispatch = useDispatch()
+    const {handleSubmit , register ,formState:{errors}} =useForm()
+    const { changePassword } = useAuth()
 
     const submitHandler = (data)=>{
         const {currentPassword , newPassword} =data;
-        dispatch(updatePassword(token ,currentPassword , newPassword))
-
+        changePassword({ currentPassword, newPassword })
     }
 
   return (

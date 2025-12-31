@@ -1,119 +1,123 @@
-const User=require("../models/User");
-const mailSender=require("../utils/mailSender");
-const bcrypt=require("bcrypt");
+const User = require("../models/User");
+const mailSender = require("../utils/mailSender");
+const bcrypt = require("bcrypt");
 
 //resetPasswordToken
-exports.resetPasswordToken = async(req,res)=>{
-    try{
+exports.resetPasswordToken = async (req, res) => {
+  try {
     //get email from body
-    const {email}=req.body;
-    
+    const { email } = req.body;
+
     //check validate eamil
-    const user= await User.findOne({email: email});
-    if(!user){
-        return res.json({
-            success: false,
-            message: "your email is not registered",
-        })
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "your email is not registered",
+      });
     }
 
     //generate token
-    const token=crypto.randomUUID();
+    const token = crypto.randomUUID();
 
     //update user by adding token and expirationt time
-    const updatedDetails=await User.findOneAndUpdate({email: email},{token: token,resetPasswordExpires: Date.now()+5*60*60*1000},{new:true});
-    
+    const updatedDetails = await User.findOneAndUpdate(
+      { email: email },
+      { token: token, resetPasswordExpires: Date.now() + 5 * 60 * 60 * 1000 },
+      { new: true }
+    );
+
     //create url
-    const url=`http://localhost:3000/update-password/${token}`
-    
+    const url = `http://localhost:3000/update-password/${token}`;
+
     //send mail containing the url and return response
-    await mailSender(email,"Password Reset Link", `Password Reset Link ${url}`)
+    await mailSender(
+      email,
+      "Password Reset Link",
+      `Password Reset Link ${url}`
+    );
 
     return res.status(200).json({
-        success: true,
-        message: "email send successful"
-    })
-
-    }catch(err){
-        return res.status(500).json({
-            success: false,
-            message: err.message
-        })
-    }
-}
+      success: true,
+      message: "email send successful",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
 
 //resetPassword
-exports.resetPassword = async(req,res)=>{
-    try{
-        const {password,confirmPassword,token}= req.body;
-        if(password!==confirmPassword){
-            return res.status(500).json({
-                success: false,
-                message: "password and confirm password do not match"
-            })
-        }
-        const userDetails=await User.findOne({token:token})
-        if(!userDetails){
-            return res.status(500).json({
-                success: false,
-                message: "User does not exist"
-            })
-        }
-        if(userDetails.resetPasswordExpires <Date.now()){
-            return res.status(500).json({
-                success: false,
-                message: "link expires"
-            })
-        }
+exports.resetPassword = async (req, res) => {
+  try {
+    const { password, confirmPassword, token } = req.body;
+    if (password !== confirmPassword) {
+      return res.status(500).json({
+        success: false,
+        message: "password and confirm password do not match",
+      });
+    }
+    const userDetails = await User.findOne({ token: token });
+    if (!userDetails) {
+      return res.status(500).json({
+        success: false,
+        message: "User does not exist",
+      });
+    }
+    if (userDetails.resetPasswordExpires < Date.now()) {
+      return res.status(500).json({
+        success: false,
+        message: "link expires",
+      });
+    }
 
-        const hashedPassword = await bcrypt.hash(password,10);
-        
-        await User.findOneAndUpdate(
-            {token:token},
-            {password:hashedPassword},
-            {new:true},
-        )
-        
-        return res.status(200).json({
-            success: true,
-            message:"password updated successfully"
-        })
-    }
-    catch(err){
-        return res.status(500).json({
-            success: false,
-            message: err.message 
-        })
-    }
-}
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await User.findOneAndUpdate(
+      { token: token },
+      { password: hashedPassword },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "password updated successfully",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
 
 //change password
-exports.changePassword = async(req,res)=>{
-    try{
-        const {currentPassword , newPassword} =req.body;
-        const id=req.user.id; 
-        
-        const userDetails =await User.findById(id);
-        
-        if (await bcrypt.compare(currentPassword,userDetails.password)){
-            console.log("hello")
-            const hashedPassword =await bcrypt.hash(newPassword ,10);
-            userDetails.password = hashedPassword;
-            userDetails.save();
-            return res.status(200).json({
-                success: true,
-            })
-        }else{
-            return res.status(400).json({
-                success: false,
-                message:"Invalid Current Password"
-            })
-        }
+exports.changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const id = req.user.id;
 
-    }catch(err){    
-        return res.status(500).json({
-            success: false,
-            message:err
-        })
+    const userDetails = await User.findById(id);
+
+    if (await bcrypt.compare(currentPassword, userDetails.password)) {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      userDetails.password = hashedPassword;
+      userDetails.save();
+      return res.status(200).json({
+        success: true,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Current Password",
+      });
     }
-}
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err,
+    });
+  }
+};

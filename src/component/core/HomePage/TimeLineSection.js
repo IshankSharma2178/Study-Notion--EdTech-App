@@ -40,7 +40,7 @@ function TimeLineSection() {
                             <div className='flex flex-col'> 
                                 <div className='flex flex-row gap-6'>
                                     <div className='rounded-full flex flex-col justify-center items-center  w-[52px] h-[52px] shadow-[#00000012] shadow-[0_0_62px_0] bg-white  '>
-                                        <img loading="lazy" className='md:w-[50%] md:h-[50%]' src={element.Logo}></img>
+                                        <img loading="lazy" alt={element.heading || "Timeline"} className='md:w-[50%] md:h-[50%]' src={element.Logo}></img>
                                     </div>
                                     <div className='flex  flex-col'>
                                         <div className='text-[20px] font-semibold tracking-wide '>
@@ -64,7 +64,7 @@ function TimeLineSection() {
             {/* right */}
 
             <div className='relative lg:mt-auto mt-16 w-fit h-fit shadow-blue-200 shadow-[0px_0px_30px_0px]'>
-                <img loading="lazy" src={image1} className='shadow-white shadow-[20px_20px_0px_0px] object-cover h-[400px] lg:h-fit'/>
+                <img loading="lazy" alt="Timeline" src={image1} className='shadow-white shadow-[20px_20px_0px_0px] object-cover h-[400px] lg:h-fit'/>
                 <div className='flex bg-caribbeangreen-700 py-4 w-[70%] lg:w-auto lg:py-7 lg:top-auto top-0 gap-5 lg:gap-5 flex-col lg:flex-row  absolute  lg:px-5 lg:bottom-0  lg:translate-x-[5%] lg:translate-y-[40%]'> 
                     <div className='flex  gap-5 items-center lg:border-r pr-[75px] text-caribbeangreen-300 px-7 flex-row lg:justify-between'>
                         <p className='text-white lg:pr-10 pr-8 text-3xl font-bold'>10</p>

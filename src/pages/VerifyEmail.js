@@ -2,13 +2,12 @@ import React from 'react'
 import { useSelector ,useDispatch} from 'react-redux'
 import OtpInput from 'react-otp-input';
 import { useNavigate } from 'react-router';
-import { sendOtp } from '../services/operations/authAPI';
 import { useState , useEffect } from 'react';
-import {signUp} from "../services/operations/authAPI"
 import { Link } from 'react-router-dom';
 import { BiArrowBack } from "react-icons/bi";
 import {setUser} from "../slices/authSlice"
 import { RxCountdownTimer } from "react-icons/rx";
+import { useAuth } from '../hooks/useAuth';
 
 function VerifyEmail() {
 
@@ -16,6 +15,7 @@ function VerifyEmail() {
     const dispatch= useDispatch();
     const [otp, setOtp] = useState('');
     const navigate = useNavigate();
+    const { signup, sendOtp, isLoading } = useAuth();
 
     useEffect(()=>{
         if(!user){
@@ -26,14 +26,14 @@ function VerifyEmail() {
     const  handleOnChange=(e)=>{
         e.preventDefault();
         const {accountType,firstName,lastName,email,password,confirmPassword} = user
-        dispatch (signUp(accountType,firstName,lastName,email,password,confirmPassword,otp,navigate))
+        signup({ accountType, firstName, lastName, email, password, confirmPassword, otp })
     }
 
     return (
         <div className='min-h-[calc(100vh-5rem)] grid place-items-center '>
             {                    
 
-                loading ?
+                loading || isLoading.signup || isLoading.sendOtp ?
                ( <div className="spinner "></div>)
                 :
                 (
@@ -79,7 +79,7 @@ function VerifyEmail() {
                             </div>
 
                             <div>
-                            <button onClick={()=>dispatch(sendOtp(user.email))}
+                            <button onClick={()=>sendOtp({ email: user.email })}
                             className="flex items-center text-blue-100 gap-x-2">
                                 <RxCountdownTimer /> Resend it
                             </button>

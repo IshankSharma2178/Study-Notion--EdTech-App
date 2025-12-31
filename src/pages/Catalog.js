@@ -1,65 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Ensure correct import
+import { useParams } from 'react-router-dom';
 import Footer from '../component/common/Footer';
-import { getCatalogPageData } from '../services/operations/PageAndComponentData';
-import { apiConnector } from '../services/apiconnector';
-import { courseEndpoints } from '../services/apis';
+import { useCatalogPageData } from '../hooks/useCatalog';
+import { useCourseCategories } from '../hooks/useCourses';
 import CourseCard from "../component/core/Dashboard/Catalog/CourseCard";
 import CourseSlider from "../component/core/Dashboard/Catalog/CourseSlider";
 
-const { CATEGORIES_API } = courseEndpoints;
-
 function Catalog() {
-
     const { catalogName } = useParams();
-    const [catalogPageData, setCatalogPageData] = useState(null);
     const [categoryId, setCategoryId] = useState("");
     const [active, setActive] = useState(1);
-    const [loading, setLoading] = useState(false);
-    let variable = false;
+    
+    const { data: categories, isLoading: categoriesLoading } = useCourseCategories();
+    const { data: catalogPageData, isLoading: catalogLoading } = useCatalogPageData(categoryId);
 
     useEffect(() => {
-        const getCategories = async () => {
-            try {
-                setLoading(true); 
-                const res = await apiConnector("GET", CATEGORIES_API);
-                const category = res?.data?.Categorys?.find(
-                    (ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName.split(" ").join("-").toLowerCase()
-                );
-                if (category) {
-                    setCategoryId(category._id);
-                } else {
-                    console.error("Category not found");
-                }
-            } catch (error) {
-                console.error("Error fetching categories:", error);
-            } finally {
+        if (categories && categories.length > 0) {
+            const category = categories.find(
+                (ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName.split(" ").join("-").toLowerCase()
+            );
+            if (category) {
+                setCategoryId(category._id);
+            } else {
+                console.error("Category not found");
             }
-            if(variable){
-                setLoading(false);
-            }
-        };
-        getCategories();
-    }, [catalogName]);
+        }
+    }, [categories, catalogName]);
 
-    useEffect(() => {
-        const getCategoryDetails = async () => { 
-            if (!categoryId) return;
-            try {
-                setLoading(true); 
-                const res = await getCatalogPageData(categoryId);
-                console.log("result :  ",res)
-                setCatalogPageData(res);
-            } catch (error) {
-                console.error("Error fetching catalog page data:", error);
-            } finally {
-                setLoading(false); 
-            }
-            setLoading(false); 
-            variable = true;
-        };
-        getCategoryDetails();
-    }, [categoryId]);
+    const loading = categoriesLoading || catalogLoading;
 
     
     return (

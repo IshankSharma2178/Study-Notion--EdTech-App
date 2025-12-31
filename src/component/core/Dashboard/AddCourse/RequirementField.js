@@ -23,11 +23,11 @@ function RequirementField({ name, label, register, errors, setValue, getValues }
         if(course?.instructions?.length>0){
             setRequirementList(course?.instructions)
         }
-    }, []);
+    }, [course?.instructions, name, register]);
 
     useEffect(() => {
         setValue(name, requirementList);
-    }, [requirementList]);
+    }, [name, requirementList, setValue]);
 
     const handleRemoveRequirement = (index) => {
         const updatedRequirementList = [...requirementList];

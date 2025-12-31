@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { markLectureAsComplete ,unMarkLectureProgress } from "../../../../services/operations/courseDetailAPI";
-import { updateCompletedLectures,unCompleteLectureProgress ,setCompletedLectures} from "../../../../slices/viewCourseSlice";
-import IconBtn from '../../../common/IconBtn';
-import ReactPlayer from 'react-player';
+import { useMarkLectureComplete, useUnmarkLectureProgress } from "../../../../hooks/useCourses";
+import { updateCompletedLectures,unCompleteLectureProgress} from "../../../../slices/viewCourseSlice";
 import { Player } from 'video-react';
 import Description from "./Description"
 import 'video-react/dist/video-react.css';
@@ -17,13 +15,14 @@ function VideoDetails() {
   const dispatch = useDispatch();
   const location = useLocation();
   const playerRef = useRef();
-  const { token } = useSelector((state) => state.auth);
   const { courseSectionData, courseEntireData, completedLectures } = useSelector((state) => state.viewCourse);
   const [videoData, setVideoData] = useState([]);
   const [previewSource, setPreviewSource] = useState("");
   const [videoEnded, setVideoEnded] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [option,setOption] = useState("Description");
+  const { markLectureComplete, isLoading: markLoading } = useMarkLectureComplete();
+  const { unmarkLectureProgress, isLoading: unmarkLoading } = useUnmarkLectureProgress();
+  const loading = markLoading || unmarkLoading;
 
   useEffect(() => {
     const setVideoSpecificDetails = async () => {
@@ -38,7 +37,7 @@ function VideoDetails() {
       }
     };
     setVideoSpecificDetails();
-  }, [location.pathname, courseSectionData, courseEntireData]);
+  }, [location.pathname, courseSectionData, courseEntireData, courseId, navigate, sectionId, subSectionId]);
 
   const isFirstVideo = () => {
     const currentSectionIndex = courseSectionData?.findIndex((data) => data._id === sectionId);
@@ -48,8 +47,8 @@ function VideoDetails() {
 
   const isLastVideo = () => {
     const currentSectionIndex = courseSectionData?.findIndex((data) => data._id === sectionId);
-    const noOfSubSections = courseSectionData?.[currentSectionIndex]?.subSection?.length;
     const currentSubSectionIndex = courseSectionData?.[currentSectionIndex]?.subSection?.findIndex((data) => data._id === subSectionId);
+    const noOfSubSections = courseSectionData?.[currentSectionIndex]?.subSection?.length;
     return currentSectionIndex === courseSectionData?.length - 1 &&
       currentSubSectionIndex === noOfSubSections - 1;
   };
@@ -71,7 +70,6 @@ function VideoDetails() {
 
   const goToPrevVideo = () => {
     const currentSectionIndex = courseSectionData?.findIndex((data) => data._id === sectionId);
-    const noOfSubSections = courseSectionData[currentSectionIndex].subSection.length;
     const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSection?.findIndex((data) => data._id === subSectionId);
 
     if (currentSubSectionIndex !== 0) {
@@ -86,21 +84,20 @@ function VideoDetails() {
   };
   
 
-  const handleLectureCompletion = async () => {
-
-    setLoading(true);
-
+  const handleLectureCompletion = () => {
     if(!completedLectures?.includes(subSectionId)){
-      const res = await markLectureAsComplete({ courseId: courseId, subSectionId: subSectionId }, token);
-      dispatch(updateCompletedLectures(subSectionId));
-
+      markLectureComplete({ courseId, subSectionId }, {
+        onSuccess: () => {
+          dispatch(updateCompletedLectures(subSectionId));
+        }
+      });
     }else{
-      const res = await unMarkLectureProgress({courseId: courseId, subSectionId: subSectionId }, token);
-      dispatch(unCompleteLectureProgress(subSectionId))
-
-
+      unmarkLectureProgress({ courseId, subSectionId }, {
+        onSuccess: () => {
+          dispatch(unCompleteLectureProgress(subSectionId));
+        }
+      });
     }
-    setLoading(false);
   };
 
   return (
@@ -193,9 +190,9 @@ function VideoDetails() {
         </div>
         <div>
           {
-            option === "Description" && <Description description={videoData.description}></Description> || 
-            option === "Comment" && <Comment subSectionId={subSectionId}></Comment> || 
-            option === "Rating" && <Rating></Rating>
+            (option === "Description" && <Description description={videoData.description}></Description>) || 
+            (option === "Comment" && <Comment subSectionId={subSectionId}></Comment>) || 
+            (option === "Rating" && <Rating></Rating>)
           }
         </div>
       </div>

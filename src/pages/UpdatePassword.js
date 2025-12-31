@@ -1,16 +1,13 @@
 import {React , useState} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { Link } from 'react-router-dom';
-import { resetPassword } from '../services/operations/authAPI';
+import { useAuth } from '../hooks/useAuth';
 
 function UpdatePassword() {
 
-    const dispatch = useDispatch();
     const location =useLocation();
-
-    const {loading} =useSelector((state)=>state.auth)  
+    const { resetPassword, isLoading } = useAuth();
     const [passwordVisibility , setPasswordVisibility] =useState({password:true, confirmPassword:true})
 
     const [formData , setFormData] = useState({
@@ -39,12 +36,12 @@ function UpdatePassword() {
     const handleOnSubmit = (e)=>{
         e.preventDefault();
         const token=location.pathname.split("/").at(-1);
-        dispatch(resetPassword(password,confirmPassword ,token));
+        resetPassword({ password, confirmPassword, token });
     }
   return (
     <div>
         {
-            loading ? (
+            isLoading.resetPassword ? (
                 <div className='spinner'></div>
             ) 
             :(

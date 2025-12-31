@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { BsChevronDown } from "react-icons/bs";
 import { IoIosArrowBack } from "react-icons/io";
 import { SlCheck } from "react-icons/sl";
@@ -10,10 +10,8 @@ function VideoDetailsSidebar({ setReviewModal }) {
   const [activeStatus, setActiveStatus] = useState([]);
   const [videoBarActive, setVideoBarActive] = useState("");
   const [loading ,setLoading] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { token } = useSelector((state) => state.auth);
   const { sectionId, subSectionId } = useParams();
   const { courseSectionData, courseEntireData, totalNoOfLectures, completedLectures } = useSelector((state) => state.viewCourse);
 

@@ -1,13 +1,11 @@
 import React,{useState , useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ConfirmationModal from "../../../../common/ConfirmationModal"
-import { RxDropdownMenu } from 'react-icons/rx'
 import { MdEdit } from 'react-icons/md' 
 import { RiDeleteBin6Line } from 'react-icons/ri'
-import { BiSolidDownArrow } from 'react-icons/bi'
 import { AiOutlinePlus } from 'react-icons/ai'
 import SubSectionModal from './SubSectionModal'
-import { deleteSection ,deleteSubSection} from '../../../../../services/operations/courseDetailAPI'
+import { useDeleteSection, useDeleteSubSection } from '../../../../../hooks/useCourses'
 import {setCourse} from "../../../../../slices/courseSlice"
 import { GoDotFill } from "react-icons/go";
 import { IoOptionsOutline } from "react-icons/io5";
@@ -16,40 +14,44 @@ import { GoEye } from "react-icons/go";
 
 function NestedView({handleChnagedSectionName}) {
 
-    const {token} = useSelector((state)=>state.auth)
     const {course} = useSelector((state)=>state.course)
     const dispatch = useDispatch();
+    const { deleteSection } = useDeleteSection();
+    const { deleteSubSection } = useDeleteSubSection();
 
     const [addSubSection,setAddSubSection] = useState(null)
     const [viewSubSection,setViewSubSection] = useState(null)
     const [editSubSection,setEditSubSection] = useState(null)
     const [Confirmation,setConfirmation] = useState(null)
 
-    const handleDeleteSection = async(sectionId) =>{
-        const result = await deleteSection({
+    const handleDeleteSection = (sectionId) =>{
+        deleteSection({
             sectionId,
             courseId:course._id,
-        },token)
-        if(result){
-            dispatch(setCourse(result))
-        }
-        setConfirmation(null)
+        }, {
+            onSuccess: (result) => {
+                dispatch(setCourse(result))
+                setConfirmation(null)
+            }
+        });
     }
-    course?.courseContent?.map((data)=>{
-    })
 
     useEffect(()=>{
     },[course])
 
-    const handleDeleteSubSection= async(subSectionId,sectionId) =>{ 
-        const result =await deleteSubSection({subSectionId,sectionId,},token)
-  
-        if(result){
-            const updatedCourseContent = course?.courseContent?.map((section)=>section._id===sectionId ? result : section)
-            const updatedCourse = {...course, courseContent: updatedCourseContent}
-            dispatch(setCourse(updatedCourse))
-        }
-        setConfirmation(null) 
+    const handleDeleteSubSection= (subSectionId,sectionId) =>{ 
+        deleteSubSection({
+            subSectionId,
+            sectionId,
+            courseId: course._id,
+        }, {
+            onSuccess: (result) => {
+                const updatedCourseContent = course?.courseContent?.map((section)=>section._id===sectionId ? result : section)
+                const updatedCourse = {...course, courseContent: updatedCourseContent}
+                dispatch(setCourse(updatedCourse))
+                setConfirmation(null)
+            }
+        });
     }
   return (
     <div>

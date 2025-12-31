@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import SignupForm from "./SignupForm"
 import LoginForm from './LoginForm'
-import HighlightText from '../HighlightText'
 import { useSelector } from 'react-redux'
-import graphic5 from "../../../../assets/Logo/graphic5.svg"
 
 function Template({img1, img2,heading,subheading1,subheading2,formType}) {
 const {loading} =useSelector((state)=>state.auth)

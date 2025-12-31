@@ -1,22 +1,22 @@
 import IconBtn from '../../../../common/IconBtn';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
 import { BiRightArrow  ,BiLeftArrow } from 'react-icons/bi';
 import { setEditCourse , setStep ,setCourse} from '../../../../../slices/courseSlice';
 import toast from 'react-hot-toast';
-import {updateSection ,createSection} from "../../../../../services/operations/courseDetailAPI"
+import { useUpdateSection, useCreateSection } from "../../../../../hooks/useCourses"
 import NestedView from './NestedView';
 
 function CourseBuilderForm() {
 
   const {register ,handleSubmit,setValue,formState:{errors}}=useForm();
   const [editSectionName , setEditSectionName] = useState(null);
-  const [loading,setLoading]= useState(false )
   const {course,editCourse} = useSelector((state)=>state.course);
-  const {token} = useSelector((state)=>state.auth);
   const dispatch = useDispatch();
+  const { updateSection } = useUpdateSection();
+  const { createSection } = useCreateSection();
 
   const cancelEdit =() => {
     setEditSectionName(null);
@@ -28,36 +28,31 @@ function CourseBuilderForm() {
     dispatch(setEditCourse(true))
   }
   
-  const onSubmit = async(data) => {
-     setLoading(true);
-     let result;
+  const onSubmit = (data) => {
      if(editSectionName){
-      result =await updateSection (
-        {
-          sectionName: data.sectionName,
-          sectionId :editSectionName,
-          courseId : course._id,
-        },token
-      )
-      const updatedCoursContent = course.courseContent.map((section)=>section._id === editSectionName ? result : section)
-      const updatedCourse = {...course, courseContent:updatedCoursContent} 
-      dispatch(setCourse(updatedCourse))
-
-      setLoading(false)
-     }else{
-      result = await createSection({
+      updateSection({
         sectionName: data.sectionName,
-        courseId : course._id,
-      },token)
-      
-      if(result){
-        dispatch(setCourse(result));
-        setEditSectionName(null)
-        setValue("sectionName", "")
-      }
-      setLoading(false);
+        sectionId: editSectionName,
+        courseId: course._id,
+      }, {
+        onSuccess: (result) => {
+          const updatedCoursContent = course.courseContent.map((section)=>section._id === editSectionName ? result : section)
+          const updatedCourse = {...course, courseContent:updatedCoursContent} 
+          dispatch(setCourse(updatedCourse))
+        }
+      });
+     }else{
+      createSection({
+        sectionName: data.sectionName,
+        courseId: course._id,
+      }, {
+        onSuccess: (result) => {
+          dispatch(setCourse(result));
+          setEditSectionName(null)
+          setValue("sectionName", "")
+        }
+      });
     }
-
   }
 
   const handleChnagedSectionName = (sectionId,sectionName) =>{

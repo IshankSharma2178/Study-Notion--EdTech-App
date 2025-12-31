@@ -1,28 +1,28 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import {updateProfileInfo} from "../../../../services/operations/SettingAPI"
+import { useSelector } from 'react-redux';
+import { useUpdateProfile } from "../../../../hooks/useSettings"
 
 function PersonalInformationUpload() {
-  const{register , handleSubmit ,reset,setValue, getValues, formState:{errors , isSubmitSuccessful} } =useForm();
+  const{register , handleSubmit ,setValue} =useForm();
   const {user} =useSelector((state)=>state.auth)
   const {userProfile} = useSelector((state)=>state.profile);
-  const dispatch = useDispatch();
-  const {token} = useSelector((state)=>state.auth);
+  const { updateProfile } = useUpdateProfile();
 
   const submitHandler = async(data)=>{
     const {contactNumber,dateOfBirth,firstName,lastName,gender,about} = data;
-    dispatch(updateProfileInfo(token,contactNumber,dateOfBirth,firstName,lastName,gender,about));
+    updateProfile({contactNumber,dateOfBirth,firstName,lastName,gender,about});
   }
 
   useEffect(()=>{
-    if(user.firstName)setValue("firstName",user.firstName);
-    if(user.lastName)setValue("lastName",user.lastName);
-    if(userProfile.dateOfBirth)setValue("dateOfBirth",userProfile.dateOfBirth);
-    if(userProfile.about)setValue("about",userProfile.about);
-    if(userProfile.gender)setValue("gender",userProfile.gender);
-    if(userProfile.contactNumber)setValue("contactNumber",userProfile.contactNumber);
-  },[])
+    if(user?.firstName)setValue("firstName",user.firstName);
+    if(user?.lastName)setValue("lastName",user.lastName);
+    if(userProfile?.dateOfBirth)setValue("dateOfBirth",userProfile.dateOfBirth);
+    if(userProfile?.about)setValue("about",userProfile.about);
+    if(userProfile?.gender)setValue("gender",userProfile.gender);
+    if(userProfile?.contactNumber)setValue("contactNumber",userProfile.contactNumber);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[user, userProfile])
     return (
       
     <form className='flex flex-col w-full md:w-[90%] m-auto gap-2' onSubmit={handleSubmit(submitHandler)}>

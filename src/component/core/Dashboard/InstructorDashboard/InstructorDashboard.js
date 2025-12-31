@@ -1,35 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
-import {getInstructorData} from "../../../../services/operations/profileAPI"
-import {fetchInstructorCourses} from "../../../../services/operations/courseDetailAPI"
+import { useInstructorData } from "../../../../hooks/useProfile"
+import { useInstructorCourses } from "../../../../hooks/useCourses"
 import { useSelector } from 'react-redux';
 import DashboardChart from "./DashboardChart"
 
 function InstructorDashboard() {
-
-    const [loading , setLoading] = useState(false);  
     const { user } = useSelector((state) => state.auth)
-    const {token} = useSelector((state)=>state.auth)
-    const [instructorData, setInstructorData] = useState(null)
-    const [courses, setCourses] = useState([])
-
-    useEffect(()=>{
-        const getCoursesDataWithStats = async()=>{
-            setLoading(true);
-            const instructorData = await getInstructorData(token);
-            const result =await fetchInstructorCourses(token)
-
-            if (instructorData?.length) {
-                setInstructorData(instructorData)
-              }
-              if (result) {
-                setCourses(result)
-              }
-              setLoading(false)
-            
-        }
-        getCoursesDataWithStats()
-    },[])
+    const { data: instructorData, isLoading: instructorDataLoading } = useInstructorData();
+    const { data: courses, isLoading: coursesLoading } = useInstructorCourses();
+    
+    const loading = instructorDataLoading || coursesLoading;
 
     const totalAmount = instructorData?.reduce(
         (acc, curr) => acc + curr.totalAmount,

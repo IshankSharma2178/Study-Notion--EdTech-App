@@ -4,7 +4,6 @@ import HighlightText from './HighlightText';
 import CourseCard from './CourseCard';
 import Autoplay from 'embla-carousel-autoplay';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../../ui/carousel';
-import useEmblaCarousel from 'embla-carousel-react';
 
 const tabsName = [
   "Free",
@@ -15,7 +14,6 @@ const tabsName = [
 ];
 
 function ExploreMore() {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
   const [currentTab, setCurrentTab] = useState(HomePageExplore[0].tag);
   const [courses, setCourses] = useState(HomePageExplore[0].courses);
   const [currentCard, setCurrentCard] = useState(HomePageExplore[0].courses[0].heading);

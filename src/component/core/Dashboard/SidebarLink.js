@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { matchPath, useLocation } from 'react-router'
 import { NavLink } from 'react-router-dom'
 import * as VscIcons from "react-icons/vsc";

@@ -1,10 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import RenderSteps from './RenderSteps'
-import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 
 function AddCourse() {
-
-  const [show ,setShow] =useState(false)
 
   return (
     <div className='text-white w-[100%]'>

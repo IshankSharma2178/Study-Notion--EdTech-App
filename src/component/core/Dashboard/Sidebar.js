@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
 import {sidebarLinks} from "../../../data/dashboard-links"
-import {logout} from "../../../services/operations/authAPI"
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import SidebarLink from "./SidebarLink"
-import { useNavigate } from 'react-router'
 import { VscSignOut } from 'react-icons/vsc'
 import ConfirmationModal from '../../common/ConfirmationModal'
+import { useAuth } from '../../../hooks/useAuth'
 
 function Sidebar() {
     
     const {user, loading:profileLoading} = useSelector((state)=>state.auth);
     const { loading : authLoading} = useSelector((state)=>state.auth);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const { logout } = useAuth();
     const [confirmationModal , setConfirmationModal] = useState(null);
 
     if(profileLoading || authLoading) {
@@ -42,7 +40,7 @@ function Sidebar() {
                         text2: "You will be logged out of your account.",
                         btn1Text: "Logout",
                         btn2Text: "Cancel",
-                        btn1Handler: ()=> dispatch(logout(navigate)),
+                        btn1Handler: ()=> logout(),
                         btn2Handler: ()=> setConfirmationModal(null),
                     })
                 }}

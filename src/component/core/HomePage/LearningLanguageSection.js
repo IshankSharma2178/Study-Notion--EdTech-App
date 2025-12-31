@@ -18,9 +18,9 @@ function LearningLanguageSection() {
         </div>
 
         <div className='flex flex-col lg:flex-row items-center justify-center mt-10 gap-5'>
-          <img src={img2} loading="lazy" className='object-contain lg:mb-0 -mb-16 lg:-mr-32' />
-          <img src={img3} loading="lazy" className='object-contain' />
-          <img src={img1} loading="lazy" className='object-contain -mt-20 lg:mt-0 lg:-ml-32' />
+          <img src={img2} alt="Language learning" loading="lazy" className='object-contain lg:mb-0 -mb-16 lg:-mr-32' />
+          <img src={img3} alt="Language learning" loading="lazy" className='object-contain' />
+          <img src={img1} alt="Language learning" loading="lazy" className='object-contain -mt-20 lg:mt-0 lg:-ml-32' />
         </div>
 
         <div className='w-fit mx-auto'>

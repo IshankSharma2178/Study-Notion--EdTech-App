@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from "../../../../services/operations/authAPI";
+import { useAuth } from '../../../../hooks/useAuth';
 
 function LoginForm() {
   const [passwordVisibility, setPasswordVisibility] = useState({ password: true });
   const navigate = useNavigate();
-  const {loading} =useSelector((state)=>state.auth)
-  const dispatch = useDispatch();
+  const { login, isLoading } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -85,12 +83,12 @@ function LoginForm() {
 
   function handleOnSubmit(e) {
     e.preventDefault();
-    dispatch(login(email, password,navigate)); 
+    login({ email, password }); 
   }
 
   return (
     (
-      loading ?
+      isLoading.login ?
         <div className="spinner h-screen w-screen flex m-auto items-center justify-center"></div>:
     <div>
     <form onSubmit={handleOnSubmit} className=''>

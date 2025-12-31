@@ -1,5 +1,4 @@
-import { fetchCourseCategories } from '../../../../services/operations/courseDetailAPI';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { HiOutlineCurrencyRupee } from 'react-icons/hi2';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +6,8 @@ import RequirementField from "./RequirementField";
 import IconBtn from "../../../common/IconBtn";
 import { setCourse, setStep } from "../../../../slices/courseSlice";
 import toast from "react-hot-toast";
-import { editCourseDetails, addCourseDetails } from "../../../../services/operations/courseDetailAPI";
+import { useCourseCategories } from "../../../../hooks/useCourses";
+import { useEditCourse, useCreateCourse } from "../../../../hooks/useCourses";
 import { COURSE_STATUS } from '../../../../utils/constants';
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import FileUpload from "../../../common/FileUpload"
@@ -17,24 +17,14 @@ function CourseConfirmationForm() {
 
     const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm();
     const dispatch = useDispatch();
-    const { token } = useSelector((state) => state.auth);
     const { course, editCourse } = useSelector((state) => state.course);
-    const [loading, setLoading] = useState(false);
-    const [courseCategories, setCourseCategories] = useState();
-
-
+    const { data: courseCategories = [], isLoading: categoriesLoading } = useCourseCategories();
+    const { editCourse: editCourseMutation } = useEditCourse();
+    const { createCourse } = useCreateCourse();
 
 
     useEffect(() => {
-        const getCategories = async () => {
-            setLoading(true);
-            const categories = await fetchCourseCategories();
-            if (categories.length > 0) {
-                setCourseCategories(categories);
-            }
-            setLoading(false);
-        }
-        if (editCourse) {
+        if (editCourse && course) {
             setValue("courseTitle", course.courseName);
             setValue("courseShortDescription", course.courseDescription);
             setValue("coursePrice", course.price);
@@ -44,8 +34,7 @@ function CourseConfirmationForm() {
             setValue("tag", course.tag);
             setValue("courseImage", course.thumbnail);
         }
-        getCategories();
-    }, [editCourse, course, setValue,]);
+    }, [editCourse, course, setValue]);
 
     const isFormUpdated = () => {
         const currentValues = getValues();
@@ -107,13 +96,14 @@ function CourseConfirmationForm() {
                 if (currentValues.courseImage && currentValues.courseImage !== course.thumbnail) {
                     formData.append("thumbnail", data.courseImage[0]);
                 }
-                setLoading(true);
-                const result = await editCourseDetails(formData, token);
-                setLoading(false);
-                if (result) {
-                    dispatch(setStep(2));
-                    dispatch(setCourse(result));
-                }
+                editCourseMutation({ formData, courseId: course._id }, {
+                    onSuccess: (result) => {
+                        dispatch(setStep(2));
+                        if (result && result.data) {
+                            dispatch(setCourse(result.data));
+                        }
+                    }
+                });
             } else {
                 toast.error("No changes made to the form");
                 dispatch(setStep(2));
@@ -133,13 +123,14 @@ function CourseConfirmationForm() {
         if (data.courseImage && data.courseImage[0]) {
             formData.append("thumbnailImage", data.courseImage[0]);
         }
-        setLoading(true);
-        const result = await addCourseDetails(formData, token);
-        setLoading(false);
-        if (result) {
-            dispatch(setStep(2));
-            dispatch(setCourse(result));
-        }
+        createCourse(formData, {
+            onSuccess: (result) => {
+                dispatch(setStep(2));
+                if (result && result.data) {
+                    dispatch(setCourse(result.data));
+                }
+            }
+        });
     };
 
     return (
@@ -192,7 +183,7 @@ function CourseConfirmationForm() {
                     {...register("courseCategory", { required: true })}
                 >
                     <option value="" disabled>Choose Category</option>
-                    {!loading && courseCategories?.map((category, index) => (
+                    {!categoriesLoading && courseCategories?.map((category, index) => (
                         <option key={index} value={category?._id}
                         className='w-full rounded-[0.5rem] outline-none shadow-custom2 placeholder-richblack-300 placeholder:text-base   bg-richblack-700 focus:shadow-none p-[12px] text-richblack-25'
 

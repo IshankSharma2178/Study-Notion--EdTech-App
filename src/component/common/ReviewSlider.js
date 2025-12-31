@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import ReactStars from "react-rating-stars-component"
 import { FaStar } from "react-icons/fa"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -6,18 +6,11 @@ import "swiper/css"
 import "swiper/css/free-mode"
 import "swiper/css/pagination"
 import 'swiper/css/navigation';
-import {getAllRating} from "../../services/operations/courseDetailAPI"
-import { Autoplay, FreeMode, Navigation, Pagination } from 'swiper/modules'
+import { useAllRatings } from "../../hooks/useCourses"
+import { Autoplay, FreeMode, Pagination } from 'swiper/modules'
 
 function ReviewSlider() {
-    const [ratings , setRatings] = useState([]);
-
-    useEffect(()=>{
-        const getRatings = async()=>{
-            setRatings(await getAllRating());
-        }
-        getRatings();
-    },[])
+    const { data: ratings = [] } = useAllRatings();
 
 
   return (
